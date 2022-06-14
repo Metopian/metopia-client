@@ -1,16 +1,13 @@
-import React, { useMemo, useState } from 'react'
-import { NftSelectionPane } from '../../../module/nft'
-import { useNftTransactions, useNfts } from '../../../third-party/moralis'
-import Modal from 'react-modal';
-import { chainMap, chainExplorerMap } from '../../../config/constant'
-import { capitalizeFirstLetter, addrShorten } from '../../../utils/stringUtils';
+import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { MainButton, HollowButton } from '../../../module/button'
+import { chainId } from '../../../config/constant';
+import { MainButton } from '../../../module/button';
+import { useNfts, useNftTransactions } from '../../../third-party/moralis';
 
 const NftTransactionSubpage = (props) => {
     const { slug } = props
-    const { data: nfts } = useNfts(slug, '0x1')
-    const { data: nftTransactions } = useNftTransactions(slug, '0x1')
+    const { data: nfts } = useNfts(slug, chainId)
+    const { data: nftTransactions } = useNftTransactions(slug, chainId)
     const {
         register,
         handleSubmit,

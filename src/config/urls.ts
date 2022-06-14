@@ -26,9 +26,9 @@ const snapshotApi = {
     msg: snapshotCoreRoot + "api/msg",
 }
 
-
 const thirdpartyApi = {
-    snapshot_api_graph: "https://hub.snapshot.org/graphql"
+    snapshot_api_graph: "https://hub.snapshot.org/graphql",
+    discord_api: dataCenterRoot + "discord/auth"
 }
 
 const localRouter = (name?: string | null, param?: any) => {

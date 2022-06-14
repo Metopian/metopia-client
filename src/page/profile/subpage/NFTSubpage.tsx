@@ -1,15 +1,15 @@
-import React, { useMemo, useState } from 'react'
-import { NftSelectionPane } from '../../../module/nft'
-import { getSortedNfts } from '../../../utils/NftUtils'
-import { useNftTransactions, useNfts } from '../../../third-party/moralis'
+import React, { useMemo, useState } from 'react';
+import { BulletList } from 'react-content-loader';
 import Modal from 'react-modal';
-import './NFTSubpage.css'
-import { chainMap, chainExplorerMap } from '../../../config/constant'
-import { capitalizeFirstLetter, addrShorten } from '../../../utils/stringUtils';
+import { chainExplorerMap, chainId, chainMap } from '../../../config/constant';
 // import ReactLoading from 'react-loading'
 import { NftImage } from '../../../module/image';
-import { getDateDiff } from '../../../utils/TimeUtil'
-import { BulletList } from 'react-content-loader'
+import { NftSelectionPane } from '../../../module/nft';
+import { useNfts, useNftTransactions } from '../../../third-party/moralis';
+import { getSortedNfts } from '../../../utils/NftUtils';
+import { addrShorten, capitalizeFirstLetter } from '../../../utils/stringUtils';
+import { getDateDiff } from '../../../utils/TimeUtil';
+import './NFTSubpage.css';
 
 const PoapContentModalStyle = {
     overlay: {
@@ -58,7 +58,7 @@ const NftContentModal = (props) => {
             <div className="NftContentModalGroup">
                 <div className={"NftContentModalImageWrapper" + (metadata.attributes && metadata.attributes.length > 0 ? ' narrow' : '')}>
                     <NftImage defaultSrc={metadata.image || metadata.image_url} width={null}
-                        chainId='0x1' tokenId={data.token_id} contract={data.token_address} />
+                        chainId={chainId} tokenId={data.token_id} contract={data.token_address} />
                     {/* <img src={metadata.image} alt="" /> */}
                 </div>
                 {
@@ -115,10 +115,10 @@ const NftContentModal = (props) => {
 
 const NFTSubpage = (props) => {
     const { slug } = props
-    const { data: ethNfts } = useNfts(slug, '0x1')
+    const { data: ethNfts } = useNfts(slug, chainId)
     const [selectedNftData, setSelectedNftData] = useState<any>({})
     const [showModal, setShowModal] = useState(false)
-    const { data: nftTransactions } = useNftTransactions(slug, '0x1')
+    const { data: nftTransactions } = useNftTransactions(slug, chainId)
 
     const sortedNfts = useMemo(() => {
         if (!ethNfts)
@@ -127,7 +127,7 @@ const NFTSubpage = (props) => {
         let nftList = []
         if (ethNfts) {
             nftList.push(...(ethNfts.result.filter(item => item.metadata).map(item => {
-                return Object.assign({}, item, { chainId: '0x1' })
+                return Object.assign({}, item, { chainId: chainId })
             })))
         }
 

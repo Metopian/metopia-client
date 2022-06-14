@@ -25,3 +25,17 @@
     min-width: 90px;
 }
 
+.PoapDescriptionArea{
+    max-height: 200px;
+    overflow-y: auto;
+
+}
+.PoapDescriptionArea::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 5px;
+}
+
+.PoapDescriptionArea::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 5px;
+}

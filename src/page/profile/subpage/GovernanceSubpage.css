@@ -1,5 +1,6 @@
 .GovernanceSubpage {
     margin-top: 24px;
+    padding-bottom: 40px;
 }
 
 .GovernanceSubpageGroup {
@@ -15,17 +16,16 @@
 
 
 .GovernanceSubpageGroup .label {
-    font-weight: bold;
-    width: 200px;
-    min-width: 200px;
-    font-family: Montserrat;
-    font-size: 18px;
+        font-weight: bold;
+        width: 200px;
+        min-width: 200px;
+        /* font-family: Montserrat; */
+        font-size: 18px;
 }
 
 .GovernanceSubpageGroup th {
     font-size: 16px;
-    color: #333;
-    font-weight: normal;
+    color: #333;font-weight: normal;
 }
 .GovernanceSubpageGroup td {
     font-size: 14px;

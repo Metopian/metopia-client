@@ -17,6 +17,7 @@ import { getAddress, getChainId } from '../../utils/web3Utils';
 import { MainButton } from '../button';
 import './index.css';
 import { useLoginModal } from './useLoginModal';
+import { chainId } from '../../config/constant';
 
 const defaultLoginModalStyle = {
     overlay: {
@@ -111,7 +112,7 @@ const LoginModal = (props: {
     // const user = useSelector((state: RootState) => state.user)
     const { isShow, stepRequired } = useSelector((state: RootState) => state.loginModal)
     const { hide } = useLoginModal()
-    const { data: ethNfts, error: ethError } = useNfts(null, '0x1')
+    const { data: nfts, error: ethError } = useNfts(null, chainId)
     const [step, setStep] = useState<number>(0)
     const [unselectedContracts, setUnselectedContracts] = useState([])
     const [ceramicAccountInfoDoc, setCeramicAccountInfoDoc] = useState<any>()
@@ -143,6 +144,7 @@ const LoginModal = (props: {
         //         initAccount()
         // }
     })
+
     useEffect(() => {
         chainChangedHander.current = async function () {
             let { account, chainId } = await connectToMetamask()
@@ -172,15 +174,15 @@ const LoginModal = (props: {
         }
     })
     const sortedNfts = useMemo(() => {
-        if (!ethNfts)
+        if (!nfts)
             return []
         let nftList: MoralisNft[] = []
-        if (ethNfts)
-            nftList.push(...(ethNfts.result.filter(item => item.metadata).map(item => {
-                return Object.assign({}, item, { chainId: '0x1' })
+        if (nfts)
+            nftList.push(...(nfts.result.filter(item => item.metadata).map(item => {
+                return Object.assign({}, item, { chainId: chainId })
             })))
         return getSortedNfts(nftList)
-    }, [ethNfts])
+    }, [nfts])
 
     const NftOptionCards = useMemo(() => {
         return sortedNfts.map(nftGroup => {

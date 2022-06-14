@@ -59,7 +59,7 @@ const PoapContentModal = (props) => {
             </div>
             <div className="PoapContentModalGroup">
                 <div className='PoapContentTitle'>Description</div>
-                <div>{data.description}</div>
+                <div className='PoapDescriptionArea'>{data.description}</div>
             </div>
             <div className="PoapContentModalGroup">
                 <div className='PoapContentTitle'>Date</div>

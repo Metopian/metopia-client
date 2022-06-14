@@ -1,17 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams  } from "react-router-dom";
 import './App.css';
 import { ClubSettingPage, ClubHomePage } from './page/club';
 import HomePage from './page/home';
 import ProfilePage from './page/profile';
 import { ProposalCreatePage, ProposalHomePage } from './page/proposal';
 
-
 const App = () => {
   const routeParams = useParams()
-  useEffect(()=>{
-   
-  })
+  const [searchParams] = useSearchParams();
+  console.log()
   // const [routeParams, setRouteParams] = useState(useParams())
   const page = useMemo(() => {
     if (!routeParams.page) {
@@ -33,7 +31,7 @@ const App = () => {
           return <ProposalHomePage id={routeParams.event} />
       }
       else if (routeParams.page === 'profile') {
-        return <ProfilePage slug={routeParams.event}/>
+        return <ProfilePage slug={routeParams.event} subpage={searchParams.get('subpage')} state={searchParams.get('state')} code={searchParams.get('code')} />
       } 
     }
     return <HomePage />

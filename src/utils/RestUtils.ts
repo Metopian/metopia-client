@@ -1,31 +1,28 @@
-function httpGet(url) {
-    var result = fetch(url)
-    return result
-}
-// 封装post请求
-function httpPost(url, data) {
-    var result = fetch(url, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json,text/plain,*/*',/* 格式限制：json、文本、其他格式 */
-            'Content-Type': 'application/x-www-form-urlencoded'/* 请求内容类型 */
-        },
-        //data表单数据，body最终要的格式为username=tony&pwd=123456，所以需要格式化
-        body: paramsPostBody(data)
-    })
-    return result
-}
-//格式化data
-function paramsPostBody(obj) {
-    var result = '';//接受最后结果
-    var item;
-    for (item in obj) {
-        result += '&' + item + '=' + encodeURIComponent(obj[item])
-    }
-    if (result) {
-        result = result.slice(1)//去掉第一个&
-    }
-    return result
+
+const defaultSWRConfig = {
+    refreshInterval: 0,
+    revalidateOnFocus: false
 }
 
-export { httpGet, httpPost }
+const encodeQueryData = (url, data) => {
+    if (!data || !Object.keys(data))
+        return url
+    const ret = [];
+    for (let d in data)
+        if (data[d])
+            ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    return url + "?" + ret.join('&');
+}
+
+const getFetcher = (url, params?) => fetch(encodeQueryData(url, params)).then((res) => res.json())
+
+const postFetcher = (url, params) => fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(params),
+    headers: {
+        'content-type': "application/json"
+    }
+}).then((res) => res.json())
+
+
+export { defaultSWRConfig, encodeQueryData, getFetcher, postFetcher }

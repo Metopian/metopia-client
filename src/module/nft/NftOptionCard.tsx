@@ -1,4 +1,5 @@
 import React from 'react';
+import { chainId } from '../../config/constant';
 import { OnClickFuncType } from '../../config/type/docTypes';
 import { NftImage } from '../image';
 import './NftOptionCard.css';
@@ -36,7 +37,7 @@ const NftOptionCard = (props: ParamType) => {
                 {/* Details */}
             </div>
             <div className="NftOptionCardContent">
-                <NftImage defaultSrc={props.src} chainId='0x1' tokenId={props.tokenId} contract={props.tokenAddress} width={size[1]} className="NftOptionCardImage" />
+                <NftImage defaultSrc={props.src} chainId={chainId} tokenId={props.tokenId} contract={props.tokenAddress} width={size[1]} className="NftOptionCardImage" />
                 {/* {nftImage} */}
                 {props.noTick ? null : <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/check_box_off.svg" className="NftCardUncheckedIcon" alt="" />}
                 {props.noTick ? null : <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/check_box_on.svg" className="NftCardCheckedIcon" alt="" />}

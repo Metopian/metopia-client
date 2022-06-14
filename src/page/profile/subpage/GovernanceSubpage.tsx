@@ -37,7 +37,7 @@ const snapshotFetcher = (address) => {
         operationName: "Votes",
         query: 'query Votes {   votes (     first: 1000     where: {       voter: "' +
             address +
-            '"     }   ) {     id     voter     created     choice     proposal {       title       choices     }     space {       id       name            	avatar     }   } }',
+            '"     }   ) {     id     voter     created     choice     proposal {     id  title       choices     }     space {       id       name            	avatar     }   } }',
         variables: null
     }
     return fetch("https://hub.snapshot.org/graphql?", {
@@ -61,35 +61,33 @@ const GovernanceSubpage = (props) => {
     const { slug } = props
     const { data: governanceData, error } = useGovernanceData(slug)
     const { data: snapshotData, error: snapshotError } = useSnapshotData(slug, true)
-    console.log(snapshotData, snapshotError, governanceData, error)
 
     const snapshotTable = useMemo(() => {
-        if (snapshotData && snapshotData.data && snapshotData.data.votes.length > 0)
+        if (snapshotData?.data?.votes?.length)
             return <Metable data={snapshotData.data.votes.map(d => {
-                return [d.space.name, d.proposal.title, formatDate(new Date(d.created*1000), 'yyyy-MM-dd')]
+                return [d.space.name, d.proposal.title, formatDate(new Date(d.created * 1000), 'yyyy-MM-dd')]
             })} heads={['Space', 'Title', 'Date']} onSelect={(i) => {
-                // setSelectedPoapData(poapData[i].detail)
-                // setShowModal(true)
+                window.open('https://snapshot.org/#/' + snapshotData.data.votes[i].space.id + "/proposal/" + snapshotData.data.votes[i].proposal.id)
             }} />
     }, [snapshotData])
-
+    
     return <div className="GovernanceSubpage">
         {
-            governanceData && governanceData.data ? <div>
+            snapshotData?.data && governanceData?.data ? <div>
                 <div className="GovernanceSubpageGroup">
                     <div className="label">Multisig Signers:</div>
                     <div>{governanceData.data.multisig_transactions_count > 0 ? "True" : "False"}</div>
                 </div>
-                <div className="GovernanceSubpageGroup" style={{display:'block'}}>
-                    <div className="label" style={{marginBottom:'12px',marginTop:'32px',}}>Snapshot vote hitory:</div>
+                <div className="GovernanceSubpageGroup" style={{ display: 'block' }}>
+                    <div className="label" style={{ marginBottom: '12px', marginTop: '32px', }}>Snapshot vote hitory:</div>
                     {
                         snapshotTable
                     }
                     {/* <div>{data.data.multisig_transactions_count > 0 ? "True" : "False"}</div> */}
                 </div>
             </div> : <div style={{ marginTop: '20px' }}>
-            <BulletList style={{ height: '200px' }} />
-            {/* <ReactLoading height={21} width={40} color='#333' /> */}
+                <BulletList style={{ height: '200px' }} />
+                {/* <ReactLoading height={21} width={40} color='#333' /> */}
             </div>
         }
     </div>

@@ -5,7 +5,7 @@ const MainButton = (props) => {
         onClick={(e) => {
             if (!props.disabled)
                 props.onClick(e)
-        }} >{props.children}</div>
+        }} ><div className='MainButtonContainer'>{props.children}</div></div>
 }
 
 

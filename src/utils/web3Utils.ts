@@ -1,6 +1,7 @@
 
 import { ethers, utils } from "ethers";
 import { Web3Provider } from "ethers/node_modules/@ethersproject/providers";
+import { chainId as defaultChainId } from "../config/constant";
 
 let provider: Web3Provider = null
 export const getProvider = () => {
@@ -34,7 +35,7 @@ export const getChainId = async () => {
 export const switchChain = async (chainId?) => {
     await getProvider().send("wallet_addEthereumChain", [
         {
-            chainId: chainId || '0x1'
+            chainId: chainId || defaultChainId
             // chainName: 'Polygon',
             // rpcUrls: ['https://polygon-rpc.com']
         }]

@@ -6,14 +6,17 @@
     padding: 12px 24px;
     margin-left: auto;
     cursor: pointer;
-    /* display: inline-block; */
     user-select: none;
     vertical-align: top;
-    /* text-align: center; */
+    display: inline-block;
+    /* transition: 300ms; */
+}
+
+.MainButtonContainer {
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* transition: 300ms; */
 }
 
 .MainButton.solid {
@@ -24,7 +27,8 @@
     opacity: 1;
 }
 
-.MainButton.disabled,.MainButton.disabled:hover{
+.MainButton.disabled,
+.MainButton.disabled:hover {
     opacity: 0.4;
     cursor: default;
 }

@@ -1,7 +1,7 @@
+import { useSelector } from 'react-redux';
 import useSWR from "swr";
-import { useSelector } from 'react-redux'
-import type { RootState } from '../../../config/store'
-import { moralisApiToken } from '../../../config/constant'
+import { chainId, moralisApiToken } from '../../../config/constant';
+import type { RootState } from '../../../config/store';
 const fetcher = (url, token) => fetch(url, {
     headers: {
         'x-api-key': token
@@ -11,11 +11,11 @@ const fetcher = (url, token) => fetch(url, {
 const useFungibles = (address?) => {
     const user = useSelector((state: RootState) => state.user)
     const { data, error } = useSWR(((user.wallet && user.wallet.account) || address) ?
-        [`https://deep-index.moralis.io/api/v2/${address || user.wallet.account}/erc20?chain=${'0x1'}`,
+        [`https://deep-index.moralis.io/api/v2/${address || user.wallet.account}/erc20?chain=${chainId}`,
             moralisApiToken] : null, fetcher, {
         refreshInterval: 0,
         revalidateOnFocus: false
     })
     return { data, error }
 }
-export { useFungibles }
+export { useFungibles };

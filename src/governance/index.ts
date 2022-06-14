@@ -74,4 +74,3 @@ const useLatestProposalData = (): { data: ResponsePack<Space[]>, error: any } =>
 }
 
 export { defaultSWRConfig, getFetcher, useSpaceListData, useSpaceData, useScoreData, useProposal, useLatestProposalData };
-

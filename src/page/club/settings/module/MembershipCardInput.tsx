@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import cookie from 'react-cookies'
 import { useDebouncedCallback } from 'use-debounce'
-import { update } from '../../../../config/redux/formSlice'
+import { chainId } from '../../../../config/constant'
 import { nftDataApi } from '../../../../config/urls'
 import { Input, Label } from '../../../../module/form/Form'
 import { NftImage } from '../../../../module/image'
@@ -27,7 +27,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
             setTokenId(null)
             return
         }
-        getRandomNft('0x1', addr, data => {
+        getRandomNft(chainId, addr, data => {
             let metadata = JSON.parse(data && data.result[0] ? data.result[0].metadata : null)
             setTokenId(data?.result[0]?.token_id)
             setImgUrl(metadata?.image || metadata?.image_url || '')
@@ -243,7 +243,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
             <div className="maincontainer">
                 {
                     imgUrl ? <div className={'sampleimagewrapper'}>
-                        <NftImage defaultSrc={imgUrl} chainId='0x1' tokenId={tokenId} contract={tokenAddress} width={100}
+                        <NftImage defaultSrc={imgUrl} chainId={chainId} tokenId={tokenId} contract={tokenAddress} width={100}
                             className={"membershipCardImage"} />
                     </div> : null
                 }
