@@ -1,0 +1,198 @@
+.MembershipFormGroup {
+    display: inline-block;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.MembershipFormGroup .CreateClubPageFormGroup {
+    margin-bottom: 20px;
+}
+
+.MembershipFormGroup .RLabel {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 12px;
+}
+
+.MembershipSettingCard {
+    color: #888;
+    padding: 12px 16px;
+    /* border-radius: 4px; */
+    display: flex;
+    gap: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.MembershipSettingCard:hover {
+    background: linear-gradient(135deg, rgb(245, 231, 255), rgb(245, 231, 255));
+}
+
+.MembershipSettingCard .text {
+    min-width: 0;
+    user-select: none;
+}
+
+
+.MembershipSettingCard .name {
+    font-size: 16px;
+    color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
+    margin-bottom: 4px;
+}
+
+
+.MembershipSettingCard .cover img {
+    width: 100px;
+    height: 100px;
+    background: #00000011;
+    border-radius: 6px;
+    border: 1px solid #00000022;
+}
+
+.MembershipCardInput {
+    border-radius: 12px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 1px solid #DDDDDD;
+    margin-bottom: 32px;
+}
+
+.MembershipCardInput .maintitle,
+.MembershipCardPreviewCard .maintitle {
+    padding: 22px 30px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.MembershipCardInput .container {
+    padding: 40px 30px;
+}
+
+.MembershipCardInput .confirmbutton {
+    height: 32px;
+    cursor: pointer;
+}
+
+
+
+.MembershipCardInput .sampleimagewrapper {
+    margin-top: 30px;
+}
+
+.MembershipCardInput .sampleimagewrapper,
+.MembershipCardInput .sampleimagewrapper img {
+    width: 100px;
+    height: 100px;
+    background: #00000011;
+    border-radius: 6px;
+}
+
+.addmorebonusbutton {
+    color: #5A49DE;
+    font-size: 20px;
+    line-height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+}
+
+.MembershipFormGroup .sampleimagewrapper.hidden {
+    display: none;
+}
+
+.MembershipCardPreviewCard {
+    /* padding: 20px 30px; */
+    background: rgba(240, 240, 240, 0.4);
+    border-radius: 12px;
+    margin-bottom: 32px;border: 1px solid #DDDDDD;
+}
+
+.MembershipCardPreviewCard .maincontainer {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 20px 30px 0px 30px;
+}
+
+.MembershipCardPreviewCard .maincontainer .sampleimagewrapper,
+.MembershipCardPreviewCard .maincontainer .sampleimagewrapper img {
+    border-radius: 12px;
+}
+
+.MembershipCardPreviewCard .maincontainer .title {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    color: #222222;
+    margin-bottom: 12px;
+}
+
+.MembershipCardPreviewCard .maincontainer .text {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #444444;
+}
+
+.MembershipCardPreviewCard .maincontainer .textwrapper {
+    display: flex;
+    gap: 40px;
+}
+
+.MembershipCardPreviewCard .maincontainer .editbutton {
+    cursor: pointer;
+    height: 32px;
+    margin-left: auto;
+}
+
+.MembershipCardPreviewCard .bonuscontainer {
+    padding: 20px 30px;
+}
+
+.MembershipCardPreviewCard .bonuscontainer .bonustitle {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    color: #222222;
+}
+
+.MembershipCardPreviewCard .bonuswrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+}
+
+.MembershipCardPreviewCard .bonuscontainer .bonusDisplayCard {
+    background-color: #F7C4D766;
+    padding: 12px 16px;
+    border-radius: 12px;
+}
+
+.MembershipCardPreviewCard .bonuscontainer .bonusDisplayCard {
+    display: flex;
+    gap: 40px;
+    margin-top: 12px;
+}
+
+.MembershipCardPreviewCard .bonuscontainer .bonusDisplayCard .title {
+    font-weight: 700;
+    font-size: 16px;
+    color: #222222;
+    margin-bottom: 4px;
+}
+
+.membershipCardImage img{
+    max-width: 100px;
+}

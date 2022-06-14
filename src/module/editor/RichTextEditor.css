@@ -1,0 +1,59 @@
+/* .editorarea::-webkit-scrollbar{
+    width: 5px;
+    border-radius: 5px;
+}
+.editorarea::-webkit-scrollbar-thumb{
+    background-color: #ccc;
+    border-radius: 5px;
+} */
+
+.SimpleTextEditor .css-xlb5ww {
+    padding: 0;
+    height: 0;
+    border: none;
+    margin: 0;
+    position: absolute;
+    left: 10px;
+}
+
+.css-xlb5ww{
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 12px;
+    margin-bottom: 12px;
+}
+
+.SimpleTextEditor .EmojiButton {
+    /* position: absolute; */
+    /* left: 0px;
+    top:0px; */
+}
+
+.SimpleTextEditor {
+    padding: 7px 10px 7px 40px;
+    background-color: #fff;
+    position: relative;
+    /* white-space: nowrap; */
+    border-radius: 3px;
+}
+
+.SimpleTextEditor p {
+    color: #666;
+    margin-bottom: 0;
+    /* line-break:; */
+    /* white-space: nowrap; */
+    /* width: 200%; */
+    max-height: 24px;
+    overflow-y: hidden;
+    /* overflow-x: hidden; */
+}
+
+.SimpleTextEditor .editorarea::-webkit-scrollbar {
+    width: 0px;
+    height: 0
+}
+
+.DefaultRichTextEditorWrapper {
+    padding: 20px;
+    background-color: #fff
+}

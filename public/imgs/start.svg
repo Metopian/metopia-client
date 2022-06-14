@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg t="1643018290269" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3553" id="mx_n_1643018290271" 
+xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
+<defs>
+    <linearGradient id="Gradient1" gradientTransform="rotate(122.65)">
+        <stop offset="0%"   stop-color="#5A49DE"/>
+        <stop offset="100%" stop-color="#F7C4D7"/>
+    </linearGradient>
+<style type="text/css">
+#main{
+    fill: url(#Gradient1);
+    <!-- .stop1 { stop-color: #5A49DE; }
+    .stop2 { stop-color: #F7C4D7; }
+    .stop2 { stop-color: #ffffff; } -->
+}
+</style>
+</defs>
+<path id="main" d="M810.666667 896H213.333333c-46.933333 0-85.333333-38.4-85.333333-85.333333V213.333333c0-46.933333 38.4-85.333333 85.333333-85.333333h597.333334c46.933333 
+0 85.333333 38.4 85.333333 85.333333v597.333334c0 46.933333-38.4 85.333333-85.333333 85.333333z" fill="Gradient1"  class=""></path>
+<path d="M661.333333 512l-234.666666-170.666667v341.333334z" fill="#ffffff" p-id="3555" data-spm-anchor-id="a313x.7781069.0.i21" class="selected">
+</path></svg>

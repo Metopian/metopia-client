@@ -1,0 +1,177 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.MenuWrapper {
+  display: inline-block;
+  width: 88px;
+  /* padding: 40px 24px; */
+  vertical-align: top;
+}
+
+.AppContainer {
+  display: inline-block;
+  width: calc(100% - 88px);
+  height: 100vh;
+  /* background: linear-gradient(180deg, #D0C7F555, #F4FBFA55); */
+  vertical-align: top;
+  min-height: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.AppBg {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+
+.AppMainContainer {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #eff2ffaa;
+  height: 100%;
+}
+
+@font-face {
+  font-family: 'Akrobat';
+  font-style: normal;
+  font-weight: normal;
+  src: url(https://metopia.oss-cn-hongkong.aliyuncs.com/Akrobat-Regular.otf);
+}
+
+@font-face {
+  font-family: 'Akrobat';
+  font-style: normal;
+  font-weight: bold;
+  src: url(https://metopia.oss-cn-hongkong.aliyuncs.com/Akrobat-Bold.otf);
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url(https://metopia.oss-cn-hongkong.aliyuncs.com/Montserrat-VariableFont_wght.ttf);
+}
+
+.UserNftImageWrapperWrapper {
+  width: 230px;
+  height: 240px;
+  padding: 20px;
+  display: inline-block;
+  /* border-bottom: 1px solid #ddd; */
+}
+
+.UserNftDescription {
+  /* margin-top: 10px; */
+  margin-top: 20px;
+  padding: 0px 10px 0px 10px;
+  display: inline-block;
+  width: calc(100% - 240px);
+  vertical-align: top;
+  overflow-y: auto;
+  text-align: center;
+  height: 200px;
+}
+
+.UserNftDescription::-webkit-scrollbar {
+  width: 4px;
+  background: none;
+}
+
+.UserNftDescription::-webkit-scrollbar-thumb {
+  width: 4px;
+  background-color: #aaa;
+}
+
+.UserNftDescriptionContainer {
+  /* display: inline-block; */
+  text-align: left;
+}
+
+.UserNftCardWrapper {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.UserNftCardWrapper img {
+  width: 200px;
+  border-radius: 2px;
+}
+
+.UserNftCard img.sport {
+  margin-top: -20px;
+}
+
+
+.UserDragonId {
+  color: #888;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+
+.UserNftCardContent {
+  border: 1px solid #E8E7E7;
+  /* cursor: pointer; */
+  /* padding: 10px; */
+  border-radius: 2px;
+}
+
+.NftProperties {
+  color: #111;
+  font-size: 16px;
+  vertical-align: top;
+  margin: 0 10px 10px 10px;
+}
+
+.NftProperties.sub {
+  width: 122px;
+  border-radius: 2px;
+  background-color: #ddd;
+  display: inline-block;
+  padding: 15px;
+  margin: 0 10px 20px 10px;
+}
+
+
+.UserNftGroupTitle {
+  padding: 10px 0px;
+  /* border-bottom: #E8E7E7 1px solid; */
+  font-size: 18px;
+  /* font-weight: bold; */
+  position: relative;
+  /* padding:0px 20px 0px 20px */
+}
+
+.NftCollectionNameButton {
+  margin-bottom: 8px;
+  font-family: montserrat;
+}
+
+.UserNftCardContainer {
+  display: flex;
+  gap: 8px 12px;
+  padding: 10px 0;
+  flex-wrap: wrap;
+  max-width: 100%;
+}

@@ -1,0 +1,9 @@
+.HollowButton {
+    border: 1px solid #5A49DE;
+    border-radius: 12px;
+    color: #5A49DE;
+    padding: 12px 24px;
+    margin-left: auto;
+    cursor: pointer;
+    display: inline-block;
+}

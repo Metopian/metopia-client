@@ -1,0 +1,30 @@
+.MainButton {
+    background: linear-gradient(122.65deg, #5A49DE 23.36%, #F7C4D7 132.77%);
+    opacity: 0.4;
+    border-radius: 12px;
+    color: white;
+    padding: 12px 24px;
+    margin-left: auto;
+    cursor: pointer;
+    /* display: inline-block; */
+    user-select: none;
+    vertical-align: top;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* transition: 300ms; */
+}
+
+.MainButton.solid {
+    opacity: 1;
+}
+
+.MainButton:hover {
+    opacity: 1;
+}
+
+.MainButton.disabled,.MainButton.disabled:hover{
+    opacity: 0.4;
+    cursor: default;
+}

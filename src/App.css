@@ -1,0 +1,11 @@
+.MainContainer {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  min-width: 1160px;
+}
+
+.ErrorHint {
+  color: red;
+  font-size: 12px;
+}

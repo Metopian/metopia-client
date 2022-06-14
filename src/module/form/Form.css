@@ -1,0 +1,167 @@
+.RInput {
+    border-radius: 12px;
+    border: 1px solid #dddddd;
+    color: #222222;
+    outline: 0;
+    width: 100%;
+    max-width: 480px;
+    padding: 0 14px;
+    font-size: 16px;
+    line-height: 24px;
+    resize: none;
+}
+
+input.RInput {
+    height: 48px;
+}
+
+.RInput:focus {
+    border: 1px solid #dddddd;
+    outline: 0;
+}
+
+.RInput.error,
+.RInput.error:focus {
+    border: 1px solid rgb(244, 33, 46);
+}
+
+
+.RInput::placeholder {
+    color: #BBBBBB;
+}
+
+.RLabel {
+    color: #222222;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    margin-bottom: 20px;
+}
+
+
+.RTextarea {
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+}
+
+.RTextarea textarea {
+    border-radius: 12px;
+    border: 1px solid #dddddd;
+    color: #222222;
+    outline: 0;
+    width: 100%;
+    max-width: 480px;
+    padding: 0 14px;
+    font-size: 16px;
+    line-height: 24px;
+    resize: none;
+    height: 144px;
+    padding: 10px 14px;
+}
+
+.RTextarea textarea::-webkit-scrollbar {
+    width: 4px;
+    background: none;
+}
+
+.RTextarea textarea::-webkit-scrollbar-thumb {
+    width: 4px;
+    background-color: #aaa;
+}
+
+.LengthIndicator {
+    position: absolute;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: right;
+    right: 15px;
+    bottom: 10px;
+    color: #BBBBBB
+}
+
+.LengthIndicator.exceeded {
+    color: rgb(244, 33, 46)
+}
+
+.RImageUploader {}
+
+.RImageUploaderMask {
+    height: 90px;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+}
+
+.RImageUploader.square .RImageUploaderMask {
+    width: 90px;
+    display: inline-block;
+}
+
+.RImageUploader.large,
+.RImageUploader.large .RImageUploaderMask {
+    width: 200px;
+    height: 200px
+}
+
+.RImageUploaderMask.empty {
+    border: 1px dashed #dddddd;
+}
+
+.RImageUploaderImg,.RImageUploaderImg img {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+
+.RImageUploaderIcon {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+
+.RSelect,
+.RMultiSelect {
+    display: block;
+    border-radius: 12px;
+    border: 1px solid #dddddd;
+    color: #222222;
+    outline: 0;
+    width: 100%;
+    /* max-width: 480px; */
+    padding: 0 14px;
+    font-size: 16px;
+    line-height: 24px;
+    height: 48px;
+}
+
+.RMultiSelectCardWrapper {
+    display: flex;
+    gap: 8px 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.RMultiSelectCard {
+    background-color: #ffffff;
+    border: 1px solid #00000022;
+    border-radius: 8px;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    color: #333;
+}
+
+.RMultiSelectCard img {
+    height: 16px;
+    cursor: pointer;
+}

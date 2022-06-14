@@ -1,0 +1,43 @@
+.BonusInputCard {
+    border-radius: 12px;
+    border: 1px solid #DDDDDD;
+    margin-top: 32px;
+}
+
+.BonusInputCard .maintitle {
+    font-size: 18px;
+    padding: 16px 30px;
+}
+
+.BonusInputCard .RLabel {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.BonusInputCard .CreateClubPageFormGroup {
+    margin-bottom: 16px;
+}
+
+.BonusRateInputGroup{
+    position: relative;
+}
+
+.BonusRateInputGroup::after{
+    content: '%';
+    position: absolute;
+    bottom:12px;
+    right: 18px;
+    color:#444;
+    font-size: 18px;
+}
+
+.BonusRateInputGroup input::-webkit-outer-spin-button,
+.BonusRateInputGroup input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.BonusRateInputGroup input[type=number] {
+  -moz-appearance: textfield;
+}

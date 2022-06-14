@@ -1,0 +1,224 @@
+.CreateClubPage {
+    padding: 40px 80px;
+}
+
+.CreateClubPageHead {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.CreateClubPageTitle {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 36px;
+    color: #222222;
+    margin-bottom: 30px;
+}
+
+.CreateClubButton {
+    background: linear-gradient(122.65deg, #5A49DE 23.36%, #F7C4D7 132.77%);
+    opacity: 0.4;
+    border-radius: 12px;
+    color: white;
+    padding: 12px 24px;
+    margin-left: auto;
+    cursor: pointer;
+    /* transition: 300ms; */
+}
+
+.CreateClubButton:hover {
+    opacity: 1;
+}
+
+.CreateClubStepContainer {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.CreateClubStepContainer .stepicon {
+    height: 30px;
+    width: 30px;
+    filter: grayscale(100%);
+    opacity: 0.3;
+    /* cursor: pointer; */
+}
+
+.CreateClubStepContainer .stepicon.active {
+    filter: none;
+    opacity: 1;
+}
+
+.CreateClubStepContainer .splitter {
+    width: 100px;
+    height: 2.45px;
+    background: #D1D5DB;
+}
+
+.CreateClubStepContainer .splitter.active {
+    background: #5A49DE;
+}
+
+.CreateClubStepContainer .text {
+    width: 145px;
+    text-align: center;
+    color: #444444;
+
+    opacity: 0.3;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    transform: translateX(2px);
+}
+
+.CreateClubStepContainer .text.active {
+    color: #5A49DE;
+    opacity: 1;
+}
+
+.CreateClubForm {
+    background: #FFFFFF;
+    box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+    border-radius: 0px;
+    padding: 30px 60px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    display: inline-block;
+    width: 100%;
+    border-radius: 32px;
+}
+
+.CreateClubForm.hidden {
+    display: none;
+}
+
+.CreateClubPageFormContainerLeft {
+    display: inline-block;
+    width: 50%;
+    border-right: 1px solid #E5E5E5;
+    vertical-align: top;
+    padding-right: 60px;
+}
+
+.CreateClubPageFormContainerRight {
+    display: inline-block;
+    width: 50%;
+    padding-left: 60px;
+    vertical-align: top;
+    border-left: 1px solid #E5E5E5;
+    margin-left: -1px;
+}
+
+.CreateClubPageFormGroup {
+    margin-bottom: 40px;
+    width: 360px;
+}
+
+.CreateClubPageFormTip {
+    font-size: 14px;
+    color: #BBBBBB;
+    text-align: center;
+    margin: -20px 0 15px 0;
+    width: 360px;
+}
+
+.HiddenInput {
+    display: none;
+}
+
+.CreateClubSnsSymbolWrapper {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+
+.CreateClubSnsSymbol {
+    height: 28px;
+    filter: grayscale(100%);
+    cursor: pointer;
+    user-select: none;
+}
+
+.CreateClubSnsSymbol.selected,
+.CreateClubSnsSymbol:hover {
+    filter: none
+}
+
+.LinkInputModalContainer {
+    padding: 10px 0;
+}
+
+.LinkInputModalStepInfoContainer {
+    display: flex;
+    padding: 40px 0;
+    gap: 80px;
+    justify-content: space-evenly;
+    border-bottom: 1px solid #EAEAEE;
+}
+
+.LinkInputModalStepInfoContainer .StepIcon {
+    font-family: Montserrat;
+    cursor: pointer;
+}
+
+.LinkInputModalStepInfoContainer .StepIcon img {
+    height: 28px;
+}
+
+
+
+.LinkInputModalInputWrapper {
+    display: flex;
+    align-items: center;
+    padding: 40px 20px 20px 20px;
+}
+
+.LinkInputModalContainer label {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    width: 100px;
+}
+
+.LinkInputModalContainer input {
+    margin-left: 40px;
+    width: 100%;
+}
+
+.CreateClubPageFormModule {
+    border: dashed 1px #e5e5e5;
+    padding: 20px 30px;
+    border-radius: 12px;
+    position: relative;
+
+}
+
+.CreateClubPageFormModule .removeButton {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    height: 18px;
+    filter: grayscale(20%);
+    cursor: pointer;
+}
+
+.CreateClubPageFormModule .removeButton:hover {
+    filter: none;
+}
+
+.CreateClubPageNftButton {
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+}
+
+.CreateClubImportContainer {
+    background: #FFFFFF;
+    box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+    border-radius: 32px;
+    padding: 40px 60px;
+}
+

@@ -1,0 +1,119 @@
+.CreateProposalPage {
+    padding: 40px 80px 40px 80px;
+}
+
+.CreateProposalForm {
+    background: #fff;
+    border-radius: 32px;
+    box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+    padding: 40px 72px 120px 72px;
+
+}
+
+.CreateProposalForm .DefaultRichTextEditorWrapper {
+    border-radius: 12px;
+    border: 1px solid #dddddd;
+    /* max-width: 640px; */
+}
+
+.CreateClubPageTitle .backarrow {
+    margin-right: 8px;
+    transform: translateY(4px);
+    cursor: pointer;
+}
+
+.CreateProposalForm .option input {
+    margin-bottom: 16px;
+}
+
+.CreateClubPageFormGroup.option {
+    width: 100%;
+}
+
+.CreateProposalForm .optioncard {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.CreateProposalForm .optioncard .RInput {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    transform: translateY(2px);
+}
+
+.CreateProposalForm .optioncard .removebutton {
+    height: 24px;
+    cursor: pointer;
+    transform: translateY(2px);
+}
+
+.CreateProposalMainEditorWrapper {
+    position: relative;
+}
+
+#proposaltitleinput {
+    border: none;
+    font-size: 24px;
+    width: 100%;
+    padding: 0;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: #444444;
+    margin-bottom: 8px;
+}
+
+.CreateProposalMainEditorWrapper .editorarea * {
+    margin: 0 !important;
+    line-height: 150% !important;
+    color: #444444 !important;
+}
+
+.CreateProposalForm .timecontainer {
+    margin-top: 50px;
+}
+
+.CreateProposalPage .RLabel {
+    font-weight: bold;
+}
+
+.CreateProposalForm .timeinputgroupwrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.CreateProposalForm .timeinputgroupwrapper input {
+    width: 320px;
+
+}
+
+.CreateProposalForm .timeinputgroupwrapper .timeinputwrapper {
+    position: relative;
+}
+
+.CreateProposalForm .timeinputgroupwrapper .timeinputwrapper .calendaricon {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    opacity: 0.6;
+}
+
+.CreateProposalPage .CreateClubPageTitle {
+    margin-bottom: 0;
+}
+
+.CreateProposalPage .CreateClubPageHead{
+    margin-bottom: 40px;
+}
+
+/* .CreateProposalPage .maincontainer{
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+    border-radius: 32px;
+} */

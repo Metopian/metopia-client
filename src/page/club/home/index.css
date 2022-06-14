@@ -1,0 +1,171 @@
+.ClubHomePage {}
+
+.ClubHomeContainer {
+    background: #FFFFFF;
+    box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.04);
+    border-radius: 32px;
+    margin: 40px 72px;
+    width: calc(100vw - 232px);
+}
+
+.ClubHomeHead {
+    height: calc(25vw - 58px);
+    border-radius: 32px 32px 0 0;
+    overflow: hidden;
+    position: relative;
+    background-color: #f2f2f2;
+}
+
+.ClubHomeCover {
+    width: 100%;
+    position: relative;
+    height: 100%;
+}
+
+.ClubHomeCover img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    margin: auto;
+}
+
+.ClubHomeCoverShadow {
+    height: 10.388vw;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+    transform: matrix(1, 0, 0, -1, 0, 0);
+
+}
+
+.ClubHomeMemberStats {
+    position: absolute;
+    width: 7vw;
+    left: calc(25% - 3vw);
+    text-align: center;
+    bottom: 1.1vw;
+}
+
+.ClubHomeMemberStats.right {
+    left: calc(75% - 3vw);
+}
+
+
+.ClubHomeMemberStatsNumber {
+    font-weight: bold;
+    font-size: 2.8vw;
+    line-height: 4vw;
+    color: #FFFFFF;
+    font-family: Akrobat;
+    background: radial-gradient(#00000033, #00000000 50%);
+}
+
+.ClubHomeMemberStatsText {
+    font-size: 1.6vw;
+    line-height: 3.2vw;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: Montserrat;
+    background: radial-gradient(#00000033, #00000000 50%);
+}
+
+.ClubHomeIntroductionContainer {
+    text-align: center;
+    margin-top: -4.15vw;
+    position: relative;
+    padding: 0 40px
+}
+
+.ClubHomeSymbolWrapper {
+    display: inline-block;
+    width: 8.3vw;
+    height: 8.3vw;
+    min-width: 120px;
+    min-height: 120px;
+    border-radius: 50%;
+
+    overflow: hidden;
+    border: 4px solid #ffffff;
+}
+
+.ClubHomeSymbol,
+.ClubHomeSymbol img {
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+}
+
+.ClubHomeName {
+    font-weight: 500;
+
+    font-size: max(1.385vw, 20px);
+    /* line-height: 2.1vw; */
+
+    /* font-size: 20px;line-height: 30px; */
+    text-align: center;
+    color: #222222;
+    margin-top: 10px;
+    text-transform: capitalize;
+    transform: translateX(20x);
+}
+
+.ClubHomeName img {
+    cursor: pointer;
+    display: inline;
+    height: 24px;
+    transform: translate(12px, 2px);
+}
+
+.ClubHomeIntroduction {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #BBBBBB;
+    max-width: 640px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.ClubHomeFunctionContainer {
+    text-align: center;
+    margin-top: 32px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+}
+
+.ClubHomeContentContainer {
+    padding: 40px 44px;
+}
+
+.ClubHomeContentMenuContainer {
+    display: flex;
+    padding: 24px 0;
+    border-bottom: 1px solid #DDDDDD;
+    align-items: center;
+}
+
+.ClubHomeContentMenuTitle {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 36px;
+    color: #222222;
+}
+
+.ClubHomeContentMenu {
+    margin-left: auto;
+    font-size: 20px;
+    line-height: 30px;
+    color: #888888;
+}
+
+.ProposalCard .ProposalCardContent * {
+    margin: 0
+}
