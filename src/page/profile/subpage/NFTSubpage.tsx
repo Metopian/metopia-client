@@ -152,15 +152,19 @@ const NFTSubpage = (props) => {
         return res
     }, [nftTransactions, selectedNftData])
 
-    if (sortedNfts && sortedNfts.length > 0)
-        return <div>
-            <NftSelectionPane noTick sortedNfts={sortedNfts} maxWidth={160} minWidth={120} onSelect={(nft) => {
-                setSelectedNftData(nft)
-                setShowModal(true)
-            }} />
-            <NftContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedNftData} acquiredTx={lastPurchasedTx} />
-        </div>
-    else return <div style={{ marginTop: '20px' }}>
+    if (sortedNfts) {
+        if (sortedNfts.length)
+            return <div>
+                <NftSelectionPane noTick sortedNfts={sortedNfts} maxWidth={160} minWidth={120} onSelect={(nft) => {
+                    setSelectedNftData(nft)
+                    setShowModal(true)
+                }} />
+                <NftContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedNftData} acquiredTx={lastPurchasedTx} />
+            </div>
+        else {
+            return <div style={{ fontSize: '18px', marginTop: '20px' }}>You have not collected any NFTs.</div>
+        }
+    } else return <div style={{ marginTop: '20px' }}>
         <BulletList style={{ height: '200px' }} />
         {/* <ReactLoading height={21} width={40} color='#333' /> */}
     </div>

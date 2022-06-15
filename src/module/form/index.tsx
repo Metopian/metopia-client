@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './Form.css'
+import './index.css'
 import { WrappedLazyLoadImage } from '../image'
 
 const Label = (props) => {

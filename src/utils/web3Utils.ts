@@ -33,11 +33,9 @@ export const getChainId = async () => {
 }
 
 export const switchChain = async (chainId?) => {
-    await getProvider().send("wallet_addEthereumChain", [
+    await getProvider().send("wallet_switchEthereumChain", [
         {
             chainId: chainId || defaultChainId
-            // chainName: 'Polygon',
-            // rpcUrls: ['https://polygon-rpc.com']
         }]
     )
 }

@@ -89,7 +89,7 @@ const PoapSubpage = (props) => {
         }} />
     }, [poapData])
     return poapData ? <div className='PoapSubpage' style={{ padding: '10px 0 40px 0' }}>
-        {poapData.length > 0 ? poapTable : <div style={{ fontSize: '18px', marginTop: '20px' }}>You have not acquired any POAPs.</div>}
+        {poapData.length > 0 ? poapTable : <div style={{ fontSize: '18px', marginTop: '20px' }}>You have not collected any POAPs.</div>}
         <PoapContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedPoapData} />
     </div> : <div style={{ marginTop: '20px' }}>
         <BulletList style={{ height: '200px' }} />

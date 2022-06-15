@@ -18,5 +18,19 @@ const sum = (array) => {
     return sum
 }
 
+const max = (array, keyword?:string) => {
+    let res = -1
+    array?.forEach(ele => {
+        if (keyword) {
+            if (ele[keyword] > res)
+                res = ele[keyword]
+        } else {
+            if (ele > res)
+                res = ele
+        }
+    });
+    return res
+}
 
-export { numberToLetter, toFixedIfNecessary, sum }
+
+export { numberToLetter, toFixedIfNecessary, sum, max }

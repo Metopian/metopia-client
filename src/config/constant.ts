@@ -12,9 +12,15 @@ const chainMap = {
     '0xa86a': 'Avalanche',
     '0xfa': 'Fantom',
 }
+const chainRpcMap = {
+    '0x1': 'https://mainnet.infura.io/v3/',
+    '0x4': 'https://rinkeby.infura.io/v3/',
+    '0x89': 'https://polygon-rpc.com/'
+}
 
 const chainExplorerMap = {
     '0x1': 'https://etherscan.io/address/',
+    '0x4': 'https://rinkeby.etherscan.io/',
     '0x89': 'https://polygonscan.com/address/'
 }
 
@@ -29,4 +35,4 @@ const pinataApiKey = process.env.REACT_APP_PINATA_API_KEY
 const pinataSecretApiKey = process.env.REACT_APP_PINATA_SECRET_API_KEY
 const moralisApiToken = "2vqCa6qnbRHsbmoA7WdO94dNxkhFFJfSQWY7xPaKtmx3IwuU3K8TKmoIbM5R5PAZ"
 const chainId = process.env.REACT_APP_CHAIN_ID
-export { chainMap, chainExplorerMap, aiErrors, pinataApiKey, pinataSecretApiKey, moralisApiToken,chainId }
+export { chainMap, chainExplorerMap, aiErrors, pinataApiKey, pinataSecretApiKey, moralisApiToken, chainId, chainRpcMap }

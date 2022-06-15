@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { update as updateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
 import { GhostButtonGroup } from '../../../../module/button';
-import { ImageSelector, Input, Label, Textarea } from '../../../../module/form/Form';
+import { ImageSelector, Input, Label, Textarea } from '../../../../module/form';
 import { updateImgToIfps } from '../../../../utils/imageUtils';
 import CoverEditorModal from '../module/CoverEditorModal';
 import './BasicProfileForm.css';

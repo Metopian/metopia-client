@@ -52,10 +52,10 @@ const ProfilePage = (props) => {
             tmpIndex = 2
         } else if (subpage === 'momentos') {
             tmpJsx = <PoapSubpage slug={slug} />
-            tmpIndex = 1
+            tmpIndex = 3
         } else if (subpage === 4) {
             tmpJsx = <NftTransactionSubpage slug={slug} />
-            tmpIndex = 3
+            tmpIndex = -1
         } else if (subpage === 'governance') {
             tmpJsx = <GovernanceSubpage slug={slug} />
             tmpIndex = 5
@@ -65,7 +65,7 @@ const ProfilePage = (props) => {
         }
         return { subpageJsx: tmpJsx, subpageIndex: tmpIndex }
     }, [slug, subpage])
-
+    
     return <div className="ProfilePage">
         <div className="ProfilePageContainer">
             <div className="ProfilePageHead" style={{ backgroundImage: 'url(/imgs/profile_page_head_bg.png)' }}>

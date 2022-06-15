@@ -5,6 +5,7 @@ import { ClubSettingPage, ClubHomePage } from './page/club';
 import HomePage from './page/home';
 import ProfilePage from './page/profile';
 import { ProposalCreatePage, ProposalHomePage } from './page/proposal';
+import  TestMintPage  from './test/TestMintPage'
 
 const App = () => {
   const routeParams = useParams()
@@ -32,7 +33,9 @@ const App = () => {
       }
       else if (routeParams.page === 'profile') {
         return <ProfilePage slug={routeParams.event} subpage={searchParams.get('subpage')} state={searchParams.get('state')} code={searchParams.get('code')} />
-      } 
+      } else if(routeParams.page==='test'){
+        return <TestMintPage/>
+      }
     }
     return <HomePage />
   }, [routeParams])

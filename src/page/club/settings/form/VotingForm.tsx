@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
-import { Input, Label } from '../../../../module/form/Form';
+import { Input, Label } from '../../../../module/form';
 import { toFixedIfNecessary } from '../../../../utils/numberUtils';
 import './VotingForm.css';
 

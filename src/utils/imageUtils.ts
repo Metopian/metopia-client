@@ -1,4 +1,5 @@
 import { pinataApiKey, pinataSecretApiKey } from '../config/constant'
+import { ipfsApi, testApi } from '../config/urls'
 
 
 const createImage = url =>
@@ -74,5 +75,20 @@ export const updateImgToIfps = (image: File) => {
         headers: headers
     };
 
-    return fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", options).then(res => res.json());
+    return fetch(ipfsApi.pinata_pinFileToIPFS, options).then(res => res.json());
+}
+
+
+export const updateImg = (image: File) => {
+    let headers = new Headers();
+    const formData = new FormData();
+    formData.append('file', image);
+
+    const options = {
+        method: 'POST',
+        body: formData,
+        headers: headers
+    };
+
+    return fetch(testApi.image_store, options).then(res => res.json());
 }

@@ -4,7 +4,7 @@ import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
 import MembershipCardInput from '../module/MembershipCardInput';
 import './ConsensusForm.css';
-import { Label } from '../../../../module/form/Form';
+import { Label } from '../../../../module/form';
 
 const newMembership = (id) => {
     return {

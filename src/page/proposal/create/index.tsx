@@ -9,7 +9,7 @@ import { arabToRoman } from 'roman-numbers';
 import { localRouter, snapshotApi } from '../../../config/urls';
 import { MainButton } from '../../../module/button';
 import { DefaultTextEditor as RichTextEditor } from '../../../module/editor/RichTextEditor';
-import { Input, Label } from '../../../module/form/Form';
+import { Input, Label } from '../../../module/form';
 import './index.css';
 import ReactLoading from 'react-loading';
 

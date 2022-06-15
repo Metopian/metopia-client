@@ -148,7 +148,13 @@ const ProposalHomePage = props => {
         let res = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         if (scores?.result?.scores) {
             scores.result.scores.forEach((s, i) => {
-                Object.keys(s).forEach(key => res[i] += s[key])
+                Object.keys(s).forEach(addr => {
+                    votes.forEach((v) => {
+                        if (v.voter === addr) {
+                            res[v.choice - 1] += s[addr]
+                        }
+                    })
+                })
             })
         }
         return res
@@ -156,11 +162,16 @@ const ProposalHomePage = props => {
 
     let mychoice = -1
     if (self) {
-        (scores?.result?.scores || []).forEach((s, i) => {
-            if (s[self] > 0)
-                mychoice = i
-        })
+        if (votes && self) {
+            votes.forEach((v) => {
+                console.log(v, self.toLowerCase(), v.voter.toLowerCase())
+                if (self.toLowerCase() === v.voter.toLowerCase()) {
+                    mychoice = v.choice - 1
+                }
+            })
+        }
     }
+    console.log(voteSum, scores?.result?.scores)
 
     return <div className="ProposalIndexPage">
         <div className="CreateClubPageTitle"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
@@ -171,7 +182,7 @@ const ProposalHomePage = props => {
                 <div className="authorcontainer">
                     <a href={`${localRouter('profile')}${proposal?.author}`}>
                         <DefaultAvatarWithRoundBackground wallet={proposal?.author} className="ProposalCardUserAvatar" />
-                        <div className="ProposalCardAddr">{authorEns||addrShorten(proposal?.author)}</div>
+                        <div className="ProposalCardAddr">{authorEns || addrShorten(proposal?.author)}</div>
                     </a>
                 </div>
                 <div className="title">{proposal?.title}</div>
@@ -219,7 +230,7 @@ const ProposalHomePage = props => {
                         }
                     </div>
                     {
-                        mychoice === -1 ? <div className={'choiceoptionbutton ' + (scoresObj[self] ? "" : " disabled")}
+                        mychoice === -1 && proposal?.state === 'active' ? <div className={'choiceoptionbutton ' + (scoresObj[self] ? "" : " disabled")}
                             onClick={doVote}>{scoresObj[self] ? "Cast " + getRealVoteCount(scoresObj[self]) + " Vote" : "You can't vote"}{voting ? <ReactLoading type='spokes' height={20} width={20} className="loading" /> : null}</div> : null
                     }
 

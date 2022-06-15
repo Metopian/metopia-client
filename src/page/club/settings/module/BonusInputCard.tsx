@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactLoading from 'react-loading';
-import { Input, Label, MultiSelect, Select } from '../../../../module/form/Form';
+import { Input, Label, MultiSelect, Select } from '../../../../module/form';
 import { pad } from '../../../../utils/stringUtils';
 import './BonusInputCard.css';
 

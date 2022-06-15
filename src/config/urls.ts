@@ -1,6 +1,7 @@
 
 const cdnPrefix = process.env.REACT_APP_CDN_PREFIX
 
+const metopiaServer = process.env.REACT_APP_METOPIA_SERVER
 const dataCenterRoot = process.env.REACT_APP_DATA_CENTER_API_PREFIX
 const snapshotScoreApiRoot = process.env.REACT_APP_SNAPSHOT_SCORE_API_PREFIX
 const snapshotCoreRoot = process.env.REACT_APP_SNAPSHOT_CORE_API_PREFIX
@@ -44,11 +45,18 @@ const localRouter = (name?: string | null, param?: any) => {
     if (name === 'proposal.create') return '/alpha/space/' + param.space + "/propose"
     return "/"
 }
+const pinataApiPrefix = "https://api.pinata.cloud/"
 
 const ipfsApi = {
-    pinataRoot: "https://api.pinata.cloud/"
+    pinata_pinFileToIPFS: pinataApiPrefix + "pinning/pinFileToIPFS"
+}
+
+const testApi = {
+    image_store: metopiaApiRoot + "uploadImage",
+    membership_mint: metopiaApiRoot + "test/membership/mint",
+    membership_select: metopiaApiRoot + "test/membership/select"
 }
 
 const ceramicNode = process.env.REACT_APP_CERAMIC_API
 
-export { cdnPrefix, localRouter, nftDataApi, snapshotApi, ipfsApi, ceramicNode, thirdpartyApi }
+export { cdnPrefix, localRouter, nftDataApi, snapshotApi, ipfsApi, ceramicNode, thirdpartyApi, testApi,metopiaServer}
