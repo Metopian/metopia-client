@@ -5,7 +5,7 @@ import { update as updateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
 import { GhostButtonGroup } from '../../../../module/button';
 import { ImageSelector, Input, Label, Textarea } from '../../../../module/form';
-import { updateImgToIfps } from '../../../../utils/imageUtils';
+import { uploadFileToIfps } from '../../../../utils/ipfsUtils';
 import CoverEditorModal from '../module/CoverEditorModal';
 import './BasicProfileForm.css';
 
@@ -104,7 +104,7 @@ const Form = props => {
     const [croppedBanner, setCroppedBanner] = useState()
     const { data, update: updateForm } = useData()
     const [editingLinkLabel, setEditingLinkLabel] = useState<any>(null)
-    
+
     return <div className={"CreateClubForm" + (display ? '' : ' hidden')}>
         <div className="CreateClubPageFormContainerLeft">
             <div className="CreateClubPageFormGroup">
@@ -170,24 +170,32 @@ const Form = props => {
         <div className="CreateClubPageFormContainerRight">
             <div className="CreateClubPageFormGroup">
                 <Label>Profile Image</Label>
-                <ImageSelector trigger={() => { imageInput.current.click() }} imgUrl={(logoImg && window.URL.createObjectURL(logoImg)) || data.avatar} />
-                <input type='file' className="HiddenInput" ref={imageInput}
-                    onChange={async (e) => {
-                        let result = await updateImgToIfps(e.target.files[0])
+                <ImageSelector trigger={() => { imageInput.current.click() }}
+                    imgUrl={(logoImg && window.URL.createObjectURL(logoImg)) || data.avatar} onChange={async (e) => {
+                        let result = await uploadFileToIfps(e.target.files[0])
                         if (!result.IpfsHash) {
                             window.alert("Image upload failed. Please check your network.")
                             return
                         }
                         setLogoImg(e.target.files[0])
                         updateForm({ 'avatar': "ipfs://" + result.IpfsHash })
-                    }}
-                    accept='image/*' />
+                    }} />
             </div>
             <div className="CreateClubPageFormGroup">
                 <Label>Cover Image</Label>
-                <ImageSelector wide trigger={() => { setSelectingCover(true) }} imgUrl={croppedBanner} />
+                <ImageSelector wide trigger={() => { setSelectingCover(true) }} imgUrl={croppedBanner && window.URL.createObjectURL(croppedBanner)}
+                    onChange={async (e) => {
+                        let result = await uploadFileToIfps(e.target.files[0])
+                        if (!result.IpfsHash) {
+                            window.alert("Image upload failed. Please check your network.")
+                            return
+                        }
+                        setCroppedBanner(e.target.files[0])
+                        updateForm({ 'banner': "ipfs://" + result.IpfsHash })
+                    }} />
+                {/* <ImageSelector wide trigger={() => { setSelectingCover(true) }} imgUrl={croppedBanner} /> */}
                 <CoverEditorModal onRequestClose={() => setSelectingCover(false)} show={selectingCover} onSubmit={async (croppedImage, blob) => {
-                    let result = await updateImgToIfps(blob)
+                    let result = await uploadFileToIfps(blob)
                     if (!result.IpfsHash) {
                         window.alert("Image upload failed. Please check your network.")
                         return

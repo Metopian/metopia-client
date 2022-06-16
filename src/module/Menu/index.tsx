@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../config/redux/userSlice'
-import type { RootState } from '../../config/store'
+import { RootState, setChainId, useChainId } from '../../config/store'
 import { OnClickFuncType } from '../../config/type/docTypes'
 import { cdnPrefix, localRouter } from '../../config/urls'
 import { getNFTReadableSrc } from '../../utils/NftUtils'
 import { useLoginModal } from '../LoginModal'
 import './index.css'
 import { getAddress } from '../../utils/web3Utils'
+import { chainMap } from '../../config/constant'
 
 const LogoIcon = (props: { src: string, onClick?: OnClickFuncType }) => {
     return <div className={"LogoIconWrapper"} onClick={props.onClick || function () { window.location.href = localRouter('home') }}>
@@ -54,10 +55,13 @@ const menuItems = [
 
 const Menu = (props) => {
     const { logoUrl, followedClubs } = props
-    const user = useSelector((state: RootState) => state.user)
+    const { user } = useSelector((state: RootState) => {
+        return { user: state.user }
+    })
     const { display: showLoginModal } = useLoginModal()
     const dispatch = useDispatch()
     const [wallet, setWallet] = useState(null)
+    const chainId = useChainId()
     useEffect(() => {
         getAddress(true).then(w => w?.length && setWallet(w))
     }, [])
@@ -103,6 +107,10 @@ const Menu = (props) => {
                 followedClubs && followedClubs.map(i => <FollowedClubItem {...i} />)
             }
         </div>
+        <button className="switchnetbutton" onClick={() => {
+            dispatch(setChainId(chainId === '0x1' ? '0x4' : '0x1'))
+
+        }}>{chainId === '0x1' ? "Switch to Rinkeby" : "Switch to Mainnet"}</button>
         <div className="LogoutButtonWrapper">
             <img src={cdnPrefix + "logout.svg"} onClick={() => dispatch(logout())} alt="Logout" className="LogoutButton" />
         </div>

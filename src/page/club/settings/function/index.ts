@@ -35,7 +35,7 @@ export const sign = async (web3: Web3Provider | Wallet, address: string, message
     return { address, sig, data }
 }
 
-export const formToSettings = async (basicFormData, consensusForm, votingFormData) => {
+export const formToSettings = async (chainId, basicFormData, consensusForm, votingFormData) => {
     let account = await getAddress()
     let res = {
         ...basicFormData,
@@ -47,7 +47,7 @@ export const formToSettings = async (basicFormData, consensusForm, votingFormDat
                     "symbol": c.name,
                     "address": c.tokenAddress,
                     "defaultWeight": c.defaultWeight * 100,
-                    "network": "1",
+                    "network": chainId.indexOf("0x") === 0 ? chainId.substrtring(2) : chainId,
                     "traitTypeValueWeight": c.bonus?.filter(b => b.value?.length).map(b => {
                         return {
                             "trait_type": b.field,
@@ -70,7 +70,7 @@ export const formToSettings = async (basicFormData, consensusForm, votingFormDat
         admins: [account],
         plugins: [],
         categories: [],
-        network: "1",
+        network: chainId.indexOf("0x") === 0 ? chainId.substrtring(2) : chainId,
         symbol: 'Vote',
     }
     return res
@@ -87,12 +87,14 @@ export const defaultForm = () => {
             opensea: '',
             avatar: '',
             banner: '',
-        }, consensusForm: { membership: [] },
+        }, 
+        consensusForm: { membership: [] },
         votingFormData: {
             delay: 0,
             period: 3600,
             quorum: 0
-        }
+        },
+        network: null
 
     }
 }
@@ -135,7 +137,7 @@ export const settingsToForm = (settings: string) => {
         })
     }
     let votingFormData = obj.voting
-    return { basicFormData, consensusForm, votingFormData }
+    return { basicFormData, consensusForm, votingFormData, network: obj.network }
 }
 
 export const snapshotDataToForm = (data) => {
@@ -167,7 +169,7 @@ export const snapshotDataToForm = (data) => {
         }) : []
     }
 
-    return { basicFormData, consensusForm, votingFormData }
+    return { basicFormData, consensusForm, votingFormData, network: data.network }
 }
 
 export const doCreateDao = (settings, cb) => {

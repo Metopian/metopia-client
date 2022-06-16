@@ -1,10 +1,9 @@
 import React from 'react';
-import { chainId } from '../../config/constant';
+import { useChainId } from '../../config/store';
 import { OnClickFuncType } from '../../config/type/docTypes';
 import { NftImage } from '../image';
 import './NftOptionCard.css';
 
-//TODO
 declare interface ParamType {
     noLazy?: boolean;
     noTick?: boolean;
@@ -17,13 +16,8 @@ declare interface ParamType {
 }
 
 const NftOptionCard = (props: ParamType) => {
-    // const nftImage = useMemo(() => {
-    //     if (props.noLazy)
-    //         return <img src={props.src} alt="" />
-    //     else
-    //         return <LazyLoadImage src={props.src} className="NftOptionCardImage" />
-    // }, [props.src, props.noLazy])
     const { size } = props
+    const chainId = useChainId()
     if (!props.src || props.src.length === 0)
         return
 
@@ -38,7 +32,6 @@ const NftOptionCard = (props: ParamType) => {
             </div>
             <div className="NftOptionCardContent">
                 <NftImage defaultSrc={props.src} chainId={chainId} tokenId={props.tokenId} contract={props.tokenAddress} width={size[1]} className="NftOptionCardImage" />
-                {/* {nftImage} */}
                 {props.noTick ? null : <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/check_box_off.svg" className="NftCardUncheckedIcon" alt="" />}
                 {props.noTick ? null : <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/check_box_on.svg" className="NftCardCheckedIcon" alt="" />}
             </div>

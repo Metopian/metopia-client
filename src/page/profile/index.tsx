@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import React, { useEffect, useMemo, useState } from "react";
-import { chainId } from '../../config/constant';
+import { useChainId } from '../../config/store';
 import { localRouter } from "../../config/urls";
 import { DefaultAvatar } from '../../module/image';
 import { useNfts } from '../../third-party/moralis';
@@ -17,7 +17,8 @@ import PoapSubpage from "./subpage/PoapSubpage";
 
 const ProfilePage = (props) => {
     const { slug, subpage, state, code } = props
-    const { data: nfts, error: ethError } = useNfts(slug, chainId)
+    const chainId = useChainId()
+    const { data: nfts } = useNfts(slug, chainId)
     const [ens, setEns] = useState(null)
     const nftCount = useMemo(() => {
         if (!nfts)

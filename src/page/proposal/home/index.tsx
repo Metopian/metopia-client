@@ -42,7 +42,6 @@ const ProposalHomePage = props => {
     const [voting, setVoting] = useState(false)
     const [self, setSelf] = useState(null)
     const [authorEns, setAuthorEns] = useState(null)
-
     useEffect(() => {
         getAddress().then(addr => setSelf(addr))
     }, [])
@@ -50,7 +49,6 @@ const ProposalHomePage = props => {
     useEffect(() => {
         if (proposal?.author)
             getProvider().lookupAddress(proposal?.author).then(e => setAuthorEns(e))
-
     }, [proposal])
 
     const getAddressToCalcScore = () => {
@@ -59,7 +57,6 @@ const ProposalHomePage = props => {
         votes?.forEach(v => res.push(v.voter))
         return res
     }
-    const { data: scores } = useScoreData(id, "1", proposal?.snapshot, proposal?.strategies, getAddressToCalcScore())
 
     const doVote = () => {
         if (!self) {
@@ -128,9 +125,10 @@ const ProposalHomePage = props => {
     }
 
     useEffect(() => {
-        let voteFetcher = initVotes()
-        Promise.all([voteFetcher])
+        initVotes()
     }, [])
+
+    const { data: scores } = useScoreData(id, "1", proposal?.snapshot, proposal?.strategies, getAddressToCalcScore())
 
     const scoresObj = useMemo(() => {
         if (scores?.result?.scores) {
@@ -171,7 +169,6 @@ const ProposalHomePage = props => {
             })
         }
     }
-    console.log(voteSum, scores?.result?.scores)
 
     return <div className="ProposalIndexPage">
         <div className="CreateClubPageTitle"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {

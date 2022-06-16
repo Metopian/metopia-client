@@ -33,8 +33,9 @@
 .MenuItem.isIcon img {
     border-radius: 0;
 }
-.MenuItem.fill img{
-    
+
+.MenuItem.fill img {
+
     width: 100%;
     height: 100%
 }
@@ -42,6 +43,18 @@
 .LogoutButton {
     width: 30px;
     cursor: pointer;
+}
+
+.switchnetbutton {
+    margin-top: auto;
+    text-align: left;
+    padding-left: 16px;
+    background:none;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    color:#888;
+    line-height: 18px;
 }
 
 .LogoutButtonWrapper {

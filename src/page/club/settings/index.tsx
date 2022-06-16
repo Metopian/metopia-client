@@ -1,6 +1,8 @@
 
 import 'rc-slider/assets/index.css'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useChainId } from '../../../config/store'
+import { thirdpartyApi } from '../../../config/urls'
 import { useSpaceData } from '../../../governance'
 import { MainButton } from '../../../module/button'
 import { Input, Label } from '../../../module/form'
@@ -9,7 +11,6 @@ import { ConsensusForm, useData as useConsensusForm } from './form/ConsensusForm
 import { useData as useVotingForm, VotingForm } from './form/VotingForm'
 import { defaultForm, doCreateDao, doUpdateDao, formToSettings, settingsToForm, snapshotDataToForm } from './function'
 import './index.css'
-import { thirdpartyApi } from '../../../config/urls'
 
 const ClubSettingPage = (props) => {
     /**
@@ -23,14 +24,17 @@ const ClubSettingPage = (props) => {
     const [creating, setCreating] = useState(false)
     const consensusFormRef = useRef<any>()
     const { data: defaultSpaceSettings, error } = useSpaceData(slug)
+    const [network, setNetwork] = useState(null)
+    const chainId = useChainId()
 
     useEffect(() => {
         // let { basicFormData, consensusForm, votingFormData } = defaultForm()
         if (defaultSpaceSettings?.code === 200) {
-            let { basicFormData, consensusForm, votingFormData } = settingsToForm(defaultSpaceSettings.content.settings)
+            let { basicFormData, consensusForm, votingFormData, network } = settingsToForm(defaultSpaceSettings.content.settings)
             updateBasicForm(basicFormData)
             updateConsensusForm(consensusForm)
             updateVotingForm(votingFormData)
+            setNetwork(network)
         } else {
             let { basicFormData, consensusForm, votingFormData } = defaultForm()
             updateBasicForm(basicFormData)
@@ -45,7 +49,7 @@ const ClubSettingPage = (props) => {
             window.alert(errors[errorKeys[0]])
             return
         }
-        formToSettings(basicFormData, consensusForm, votingFormData).then(settings => {
+        formToSettings(network || chainId, basicFormData, consensusForm, votingFormData).then(settings => {
             if (!window.confirm("Do you want to continue?"))
                 return
             setCreating(true)
@@ -84,12 +88,11 @@ const ClubSettingPage = (props) => {
                 <Input placeholder="Paste your Snapshot sapce link" id="snapshotlinkinput" />
             </div>
             <div>
-                <MainButton onClick={e => {
+                <MainButton onClick={(e) => {
                     let url = (document.getElementById("snapshotlinkinput") as HTMLInputElement).value
                     let tmp = url.split("/")
                     if (!tmp.length)
                         return
-
 
                     fetch(thirdpartyApi.snapshot_api_graph, {
                         method: 'POST',

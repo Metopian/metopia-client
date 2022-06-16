@@ -5,7 +5,7 @@ import { Triangle } from 'react-loader-spinner';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccount } from '../../config/redux/userSlice';
-import type { RootState } from '../../config/store';
+import { RootState, useChainId } from '../../config/store';
 import { type MoralisNft } from '../../config/type/moralisType';
 import { localRouter } from '../../config/urls';
 import FlexibleOrderedContainer from '../../module/FlexibleOrderedContainer';
@@ -17,7 +17,7 @@ import { getAddress, getChainId } from '../../utils/web3Utils';
 import { MainButton } from '../button';
 import './index.css';
 import { useLoginModal } from './useLoginModal';
-import { chainId } from '../../config/constant';
+
 
 const defaultLoginModalStyle = {
     overlay: {
@@ -112,6 +112,7 @@ const LoginModal = (props: {
     // const user = useSelector((state: RootState) => state.user)
     const { isShow, stepRequired } = useSelector((state: RootState) => state.loginModal)
     const { hide } = useLoginModal()
+    const chainId = useChainId()
     const { data: nfts, error: ethError } = useNfts(null, chainId)
     const [step, setStep] = useState<number>(0)
     const [unselectedContracts, setUnselectedContracts] = useState([])
@@ -307,7 +308,6 @@ const LoginModal = (props: {
                             <MainButton solid onClick={() => { setStep(step - 1) }}>Previous</MainButton>
                         </div>
                     </form>
-
                 </div> : null
             }{
                 step === 2 ? <div className="LoginModalAvatarContainer">
@@ -331,7 +331,6 @@ const LoginModal = (props: {
                             dispatch(setAccount(content))
                             hide()
                         }
-
                     }}>Confirm</MainButton>
                     <MainButton solid onClick={() => { setStep(step - 1) }}>Previous</MainButton>
                 </div> : null

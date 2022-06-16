@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
-import { RootState } from '../../../../config/store';
+import { RootState, useChainId } from '../../../../config/store';
 import MembershipCardInput from '../module/MembershipCardInput';
 import './ConsensusForm.css';
 import { Label } from '../../../../module/form';
@@ -60,7 +60,7 @@ const useData = () => {
 
 const Form = React.forwardRef<any, any>((props, collectDataRef) => {
     const { display, errors } = props
-
+    const chainId = useChainId()
     const { data, update: updateForm, updateMembership, removeMembership } = useData()
     // const [membershipList, setMembershipList] = useState([{ id: 1, editing: true }])
     const nftInputRefs = useRef([])
@@ -82,7 +82,6 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
     }, [submitInputCardsData, collectDataRef])
 
     const submitMembership = (data) => {
-        console.log(data)
         if (data?.id) {
             updateMembership(Object.assign({}, data, { editing: false }))
         }
@@ -94,6 +93,9 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
         }
         <div className={"CreateClubForm" + (display ? '' : ' hidden')} style={{ padding: '40px 60px' }}>
             <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Membership</Label>
+            {
+                chainId !== '0x1' ? <div style={{ marginTop: '-10px', marginBottom: '30px', color: '#888' }}>Warning: You are creating DAO on Testnet</div> : null
+            }
             {
                 data.membership.map((m, i) => <MembershipCardInput
                     ref={nftInputRefs}

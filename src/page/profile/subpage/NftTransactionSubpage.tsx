@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { chainId } from '../../../config/constant';
 import { MainButton } from '../../../module/button';
 import { useNfts, useNftTransactions } from '../../../third-party/moralis';
+import { useChainId } from '../../../config/store';
 
 const NftTransactionSubpage = (props) => {
     const { slug } = props
+    const chainId = useChainId()
     const { data: nfts } = useNfts(slug, chainId)
     const { data: nftTransactions } = useNftTransactions(slug, chainId)
     const {

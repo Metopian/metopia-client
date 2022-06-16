@@ -17,6 +17,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .MainButton.solid {
@@ -28,7 +29,25 @@
 }
 
 .MainButton.disabled,
-.MainButton.disabled:hover {
+.MainButton.disabled:hover,
+.MainButton.loading,
+.MainButton.loading:hover {
     opacity: 0.4;
     cursor: default;
+}
+
+.MainButton.loading .content {
+    opacity: 0;
+}
+
+.MainButton .loadingicon {
+    position: absolute;
+    margin: auto;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    top: -9999px;
+    display: flex;
+    justify-content: center;
+    align-items: center
 }

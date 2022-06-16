@@ -45,13 +45,13 @@ const useSpaceListData = (): { data: ResponsePack<Space[]>, error: any } => {
     return { data, error }
 }
 const useSpaceData = (id: string): { data: ResponsePack<Space>, error: any } => {
-    const { data, error } = useSWR(id?[snapshotApi.dao_selectById, { id: id }]:null, getFetcher, defaultSWRConfig)
+    const { data, error } = useSWR(id ? [snapshotApi.dao_selectById, { id: id }] : null, getFetcher, defaultSWRConfig)
     return { data, error }
 }
 
-const useScoreData = (space?: string, network?: string, snapshot?: number, strategies?: string, addresses?: string[]) => {
+const useScoreData = (space: string, network: string, snapshot: number, strategies: string, addresses?: string[]) => {
     let scoreParam = { "params": { space, network, snapshot, strategies, addresses } }
-    const { data, error } = useSWR(space && addresses?.length ? [snapshotApi.score, scoreParam] : null, postFetcher, defaultSWRConfig)
+    const { data, error } = useSWR(space && addresses?.length && strategies && snapshot ? [snapshotApi.score, scoreParam] : null, postFetcher, defaultSWRConfig)
     return { data, error }
 }
 

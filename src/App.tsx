@@ -10,7 +10,6 @@ import  TestMintPage  from './test/TestMintPage'
 const App = () => {
   const routeParams = useParams()
   const [searchParams] = useSearchParams();
-  console.log()
   // const [routeParams, setRouteParams] = useState(useParams())
   const page = useMemo(() => {
     if (!routeParams.page) {

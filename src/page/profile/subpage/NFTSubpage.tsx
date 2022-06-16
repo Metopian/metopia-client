@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { BulletList } from 'react-content-loader';
 import Modal from 'react-modal';
-import { chainExplorerMap, chainId, chainMap } from '../../../config/constant';
+import { chainExplorerMap, chainMap } from '../../../config/constant';
+import { useChainId } from '../../../config/store';
 // import ReactLoading from 'react-loading'
 import { NftImage } from '../../../module/image';
 import { NftSelectionPane } from '../../../module/nft';
@@ -48,7 +49,7 @@ const formatDate = function (date, fmt) { //author: meizz
 const NftContentModal = (props) => {
     const { isShow, hide, data, acquiredTx } = props
     const metadata = data.metadata ? JSON.parse(data.metadata) : {}
-
+    const chainId = useChainId()
     return <Modal
         appElement={document.getElementById('root')}
         isOpen={isShow}
@@ -115,6 +116,7 @@ const NftContentModal = (props) => {
 
 const NFTSubpage = (props) => {
     const { slug } = props
+    const chainId = useChainId()
     const { data: ethNfts } = useNfts(slug, chainId)
     const [selectedNftData, setSelectedNftData] = useState<any>({})
     const [showModal, setShowModal] = useState(false)

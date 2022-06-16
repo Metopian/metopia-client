@@ -1,7 +1,7 @@
 
 import { ethers, utils } from "ethers";
 import { Web3Provider } from "ethers/node_modules/@ethersproject/providers";
-import { chainId as defaultChainId } from "../config/constant";
+import { defaultChainId } from "../config/constant";
 
 let provider: Web3Provider = null
 export const getProvider = () => {
@@ -40,8 +40,8 @@ export const switchChain = async (chainId?) => {
     )
 }
 
-export const getContract = (contractAddress, abi) => {
-    return new ethers.Contract(contractAddress, abi, getProvider());
+export const getContract = (contractAddress, abi, providerOrSigner?) => {
+    return new ethers.Contract(contractAddress, abi, providerOrSigner || getProvider());
 }
 export const hashWithPrefix = (msg) => {
     return utils.keccak256("\u0019Ethereum Signed Message:\n" + msg.length + msg)

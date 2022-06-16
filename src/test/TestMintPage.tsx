@@ -1,23 +1,20 @@
-import React, { useRef, useState } from 'react'
-import './TestMintPage.css'
+import React, { useState } from 'react'
 import { MainButton } from '../module/button'
-import { ImageSelector, Label, Input } from '../module/form'
-import { updateImg } from '../utils/imageUtils'
+import { ImageSelector, Input, Label } from '../module/form'
+import { uploadFileToIfps } from '../utils/ipfsUtils'
 import { max } from '../utils/numberUtils'
-import { metopiaServer, testApi } from '../config/urls'
-import { getContract, getChainId, getAddress, switchChain } from '../utils/web3Utils'
-
+import { getAddress, getChainId, getContract, getProvider, switchChain } from '../utils/web3Utils'
+import './TestMintPage.css'
 const TestMintPage = props => {
-    const imageInput = useRef<HTMLInputElement | null>()
     const [image, setImage] = useState<any>()
-    const [uploadedImagePath, setUploadedImagePath] = useState()
+    const [uploadedImagePath, setUploadedImagePath] = useState<any>()
     const [attrGroup, setAttrGroup] = useState([])
     const [name, setName] = useState('')
 
     const getForm = () => {
         return {
             name,
-            image: metopiaServer + uploadedImagePath,
+            image: uploadedImagePath,
             description: "Metopia test membership card",
             attributes: attrGroup.filter(a => a.field?.length && a.value?.length).map(a => {
                 return { trait_type: a.field, value: a.value }
@@ -30,15 +27,17 @@ const TestMintPage = props => {
 
         <div className="form">
             <Label>Upload your image</Label>
-            <ImageSelector trigger={() => { imageInput.current.click() }} imgUrl={(image && window.URL.createObjectURL(image))} />
-            <input type='file' className="HiddenInput" ref={imageInput}
+            <ImageSelector imgUrl={(image && window.URL.createObjectURL(image))}
                 onChange={async (e) => {
-                    let result = await updateImg(e.target.files[0])
+                    let result = await uploadFileToIfps(e.target.files[0])
+                    if (!result.IpfsHash) {
+                        window.alert("Image upload failed. Please check your network.")
+                        return
+                    }
                     setImage(e.target.files[0])
-                    setUploadedImagePath(result.content)
-                    console.log(result.content)
+                    setUploadedImagePath("ipfs://" + result.IpfsHash)
                 }}
-                accept='image/*' />
+            />
             <div style={{ height: '20px' }}></div>
             <Label>Name</Label>
             <Input placeholder="name" onChange={e => setName(e.target.value)} />
@@ -82,31 +81,27 @@ const TestMintPage = props => {
             </div>
 
             <div style={{ marginTop: '40px' }}>
-                <MainButton onClick={e => {
-                    const foo = async () => {
-                        let address = await getAddress()
-                        if ('0x4' !== await getChainId()) {
-                            await switchChain('0x4')
-                        }
-                        // testApi.membership_mint
-
-                        // let metadataUri = await fetch("http://localhost:8014/metopia-api/test/membership/mint", {
-                        let metadataUri = await fetch(testApi.membership_mint, {
-                            method: 'POST',
-                            body: JSON.stringify(getForm())
-
-                        }).then(r => r.json())
-                        console.log(metadataUri)
-                        let contract = getContract("0x196bD8CC976aAbcFd72fbD53F5d3a3aC5f3831F2", require('../config/abi/MetopiaTestMembership.json').abi)
-                        contract.mint()
-                        console.log("?")
+                <MainButton onClick={async (e) => {
+                    let contract = getContract("0x196bD8CC976aAbcFd72fbD53F5d3a3aC5f3831F2",
+                        require('../config/abi/MetopiaTestMembership.json').abi, getProvider().getSigner())
+                    let address = await getAddress()
+                    if ('0x4' !== await getChainId()) {
+                        await switchChain('0x4')
                     }
-                    foo()
-                    // console.log(getForm())
+                    var blob = new Blob([JSON.stringify(getForm())], { type: 'text/plain' });
+                    var file = new File([blob], "metadata", { type: "text/plain" });
+
+                    let result = await uploadFileToIfps(file)
+                    if (!result.IpfsHash) {
+                        window.alert("Image upload failed. Please check your network.")
+                        return
+                    }
+                    let ipfsLink = "ipfs://" + result.IpfsHash
+                    await contract.mint(ipfsLink)
                 }}>Mint</MainButton>
             </div>
         </div>
-    </div>
+    </div >
 }
 
 export default TestMintPage

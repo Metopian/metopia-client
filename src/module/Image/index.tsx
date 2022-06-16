@@ -57,7 +57,7 @@ const WrappedLazyLoadImage = (image: LazyLoadImageParam) => {
 }
 
 const fetcher = (chainId, contract, tokenId, width) => {
-    return fetch(nftDataApi.nft_image + '?address=' + contract + "&token_id=" + tokenId + (width ? "&width=" + width : "")).then((res) => res.json())
+    return fetch(nftDataApi.nft_image + '?chain_id=' + chainId + '&address=' + contract + "&token_id=" + tokenId + (width ? "&width=" + width : "")).then((res) => res.json())
 }
 
 const NftImage = (props: NftImageParam) => {

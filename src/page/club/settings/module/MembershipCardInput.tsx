@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import cookie from 'react-cookies'
 import { useDebouncedCallback } from 'use-debounce'
-import { chainId } from '../../../../config/constant'
+import { useChainId } from '../../../../config/store'
 import { nftDataApi } from '../../../../config/urls'
 import { Input, Label } from '../../../../module/form'
 import { NftImage } from '../../../../module/image'
@@ -20,6 +20,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     // const [data, setData] = useState<any>({ id: props.id, name: '', tokenAddress: '',   defaultWeight: 1 })
     const [contractError, setContractError] = useState(null)
     const [syncingAttribute, setSyncingAttribute] = useState(false)
+    const chainId = useChainId()
 
     const fetchRandomNftAndSetState = (addr) => {
         if (!addr) {
@@ -46,9 +47,6 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     onChange(getFormData({
                         name, tokenAddress: addr
                     }))
-                    // data.name = name
-                    // data.tokenAddress = addr
-                    // setData(data)
                     queryAttributes(addr)
                     fetchRandomNftAndSetState(addr)
                     setContractError(null)
@@ -57,9 +55,6 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     onChange(getFormData({
                         name: '', tokenAddress: ''
                     }))
-                    // data.name = ''
-                    // data.tokenAddress = ''
-                    // setData(data)
                     fetchRandomNftAndSetState(null)
                     setContractError(e)
                     setTimeout(() => {
@@ -74,12 +69,11 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
 
     const queryAttributes = (addr) => {
         let cachedContract = cookie.load('cachedContract') || []
-
         if (!cachedContract?.find(c => c === addr)) {
-            fetch(nftDataApi.nft_cacheAll + "?chain_id=0x1&address=" + addr).then(r => r.json()).then(r => {
+            fetch(nftDataApi.nft_cacheAll + "?chain_id="+chainId+"&address=" + addr).then(r => r.json()).then(r => {
                 setSyncingAttribute(true)
                 cookie.save('cachedContract', JSON.stringify([...cachedContract, addr]), { path: "/" })
-                fetch(nftDataApi.nft_attributes + "?chain_id=0x1&address=" + addr).then((res) => {
+                fetch(nftDataApi.nft_attributes + "?chain_id="+chainId+"&address=" + addr).then((res) => {
                     return res.json()
                 }).then(res => {
                     let attrs = res.data.attributes
@@ -97,7 +91,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                 })
             })
         } else {
-            fetch(nftDataApi.nft_attributes + "?chain_id=0x1&address=" + addr).then((res) => {
+            fetch(nftDataApi.nft_attributes + "?chain_id="+chainId+"&address=" + addr).then((res) => {
                 return res.json()
             }).then(res => {
                 let attrs = res.data.attributes

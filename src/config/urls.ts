@@ -54,7 +54,7 @@ const ipfsApi = {
 const testApi = {
     image_store: metopiaApiRoot + "uploadImage",
     membership_mint: metopiaApiRoot + "test/membership/mint",
-    membership_select: metopiaApiRoot + "test/membership/select"
+    membership_select: metopiaApiRoot + "test/membership/select/"
 }
 
 const ceramicNode = process.env.REACT_APP_CERAMIC_API

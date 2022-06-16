@@ -1,5 +1,5 @@
-import { pinataApiKey, pinataSecretApiKey } from '../config/constant'
-import { ipfsApi, testApi } from '../config/urls'
+
+import { testApi } from '../config/urls'
 
 
 const createImage = url =>
@@ -62,24 +62,8 @@ function getBase64Image(img: any) {
     return dataURL
 }
 
-export const updateImgToIfps = (image: File) => {
-    let headers = new Headers();
-    headers.append("pinata_api_key", pinataApiKey)
-    headers.append("pinata_secret_api_key", pinataSecretApiKey)
-    const formData = new FormData();
-    formData.append('file', image);
 
-    const options = {
-        method: 'POST',
-        body: formData,
-        headers: headers
-    };
-
-    return fetch(ipfsApi.pinata_pinFileToIPFS, options).then(res => res.json());
-}
-
-
-export const updateImg = (image: File) => {
+export const uploadImg = (image: File) => {
     let headers = new Headers();
     const formData = new FormData();
     formData.append('file', image);
