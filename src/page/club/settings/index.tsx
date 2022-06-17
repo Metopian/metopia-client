@@ -14,7 +14,7 @@ import './index.css'
 
 const ClubSettingPage = (props) => {
     /**
-     * if slug -> update space
+     * if slug -> update space settings
      */
     const { slug } = props
     const { data: basicFormData, update: updateBasicForm } = useBasicFormData()
@@ -25,7 +25,7 @@ const ClubSettingPage = (props) => {
     const consensusFormRef = useRef<any>()
     const { data: defaultSpaceSettings, error } = useSpaceData(slug)
     const [network, setNetwork] = useState(null)
-    const chainId = useChainId()
+    const {chainId} = useChainId()
 
     useEffect(() => {
         // let { basicFormData, consensusForm, votingFormData } = defaultForm()
@@ -73,6 +73,34 @@ const ClubSettingPage = (props) => {
         return Object.keys(errtmp)
     }, [basicFormData, consensusForm])
 
+    const syncSnapshotData = (id) => {
+        fetch(thirdpartyApi.snapshot_api_graph, {
+            method: 'POST',
+            body: JSON.stringify({
+                "operationName": "Spaces",
+                "variables": {
+                    "id_in": [
+                        id,
+                        null
+                    ]
+                },
+                "query": "query Spaces($id_in: [String]) {\n  spaces(where: {id_in: $id_in}) {\n    id\n    name\n    about\n    network\n    symbol\n    network\n    terms\n    skin\n    avatar\n    twitter\n    website\n    github\n    private\n    domain\n    members\n    admins\n    categories\n    plugins\n    followersCount\n    voting {\n      delay\n      period\n      type\n      quorum\n      hideAbstain\n    }\n    strategies {\n      name\n      network\n      params\n    }\n    validation {\n      name\n      params\n    }\n    filters {\n      minScore\n      onlyMembers\n    }\n  }\n}"
+            }), headers: {
+                'content-type': "application/json"
+            }
+        }).then(r => r.json()).then(r => {
+            if (!r.data?.spaces.length) {
+                window.alert("The space does not exist.")
+                return
+            }
+
+            let { basicFormData, consensusForm, votingFormData } = snapshotDataToForm(r.data.spaces[0])
+            updateBasicForm(basicFormData)
+            updateConsensusForm(consensusForm)
+            updateVotingForm(votingFormData)
+        })
+    }
+
     return <div className='CreateClubPage'>
         <div className="CreateClubPageHead">
             <div className="CreateClubPageTitle" style={{ margin: 0 }}>{slug ? 'Update settings' : 'Create new DAO'}</div>
@@ -93,32 +121,7 @@ const ClubSettingPage = (props) => {
                     let tmp = url.split("/")
                     if (!tmp.length)
                         return
-
-                    fetch(thirdpartyApi.snapshot_api_graph, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            "operationName": "Spaces",
-                            "variables": {
-                                "id_in": [
-                                    tmp[tmp.length - 1],
-                                    null
-                                ]
-                            },
-                            "query": "query Spaces($id_in: [String]) {\n  spaces(where: {id_in: $id_in}) {\n    id\n    name\n    about\n    network\n    symbol\n    network\n    terms\n    skin\n    avatar\n    twitter\n    website\n    github\n    private\n    domain\n    members\n    admins\n    categories\n    plugins\n    followersCount\n    voting {\n      delay\n      period\n      type\n      quorum\n      hideAbstain\n    }\n    strategies {\n      name\n      network\n      params\n    }\n    validation {\n      name\n      params\n    }\n    filters {\n      minScore\n      onlyMembers\n    }\n  }\n}"
-                        }), headers: {
-                            'content-type': "application/json"
-                        }
-                    }).then(r => r.json()).then(r => {
-                        if (!r.data?.spaces.length) {
-                            window.alert("The space does not exist.")
-                            return
-                        }
-
-                        let { basicFormData, consensusForm, votingFormData } = snapshotDataToForm(r.data.spaces[0])
-                        updateBasicForm(basicFormData)
-                        updateConsensusForm(consensusForm)
-                        updateVotingForm(votingFormData)
-                    })
+                    syncSnapshotData(tmp[tmp.length - 1])
                 }}>Import</MainButton>
             </div>
         </div>

@@ -73,11 +73,8 @@ const ClubHomePage = (props) => {
         <div className="ClubHomeContainer">
             <div className="ClubHomeHead">
                 <WrappedLazyLoadImage src={spaceSettings.banner || '/imgs/example_cover_large.png'} className="ClubHomeCover" />
-                {/* <img src={clubExample.cover} className="ClubHomeCover" alt="" /> */}
                 <div className="ClubHomeCoverShadow"></div>
                 <div className="ClubHomeMemberStats left">
-                    {/* <div className="ClubHomeMemberStatsNumber">1797</div>
-                    <div className="ClubHomeMemberStatsText">Members</div> */}
                 </div>
                 <div className="ClubHomeMemberStats right">
                     <div className="ClubHomeMemberStatsNumber">{proposalCount}</div>
@@ -87,7 +84,6 @@ const ClubHomePage = (props) => {
             <div className="ClubHomeIntroductionContainer">
                 <div className='ClubHomeSymbolWrapper'>
                     <WrappedLazyLoadImage src={spaceSettings.avatar || '/imgs/defaultavatar.png'} className="ClubHomeSymbol" />
-                    {/* <img src={spaceSettings.name} className='ClubHomeSymbol' alt={props.slug} /> */}
                 </div>
                 <div className="ClubHomeName">{spaceSettings.name} <img src="/imgs/write2.svg" alt="Edit" title="Edit settings" onClick={() => {
                     window.location.href = localRouter('club.update', { space: slug })

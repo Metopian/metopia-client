@@ -2,6 +2,7 @@
 import { ethers, utils } from "ethers";
 import { Web3Provider } from "ethers/node_modules/@ethersproject/providers";
 import { defaultChainId } from "../config/constant";
+import { Wallet } from '@ethersproject/wallet';
 
 let provider: Web3Provider = null
 export const getProvider = () => {
@@ -49,4 +50,16 @@ export const hashWithPrefix = (msg) => {
 
 export const sign = async (msg) => {
     return await getProvider().getSigner().signMessage(msg)
+}
+
+export const signTypedData = async (message, types, domain) => {
+    // @ts-ignore
+    let address = await getAddress()
+    const signer = getProvider().getSigner();
+    if (!message.from) message.from = address;
+    if (!message.timestamp)
+        message.timestamp = parseInt((Date.now() / 1e3).toFixed());
+    const data: any = { domain, types, message };
+    const sig = await signer._signTypedData(domain, data.types, message);
+    return { address, sig, data }
 }

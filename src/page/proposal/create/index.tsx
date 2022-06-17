@@ -1,76 +1,19 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { Wallet } from '@ethersproject/wallet';
 import { ethers, utils } from "ethers";
 import moment from "moment";
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
+import ReactLoading from 'react-loading';
 import { arabToRoman } from 'roman-numbers';
+import { domain, Proposal, proposalTypes } from '../../../config/snapshotConfig';
+import { useChainId } from '../../../config/store';
 import { localRouter, snapshotApi } from '../../../config/urls';
 import { MainButton } from '../../../module/button';
 import { DefaultTextEditor as RichTextEditor } from '../../../module/editor/RichTextEditor';
 import { Input, Label } from '../../../module/form';
+import { getAddress, getProvider, signTypedData } from '../../../utils/web3Utils'
 import './index.css';
-import ReactLoading from 'react-loading';
-
-interface Proposal {
-    from?: string;
-    space: string;
-    timestamp?: number;
-    type: string;
-    title: string;
-    body: string;
-    choices: string[];
-    start: number;
-    end: number;
-    snapshot: number;
-    network: string;
-    strategies: string;
-    plugins: string;
-    metadata: string;
-}
-const proposalTypes = {
-    Proposal: [
-        { name: 'from', type: 'address' },
-        { name: 'space', type: 'string' },
-        { name: 'timestamp', type: 'uint64' },
-        { name: 'type', type: 'string' },
-        { name: 'title', type: 'string' },
-        { name: 'body', type: 'string' },
-        { name: 'choices', type: 'string[]' },
-        { name: 'start', type: 'uint64' },
-        { name: 'end', type: 'uint64' },
-        { name: 'snapshot', type: 'uint64' },
-        { name: 'network', type: 'string' },
-        { name: 'strategies', type: 'string' },
-        { name: 'plugins', type: 'string' },
-        { name: 'metadata', type: 'string' }
-    ]
-};
-const domain = {
-    "name": "snapshot",
-    "version": "0.1.4"
-};
-const sign = async (web3: Web3Provider | Wallet, address: string, message, types) => {
-    // @ts-ignore
-    const signer = web3?.getSigner ? web3.getSigner() : web3;
-    if (!message.from) message.from = address;
-    if (!message.timestamp)
-        message.timestamp = parseInt((Date.now() / 1e3).toFixed());
-    const data: any = { domain, types, message };
-    const sig = await signer._signTypedData(domain, data.types, message);
-    return { address, sig, data }
-}
-
-
-const proposal = async (
-    web3: Web3Provider | Wallet,
-    address: string,
-    message: Proposal) => {
-    return await sign(web3, address, message, proposalTypes);
-}
-
-
 
 const CreateProposalPage = props => {
     const { space } = props
@@ -80,10 +23,9 @@ const CreateProposalPage = props => {
 
     const [spaceSettings, setSpaceSetting] = useState<any>()
 
-    const [creating, setCreating] = useState(false)
     const [start, setStart] = useState(moment())
     const [end, setEnd] = useState(moment())
-
+    const { chainId } = useChainId()
 
     const addOption = useCallback(() => {
         let maxId = 0
@@ -133,17 +75,13 @@ const CreateProposalPage = props => {
     const period = parseInt(spaceSettings?.voting?.period || 0)
 
     const createProposal = async (cb) => {
-        if (creating)
-            return
-        setCreating(true)
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum)
-        let accounts = await provider.send("eth_requestAccounts", []);
-        let account = utils.getAddress(accounts[0])
+        const provider = getProvider()
+        const account = await getAddress()
         let blocknumber = await provider.getBlockNumber()
         let timestamp = Math.ceil(new Date().getTime() / 1000),
             startUnix = start.unix(),
             endUnix = end.unix()
-        proposal(provider, account, {
+        signTypedData({
             "space": space,
             "type": "single-choice",
             "title": (document.getElementById("proposaltitleinput") as HTMLInputElement).value,
@@ -152,13 +90,13 @@ const CreateProposalPage = props => {
             "start": startUnix,
             "end": endUnix,
             "snapshot": blocknumber,
-            "network": "1",
+            "network": parseInt(chainId).toString(),
             "strategies": JSON.stringify(spaceSettings.strategies),
             "plugins": "{}",
             "metadata": "{}",
             "from": account,
             "timestamp": timestamp,
-        }).then(res => {
+        }, proposalTypes, domain).then(res => {
             fetch(snapshotApi.msg, {
                 method: "POST",
                 body: JSON.stringify(res),
@@ -167,9 +105,7 @@ const CreateProposalPage = props => {
                     "Accept": "*/*"
                 }
             }).then(r => r.json()).then(cb)
-        }).catch(e => {
-            setCreating(false)
-        })
+        }) 
     }
 
     return <div className="CreateProposalPage">
@@ -185,11 +121,10 @@ const CreateProposalPage = props => {
                         window.location.href = localRouter("club.prefix") + space
                     } else {
                         window.alert("Failed")
-                        setCreating(false)
                     }
 
                 })
-            }}>{creating ? <ReactLoading height={'20px'} width={'20px'} /> : "Confirm"}</MainButton>
+            }}>Confirm</MainButton>
         </div>
         <div className="maincontainer">
             <div className="CreateProposalForm">

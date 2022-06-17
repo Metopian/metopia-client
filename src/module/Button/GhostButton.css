@@ -11,6 +11,7 @@
     vertical-align: top;
     cursor: pointer;
     position: relative;
+    user-select: none;
 }
 
 .GhostButton img {

@@ -1,6 +1,6 @@
 {
   "name": "metopia-client",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "dependencies": {
     "@3id/connect": "^0.2.5",
@@ -78,6 +78,7 @@
     "react-app-polyfill": "^3.0.0",
     "react-avatar-editor": "^12.0.0",
     "react-content-loader": "^6.2.0",
+    "react-cookie": "^4.1.1",
     "react-cookies": "^0.1.1",
     "react-datetime": "^3.1.1",
     "react-dev-utils": "^12.0.0",

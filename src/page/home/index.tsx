@@ -6,6 +6,7 @@ import ClubCard from './ClubCard'
 import './index.css'
 import SearchInput from './SearchInput'
 import { localRouter } from '../../config/urls'
+import { useChainId } from '../../config/store'
 
 const ProposalBoard = (props) => {
     const { data } = props
@@ -34,26 +35,31 @@ const HomePage = (props) => {
     const { data: spaceData } = useSpaceListData()
     const { data: latestProposalData } = useLatestProposalData()
     const [keyword, setKeyword] = useState('')
-    const clubContainer = useMemo(() => {
+    const {chainId} = useChainId()
+
+
+    const spaceContainer = useMemo(() => {
         if (!spaceData?.content) {
             return <BulletList />
         }
 
-        let clubObjs = spaceData.content.map(c => {
+        let spaceObjs = spaceData.content.map(s => {
             return {
-                id: c.id,
-                settings: JSON.parse(c.settings)
+                id: s.id,
+                settings: JSON.parse(s.settings)
             }
+        }).filter(s => {
+            return parseInt(s.settings.network) === parseInt(chainId)
         }).filter(c => c.settings.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1)
         return <FlexibleOrderedContainer elementMinWidth={240} elementMaxWidth={330} gap={20} style={{ marginTop: '40px' }}>{
-            clubObjs.map(c =>
+            spaceObjs.map(c =>
                 <ClubCard key={"clubcard" + c.id} id={c.id} name={c.settings.name} coverUrl={c.settings.banner || c.settings.avatar || "/imgs/example_cover_large.png"}
                     avatar={c.settings.avatar}
                     slug={c.id}
                     joined={false} memberCount={0} />
             )
         }</FlexibleOrderedContainer>
-    }, [spaceData?.content, keyword])
+    }, [spaceData, keyword, chainId])
 
     return <div className='HomePage'>
         <div className="HomeHead" style={{ backgroundImage: "url(/imgs/index_head_bg.png)" }}>
@@ -77,7 +83,7 @@ const HomePage = (props) => {
                 <span className='HomeBodyHeadTitle'>Metopolis list</span>
                 <SearchInput onChange={setKeyword} />
             </div>
-            {clubContainer}
+            {spaceContainer}
         </div>
     </div>
 }

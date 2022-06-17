@@ -17,7 +17,7 @@ import PoapSubpage from "./subpage/PoapSubpage";
 
 const ProfilePage = (props) => {
     const { slug, subpage, state, code } = props
-    const chainId = useChainId()
+    const {chainId} = useChainId()
     const { data: nfts } = useNfts(slug, chainId)
     const [ens, setEns] = useState(null)
     const nftCount = useMemo(() => {

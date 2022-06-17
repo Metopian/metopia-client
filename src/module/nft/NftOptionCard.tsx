@@ -17,7 +17,7 @@ declare interface ParamType {
 
 const NftOptionCard = (props: ParamType) => {
     const { size } = props
-    const chainId = useChainId()
+    const {chainId} = useChainId()
     if (!props.src || props.src.length === 0)
         return
 

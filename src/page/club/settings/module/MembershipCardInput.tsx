@@ -20,7 +20,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     // const [data, setData] = useState<any>({ id: props.id, name: '', tokenAddress: '',   defaultWeight: 1 })
     const [contractError, setContractError] = useState(null)
     const [syncingAttribute, setSyncingAttribute] = useState(false)
-    const chainId = useChainId()
+    const {chainId} = useChainId()
 
     const fetchRandomNftAndSetState = (addr) => {
         if (!addr) {

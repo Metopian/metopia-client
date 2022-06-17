@@ -49,7 +49,7 @@ const formatDate = function (date, fmt) { //author: meizz
 const NftContentModal = (props) => {
     const { isShow, hide, data, acquiredTx } = props
     const metadata = data.metadata ? JSON.parse(data.metadata) : {}
-    const chainId = useChainId()
+    const {chainId} = useChainId()
     return <Modal
         appElement={document.getElementById('root')}
         isOpen={isShow}
@@ -116,7 +116,7 @@ const NftContentModal = (props) => {
 
 const NFTSubpage = (props) => {
     const { slug } = props
-    const chainId = useChainId()
+    const {chainId} = useChainId()
     const { data: ethNfts } = useNfts(slug, chainId)
     const [selectedNftData, setSelectedNftData] = useState<any>({})
     const [showModal, setShowModal] = useState(false)

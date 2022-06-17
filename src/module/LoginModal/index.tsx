@@ -112,7 +112,7 @@ const LoginModal = (props: {
     // const user = useSelector((state: RootState) => state.user)
     const { isShow, stepRequired } = useSelector((state: RootState) => state.loginModal)
     const { hide } = useLoginModal()
-    const chainId = useChainId()
+    const {chainId} = useChainId()
     const { data: nfts, error: ethError } = useNfts(null, chainId)
     const [step, setStep] = useState<number>(0)
     const [unselectedContracts, setUnselectedContracts] = useState([])

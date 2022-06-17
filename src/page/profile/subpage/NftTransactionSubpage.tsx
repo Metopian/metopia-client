@@ -6,7 +6,7 @@ import { useChainId } from '../../../config/store';
 
 const NftTransactionSubpage = (props) => {
     const { slug } = props
-    const chainId = useChainId()
+    const { chainId } = useChainId()
     const { data: nfts } = useNfts(slug, chainId)
     const { data: nftTransactions } = useNftTransactions(slug, chainId)
     const {

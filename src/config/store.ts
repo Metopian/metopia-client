@@ -1,5 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
-import { useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie'
 import { defaultChainId } from './constant'
 import { formSlice } from './redux/formSlice'
 import { loginModalSlice } from './redux/loginModalSlice'
@@ -26,8 +26,12 @@ const store = configureStore({
     },
 })
 
-export const useChainId = (): string => {
-   return useSelector((state: RootState) => state.config.chainId)
+export const useChainId = (): { chainId: string, setChainId: Function } => {
+    const [cookies, setCookie] = useCookies(['chainId']);
+    return {
+        chainId: cookies.chainId || defaultChainId,
+        setChainId: (chainId) => setCookie("chainId", chainId, { path: '/' })
+    }
 }
 
 declare type Wallet = {

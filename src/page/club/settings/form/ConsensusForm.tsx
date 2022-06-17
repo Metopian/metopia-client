@@ -60,7 +60,7 @@ const useData = () => {
 
 const Form = React.forwardRef<any, any>((props, collectDataRef) => {
     const { display, errors } = props
-    const chainId = useChainId()
+    const {chainId} = useChainId()
     const { data, update: updateForm, updateMembership, removeMembership } = useData()
     // const [membershipList, setMembershipList] = useState([{ id: 1, editing: true }])
     const nftInputRefs = useRef([])

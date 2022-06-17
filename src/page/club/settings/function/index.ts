@@ -47,7 +47,7 @@ export const formToSettings = async (chainId, basicFormData, consensusForm, voti
                     "symbol": c.name,
                     "address": c.tokenAddress,
                     "defaultWeight": c.defaultWeight * 100,
-                    "network": chainId.indexOf("0x") === 0 ? chainId.substrtring(2) : chainId,
+                    "network": chainId.indexOf("0x") === 0 ? chainId.substring(2) : chainId,
                     "traitTypeValueWeight": c.bonus?.filter(b => b.value?.length).map(b => {
                         return {
                             "trait_type": b.field,
@@ -70,7 +70,7 @@ export const formToSettings = async (chainId, basicFormData, consensusForm, voti
         admins: [account],
         plugins: [],
         categories: [],
-        network: chainId.indexOf("0x") === 0 ? chainId.substrtring(2) : chainId,
+        network: chainId.indexOf("0x") === 0 ? chainId.substring(2) : chainId,
         symbol: 'Vote',
     }
     return res

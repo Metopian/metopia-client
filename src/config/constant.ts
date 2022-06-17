@@ -33,6 +33,6 @@ const aiErrors = {
 
 const pinataApiKey = process.env.REACT_APP_PINATA_API_KEY
 const pinataSecretApiKey = process.env.REACT_APP_PINATA_SECRET_API_KEY
-const moralisApiToken = "2vqCa6qnbRHsbmoA7WdO94dNxkhFFJfSQWY7xPaKtmx3IwuU3K8TKmoIbM5R5PAZ"
+const moralisApiToken = process.env.REACT_APP_MORALIS_API_TOKEN
 const defaultChainId = process.env.REACT_APP_CHAIN_ID
 export { chainMap, chainExplorerMap, aiErrors, pinataApiKey, pinataSecretApiKey, moralisApiToken, defaultChainId as chainId2,defaultChainId, chainRpcMap }
