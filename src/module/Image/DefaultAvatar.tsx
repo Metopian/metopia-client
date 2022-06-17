@@ -6,9 +6,9 @@ const getRandomColor = wallet => {
     let rhex = wallet.substring(2, 6)
     let ghex = wallet.substring(12, 6)
     let bhex = wallet.substring(22, 6)
-    let r = parseInt(`0x${rhex}`) % 256
-    let g = parseInt(`0x${ghex}`) % 256
-    let b = parseInt(`0x${bhex}`) % 256
+    let r = parseInt(`0x${rhex}`) % 200
+    let g = parseInt(`0x${ghex}`) % 200
+    let b = parseInt(`0x${bhex}`) % 200
 
     return `#${fillZero(r.toString(16))}${fillZero(g.toString(16))}${fillZero(b.toString(16))}`
 }
