@@ -71,6 +71,12 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
         300
     );
 
+    useEffect(() => {
+        console.log(tokenAddress)
+        if (tokenAddress?.length)
+            queryNft(tokenAddress)
+    }, [tokenAddress, queryNft])
+
     const queryAttributes = (addr) => {
         let cachedContract = cookie.load('cachedContract') || []
         if (!cachedContract?.find(c => c === addr)) {
@@ -176,7 +182,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                                         tokenAddress: e.target.value, editing,
                                         bonus: []
                                     }))
-                                    queryNft(e.target.value)
+                                    // queryNft(e.target.value)
                                 }} />
                             {contractError && <p className="ErrorHint">{"Contract not found"}</p>}
                         </div>
@@ -194,7 +200,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                             <Label>Symbol</Label>
                             <div className="RInput fake">
                                 {queryingNft ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" color='#666' /> : (name || "Obtained automatically")}
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

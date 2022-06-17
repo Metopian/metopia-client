@@ -25,7 +25,6 @@ const useData = () => {
     const dispatch = useDispatch()
 
     const updateMembership = (newValue) => {
-        console.log(newValue)
         if (newValue?.id)
             update({
                 membership: data.membership.map(m => {
@@ -60,16 +59,15 @@ const useData = () => {
 
 const Form = React.forwardRef<any, any>((props, collectDataRef) => {
     const { display, errors } = props
-    const {chainId} = useChainId()
+    const { chainId } = useChainId()
     const { data, update: updateForm, updateMembership, removeMembership } = useData()
-    // const [membershipList, setMembershipList] = useState([{ id: 1, editing: true }])
     const nftInputRefs = useRef([])
 
     const submitInputCardsData = useCallback(() => {
         let flag = true
         if (nftInputRefs.current?.length) {
             nftInputRefs.current.forEach(c => {
-                if(c&&!c()){
+                if (c && !c()) {
                     flag = false
                 }
             })
@@ -104,8 +102,6 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
                     onChange={updateMembership}
                     onDelete={removeMembership}
                     onEdit={id => {
-                        console.log(id)
-                        console.log(submitInputCardsData())
                         if (submitInputCardsData()) {
                             setTimeout(() => {
                                 let tmp = data.membership.map(m2 =>
@@ -129,7 +125,11 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
                             if (b.id > maxId)
                                 maxId = b.id
                         });
-                        updateForm({ membership: [...data.membership, newMembership(maxId + 1)] })
+                        updateForm({
+                            membership: [...(data.membership.map(m => {
+                                return Object.assign({}, m, { editing: false })
+                            })), newMembership(maxId + 1)]
+                        })
                     }, 0)
                 }
             }}>
