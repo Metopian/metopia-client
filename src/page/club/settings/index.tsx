@@ -26,7 +26,7 @@ const ClubSettingPage = (props) => {
     const { data: defaultSpaceSettings, error } = useSpaceData(slug)
     const [network, setNetwork] = useState(null)
     const {chainId} = useChainId()
-
+console.log(consensusForm)
     useEffect(() => {
         // let { basicFormData, consensusForm, votingFormData } = defaultForm()
         if (defaultSpaceSettings?.code === 200) {

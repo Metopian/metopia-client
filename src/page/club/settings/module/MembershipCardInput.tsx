@@ -10,6 +10,7 @@ import { pad } from '../../../../utils/stringUtils'
 import { getContract } from '../../../../utils/web3Utils'
 import BonusInputCard from './BonusInputCard'
 import './MembershipCardInput.css'
+import ReactLoading from 'react-loading';
 
 const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     const { onSubmit, onChange, onDelete, editing, onEdit, displayedId } = props
@@ -20,7 +21,8 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     // const [data, setData] = useState<any>({ id: props.id, name: '', tokenAddress: '',   defaultWeight: 1 })
     const [contractError, setContractError] = useState(null)
     const [syncingAttribute, setSyncingAttribute] = useState(false)
-    const {chainId} = useChainId()
+    const { chainId } = useChainId()
+    const [queryingNft, setQueryingNft] = useState(false)
 
     const fetchRandomNftAndSetState = (addr) => {
         if (!addr) {
@@ -41,9 +43,9 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                 return
             }
             const process = async () => {
+                setQueryingNft(true)
                 try {
                     let name = await getContract(addr, require('../../../../config/abi/ERC721.json').abi).name()
-                    console.log(name)
                     onChange(getFormData({
                         name, tokenAddress: addr
                     }))
@@ -60,6 +62,8 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     setTimeout(() => {
                         onChange(getFormData())
                     }, 0);
+                } finally {
+                    setQueryingNft(false)
                 }
             }
             process()
@@ -70,10 +74,10 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     const queryAttributes = (addr) => {
         let cachedContract = cookie.load('cachedContract') || []
         if (!cachedContract?.find(c => c === addr)) {
-            fetch(nftDataApi.nft_cacheAll + "?chain_id="+chainId+"&address=" + addr).then(r => r.json()).then(r => {
+            fetch(nftDataApi.nft_cacheAll + "?chain_id=" + chainId + "&address=" + addr).then(r => r.json()).then(r => {
                 setSyncingAttribute(true)
                 cookie.save('cachedContract', JSON.stringify([...cachedContract, addr]), { path: "/" })
-                fetch(nftDataApi.nft_attributes + "?chain_id="+chainId+"&address=" + addr).then((res) => {
+                fetch(nftDataApi.nft_attributes + "?chain_id=" + chainId + "&address=" + addr).then((res) => {
                     return res.json()
                 }).then(res => {
                     let attrs = res.data.attributes
@@ -91,7 +95,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                 })
             })
         } else {
-            fetch(nftDataApi.nft_attributes + "?chain_id="+chainId+"&address=" + addr).then((res) => {
+            fetch(nftDataApi.nft_attributes + "?chain_id=" + chainId + "&address=" + addr).then((res) => {
                 return res.json()
             }).then(res => {
                 let attrs = res.data.attributes
@@ -154,31 +158,24 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                 </div>
             </div>
             <div className="container">
-                <div>
-                    <Label style={{ fontWeight: 'bold', marginBottom: '12px' }}>Basic rights</Label>
-                    <div style={{ marginBottom: '50px', color: '#bbb' }}>All memberships are equal</div>
-                </div>
+                <Label style={{ fontWeight: 'bold', marginBottom: '12px' }}>Basic rights</Label>
                 <div className="CreateClubPageFormContainerLeft" style={{ border: 'none' }}>
                     <div className="MembershipFormGroup">
                         <div className="CreateClubPageFormGroup">
                             <Label>Ticket number per token</Label>
                             <Input id="createclubcontractinput" value={defaultWeight} disabled type="number" onChange={(e) => {
                                 onChange(getFormData({ defaultWeight: e.target.value }))
-                                // onChange(getFormData())
                             }} />
                         </div>
                         <div className="CreateClubPageFormGroup">
                             <Label>NFT Contract Address</Label>
                             <Input id="createclubcontractinput" value={tokenAddress || ""} className={contractError ? " error" : ''} placeholder={""}
                                 onChange={(e) => {
-                                    // data.tokenAddress = e.target.value
-                                    // setData(data)
                                     onChange(getFormData({
                                         name: '',
                                         tokenAddress: e.target.value, editing,
                                         bonus: []
                                     }))
-                                    // (getFormData())
                                     queryNft(e.target.value)
                                 }} />
                             {contractError && <p className="ErrorHint">{"Contract not found"}</p>}
@@ -189,43 +186,47 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     <div className="MembershipFormGroup">
                         <div className="CreateClubPageFormGroup">
                             <Label>Name</Label>
-                            <Input id="createclubcontractlabel" placeholder={"Obtained automatically"} maxLength={200} disabled value={name} />
+                            <div className="RInput fake"  >
+                                {queryingNft ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" color='#666' /> : (name || "Obtained automatically")}
+                            </div>
                         </div>
                         <div className="CreateClubPageFormGroup">
                             <Label>Symbol</Label>
-                            <Input id="createclubcontractlabel" placeholder={"Obtained automatically"} maxLength={200} disabled value={name} />
+                            <div className="RInput fake">
+                                {queryingNft ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" color='#666' /> : (name || "Obtained automatically")}
+                                </div>
                         </div>
                     </div>
                 </div>
-                <div className="CreateClubPageFormContainerRighteS" style={{ paddingBottom: '32px', paddingTop: '32px', borderTop: '1px solid #dddddd' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'flex-start' }}>
-                        <div>
-                            <Label style={{ fontWeight: 'bold', marginBottom: '12px' }}>Bonus</Label>
-                            <div style={{ color: '#bbb' }}>But some are more equal than others</div>
+                {
+                    name?.length ? <div style={{ paddingBottom: '32px', paddingTop: '32px', marginTop: '24px', borderTop: '1px solid #dddddd' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'flex-start' }}>
+                            <Label style={{ fontWeight: 'bold', marginBottom: '0' }}>Bonus</Label>
+                            <div className="addmorebonusbutton" onClick={() => {
+                                let maxId = 0
+                                bonus.forEach(b => {
+                                    if (b.id > maxId)
+                                        maxId = b.id
+                                });
+                                onChange(getFormData({ bonus: [...bonus, { id: maxId + 1, weight: 1 }] }))
+                            }}><img src="/imgs/addbuttonround.png" alt="" />Add Bonus</div>
                         </div>
-                        <div className="addmorebonusbutton" onClick={() => {
-                            let maxId = 0
-                            bonus.forEach(b => {
-                                if (b.id > maxId)
-                                    maxId = b.id
-                            });
-                            onChange(getFormData({ bonus: [...bonus, { id: maxId + 1, weight: 1 }] }))
-                        }}><img src="/imgs/addbuttonround.png" alt="" />Add Bonus</div>
-                    </div>
-                    {
-                        bonus?.map((b, i) => {
-                            return <BonusInputCard data={b} key={"BonusInputCard" + i} id={b.id} displayedId={i + 1} attributesList={attributesList}
-                                onChange={(d) => {
-                                    let tmp = bonus.map(btmp => {
-                                        return d.id === btmp.id ? Object.assign({}, btmp, d) : btmp
-                                    })
-                                    onChange(getFormData({ bonus: tmp }))
-                                }} onClose={(id) => {
-                                    onChange(getFormData({ bonus: bonus.filter(b => b.id !== id) }))
-                                }} syncing={syncingAttribute} />
-                        })
-                    }
-                </div>
+                        {
+                            bonus?.map((b, i) => {
+                                return <BonusInputCard data={b} key={"BonusInputCard" + i} id={b.id} displayedId={i + 1} attributesList={attributesList}
+                                    onChange={(d) => {
+                                        let tmp = bonus.map(btmp => {
+                                            return d.id === btmp.id ? Object.assign({}, btmp, d) : btmp
+                                        })
+                                        onChange(getFormData({ bonus: tmp }))
+                                    }} onClose={(id) => {
+                                        onChange(getFormData({ bonus: bonus.filter(b => b.id !== id) }))
+                                    }} syncing={syncingAttribute} />
+                            })
+                        }
+                    </div> : null
+                }
+
             </div>
         </div>
     else {

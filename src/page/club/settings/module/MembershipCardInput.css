@@ -1,7 +1,7 @@
 .MembershipFormGroup {
     display: inline-block;
     border-radius: 12px;
-    margin-bottom: 24px;
+    /* margin-bottom: 24px; */
 }
 
 .MembershipFormGroup .CreateClubPageFormGroup {
@@ -115,7 +115,8 @@
     /* padding: 20px 30px; */
     background: rgba(240, 240, 240, 0.4);
     border-radius: 12px;
-    margin-bottom: 32px;border: 1px solid #DDDDDD;
+    margin-bottom: 32px;
+    border: 1px solid #DDDDDD;
 }
 
 .MembershipCardPreviewCard .maincontainer {
@@ -193,6 +194,14 @@
     margin-bottom: 4px;
 }
 
-.membershipCardImage img{
+.membershipCardImage img {
     max-width: 100px;
+}
+
+.RInput.fake {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(239, 239, 239, 0.3);
+    color:#666;
 }

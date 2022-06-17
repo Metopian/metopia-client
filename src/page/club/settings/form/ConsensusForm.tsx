@@ -69,9 +69,9 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
         let flag = true
         if (nftInputRefs.current?.length) {
             nftInputRefs.current.forEach(c => {
-                let tmp = c && c()
-                if (!tmp)
+                if(c&&!c()){
                     flag = false
+                }
             })
         }
         return flag
@@ -104,6 +104,8 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
                     onChange={updateMembership}
                     onDelete={removeMembership}
                     onEdit={id => {
+                        console.log(id)
+                        console.log(submitInputCardsData())
                         if (submitInputCardsData()) {
                             setTimeout(() => {
                                 let tmp = data.membership.map(m2 =>
@@ -122,7 +124,7 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
             <div className='addmorenftbutton' onClick={() => {
                 if (submitInputCardsData()) {
                     setTimeout(() => {
-                        let maxId = 1
+                        let maxId = 0
                         data.membership.forEach(b => {
                             if (b.id > maxId)
                                 maxId = b.id
