@@ -19,15 +19,10 @@ const BonusInputCard = props => {
         </div>
         <div style={{ background: 'rgba(240, 240, 240, 0.4)', padding: '16px 30px', marginTop: '2px', borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px' }}>
             <div style={{ display: 'flex', gap: '50px' }}>
-                <div className="CreateClubPageFormGroup BonusRateInputGroup" >
-                    <Label>Bonus rate</Label>
-                    <Input multi={"true"} type='number' defaultValue={extraTicket} onChange={(e) => {
-                        setExtraTicket(parseInt(e.target.value))
-                        onChange({
-                            id: id,
-                            weight: parseInt(e.target.value)
-                        })
-                    }} />
+                <div className="CreateClubPageFormGroup">
+                    <Label style={{ display: 'flex' }}><select>
+                        <option>Metadata</option>
+                    </select></Label>
                 </div>
                 <div className="CreateClubPageFormGroup">
                     <Label style={{ display: 'flex', gap: '8px' }}>Trait {syncing ? <ReactLoading type={'spokes'} color={'#444'} height={'14px'} width={'14px'} /> : null}</Label>
@@ -57,6 +52,17 @@ const BonusInputCard = props => {
                             }
                         }}
                         options={[{ text: 'None', value: 'None' }, ...(attributesList ? attributesList.map(attr => { return { text: attr.field, value: attr.field } }) : [])]}></Select>
+                </div>
+
+                <div className="CreateClubPageFormGroup BonusRateInputGroup" >
+                    <Label>Bonus rate</Label>
+                    <Input multi={"true"} type='number' defaultValue={extraTicket} onChange={(e) => {
+                        setExtraTicket(parseInt(e.target.value))
+                        onChange({
+                            id: id,
+                            weight: parseInt(e.target.value)
+                        })
+                    }} />
                 </div>
             </div>
             <div className="CreateClubPageFormGroup" style={{ width: '100%' }}>

@@ -115,6 +115,10 @@
     margin-bottom: 40px;
     width: 360px;
 }
+.MembershipCardInput, .MembershipCardInput .CreateClubPageFormGroup{
+
+    width: 100%;
+}
 
 .CreateClubPageFormTip {
     font-size: 14px;
