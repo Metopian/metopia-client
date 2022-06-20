@@ -49,7 +49,7 @@ const formatDate = function (date, fmt) { //author: meizz
 const NftContentModal = (props) => {
     const { isShow, hide, data, acquiredTx } = props
     const metadata = data.metadata ? JSON.parse(data.metadata) : {}
-    const {chainId} = useChainId()
+    const { chainId } = useChainId()
     return <Modal
         appElement={document.getElementById('root')}
         isOpen={isShow}
@@ -116,25 +116,25 @@ const NftContentModal = (props) => {
 
 const NFTSubpage = (props) => {
     const { slug } = props
-    const {chainId} = useChainId()
-    const { data: ethNfts } = useNfts(slug, chainId)
+    const { chainId } = useChainId()
+    const { data: nfts } = useNfts(slug, chainId)
     const [selectedNftData, setSelectedNftData] = useState<any>({})
     const [showModal, setShowModal] = useState(false)
     const { data: nftTransactions } = useNftTransactions(slug, chainId)
 
     const sortedNfts = useMemo(() => {
-        if (!ethNfts)
+        if (!nfts)
             return []
 
         let nftList = []
-        if (ethNfts) {
-            nftList.push(...(ethNfts.result.filter(item => item.metadata).map(item => {
+        if (nfts) {
+            nftList.push(...(nfts.result.filter(item => item.metadata).map(item => {
                 return Object.assign({}, item, { chainId: chainId })
             })))
         }
 
         return getSortedNfts(nftList)
-    }, [ethNfts])
+    }, [nfts, chainId])
 
     let lastPurchasedTx = useMemo(() => {
         if (!selectedNftData.token_id)
@@ -152,7 +152,7 @@ const NFTSubpage = (props) => {
             }
         })
         return res
-    }, [nftTransactions, selectedNftData])
+    }, [slug, nftTransactions, selectedNftData])
 
     if (sortedNfts) {
         if (sortedNfts.length)
@@ -168,7 +168,6 @@ const NFTSubpage = (props) => {
         }
     } else return <div style={{ marginTop: '20px' }}>
         <BulletList style={{ height: '200px' }} />
-        {/* <ReactLoading height={21} width={40} color='#333' /> */}
     </div>
 }
 

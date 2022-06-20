@@ -72,7 +72,6 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     );
 
     useEffect(() => {
-        console.log(tokenAddress)
         if (tokenAddress?.length)
             queryNft(tokenAddress)
     }, [tokenAddress, queryNft])
@@ -154,7 +153,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     if (editing)
         return <div className='MembershipCardInput'>
             <div className="maintitle" style={{ background: 'url("/imgs/membershipcardbg.png")', backgroundSize: 'cover' }}>
-                <div className='text'>{pad(displayedId, 2)} {name?.length ? name : "[NFT]"}</div>
+                <div className='text'>{pad(displayedId, 2)} {name?.length ? name : "[Please provide NFT Contract]"}</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                     <img src="/imgs/tick_purple.svg" alt="" className='confirmbutton tick' onClick={submit} />
                     <img src="/imgs/close_purple4.svg" alt="" className='confirmbutton' style={{ height: '24px' }} onClick={() => {
@@ -214,7 +213,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                                     if (b.id > maxId)
                                         maxId = b.id
                                 });
-                                onChange(getFormData({ bonus: [...bonus, { id: maxId + 1, weight: 1 }] }))
+                                onChange(getFormData({ bonus: [...bonus, { id: maxId + 1, weight: 1, type: -1 }] }))
                             }}><img src="/imgs/addbuttonround.png" alt="" />Add Bonus</div>
                         </div>
                         {

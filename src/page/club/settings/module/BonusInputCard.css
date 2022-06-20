@@ -18,26 +18,50 @@
     margin-bottom: 16px;
 }
 
-.BonusRateInputGroup{
+.BonusRateInputGroup {
     position: relative;
 }
 
-.BonusRateInputGroup::after{
+.BonusRateInputGroup::after {
     content: '%';
     position: absolute;
-    bottom:12px;
+    bottom: 12px;
     right: 18px;
-    color:#444;
+    color: #444;
     font-size: 18px;
 }
 
 .BonusRateInputGroup input::-webkit-outer-spin-button,
 .BonusRateInputGroup input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 .BonusRateInputGroup input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.BonusInputCard .RInput {
+    max-width: 100%;
+}
+
+.BonusTypeSelectContainer {
+    display: flex;
+    gap: 12px;
+}
+
+.BonusTypeOption {
+    flex-direction: column;
+}
+
+.BonusTypeOption img {
+    width: 200px;
+    height: 200px;
+}
+
+.BonusTypeOption .MainButton {
+    width: 100%;
+    margin-top: 0px;
+    border-radius: 0;
 }

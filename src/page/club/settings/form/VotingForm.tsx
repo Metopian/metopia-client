@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
-import { Input, Label } from '../../../../module/form';
-import { toFixedIfNecessary } from '../../../../utils/numberUtils';
+import { Input, Label, DurationInput } from '../../../../module/form';
 import './VotingForm.css';
 
 const useData = (defaultData?) => {
@@ -29,32 +28,6 @@ const useData = (defaultData?) => {
     return { formId, data, update }
 }
 
-const DurationInput = (props: { onChange, value, placeholder?: number }) => {
-    const { placeholder, value, onChange } = props
-    // const [value, setValue] = useState(defaultValue || 0)
-    const [unit, setUnit] = useState(1)
-
-    return <div className="DurationInput">
-        <Input placeholder={placeholder} type='number' value={toFixedIfNecessary(value, 2)}
-            onChange={e => {
-                let tmpVal = parseFloat(e.target.value)
-                if (tmpVal > 0) {
-                    onChange(tmpVal * unit)
-                } else {
-                    return false
-                }
-            }} />
-        <select onChange={e => {
-            let tmpUnit = parseInt(e.target.value)
-            onChange(Math.round(value * unit / tmpUnit))
-            setUnit(tmpUnit)
-        }} className='' defaultValue={1}>
-            <option value={1}>seconds</option>
-            <option value={3600}>hours</option>
-            <option value={86400}>days</option>
-        </select>
-    </div>
-}
 
 const VotingForm = props => {
     const { display } = props

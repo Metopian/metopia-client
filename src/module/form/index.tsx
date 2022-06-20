@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import ReactLoading from 'react-loading';
+import { toFixedIfNecessary } from '../../utils/numberUtils';
 import { WrappedLazyLoadImage } from '../image';
 import './index.css';
 
@@ -105,8 +106,60 @@ const MultiSelect = (props: { keyid, options, value?, onChange?, style?, default
 }
 
 
+export const UNIT_SECOND = 1
+export const UNIT_HOUR = 3600
+export const UNIT_DAY = 86400
+export const UNIT_MONTH = 2592000
+export const UNIT_YEAR = 31104000
+
+const DurationInput = (props: { onChange, value, placeholder?: number, defaultUnit?: number, unitRange?: number[] }) => {
+    const { placeholder, value, onChange, defaultUnit, unitRange } = props
+    // const [value, setValue] = useState(defaultValue || 0)
+    const [unit, setUnit] = useState(defaultUnit || 1)
+
+    const options = useMemo(() => {
+        return (unitRange || [1, 3600, 86400]).map(num => {
+            let text = ''
+            if (num === 1)
+                text = 'seconds'
+            else if (num === 3600)
+                text = 'hours'
+            else if (num === 86400)
+                text = 'days'
+            else if (num === 2592000)
+                text = 'months'
+            else if (num === 31104000)
+                text = 'years'
+            return <option value={num} key={"DurationInput" + num}>{text}</option>
+        })
+    }, [unitRange])
+
+    return <div className="DurationInput">
+        <Input placeholder={placeholder} type='number' value={toFixedIfNecessary(value/unit, 2)}
+            onChange={e => {
+                let tmpVal = parseFloat(e.target.value)
+                if (tmpVal > 0) {
+                    console.log(tmpVal * unit)
+                    onChange(tmpVal * unit)
+                } else {
+                    return false
+                }
+            }} />
+        <select onChange={e => {
+            let tmpUnit = parseInt(e.target.value)
+            onChange(Math.round(value * unit / tmpUnit))
+            setUnit(tmpUnit)
+        }} className='' defaultValue={1}>
+            {
+                options
+            }
+            {/* <option value={1}>seconds</option>
+            <option value={3600}>hours</option>
+            <option value={86400}>days</option> */}
+        </select>
+    </div>
+}
 
 
-
-export { Label, Input, Textarea, ImageSelector, Select, MultiSelect };
+export { Label, Input, Textarea, ImageSelector, Select, MultiSelect, DurationInput };
 

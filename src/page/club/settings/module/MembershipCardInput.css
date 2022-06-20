@@ -1,6 +1,7 @@
 .MembershipFormGroup {
     display: inline-block;
     border-radius: 12px;
+    width: 100%;
     /* margin-bottom: 24px; */
 }
 
@@ -116,7 +117,7 @@
     background: rgba(240, 240, 240, 0.4);
     border-radius: 12px;
     margin-bottom: 32px;
-    border: 1px solid #DDDDDD;
+    /* border: 1px solid #DDDDDD; */
 }
 
 .MembershipCardPreviewCard .maincontainer {

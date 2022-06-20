@@ -93,7 +93,7 @@ input.RInput {
     width: 90px;
 }
 
-.RImageUploader.wide{
+.RImageUploader.wide {
     width: 100%;
 }
 
@@ -131,7 +131,8 @@ input.RInput {
     transform: translate(-50%, -50%);
     position: absolute;
 }
-.RImageUploaderIcon.hidden{
+
+.RImageUploaderIcon.hidden {
     display: none;
 }
 
@@ -146,7 +147,8 @@ input.RInput {
     justify-content: center;
     align-items: center;
 }
-.RImageUploader .loading svg{
+
+.RImageUploader .loading svg {
     max-width: 100%;
     max-height: 100%;
 }
@@ -188,4 +190,41 @@ input.RInput {
 .RMultiSelectCard img {
     height: 16px;
     cursor: pointer;
+}
+
+.DurationInput {
+    position: relative;
+}
+
+.DurationInput select {
+    position: absolute;
+    bottom: 10px;
+    right: 8px;
+    color: #666;
+    font-size: 18px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    text-align: right;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px
+}
+
+.DurationInput select::-ms-expand {
+    display: none;
+}
+
+.DurationInput select:focus {
+    border: none;
+}
+
+
+
+.DurationInput input::-webkit-outer-spin-button,
+.DurationInput input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

@@ -90,7 +90,7 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
             errors.consensus && <p className="ErrorHint" style={{ fontSize: '20px' }}>{errors.consensus.error}</p>
         }
         <div className={"CreateClubForm" + (display ? '' : ' hidden')} style={{ padding: '40px 60px' }}>
-            <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Membership</Label>
+            <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Consensus</Label>
             {
                 chainId !== '0x1' ? <div style={{ marginTop: '-10px', marginBottom: '30px', color: '#888' }}>Warning: You are creating DAO on Testnet</div> : null
             }

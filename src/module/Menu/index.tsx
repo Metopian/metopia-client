@@ -7,6 +7,7 @@ import { cdnPrefix, localRouter } from '../../config/urls'
 import { getNFTReadableSrc } from '../../utils/NftUtils'
 import { getAddress } from '../../utils/web3Utils'
 import { useLoginModal } from '../LoginModal'
+import { switchChain } from '../../utils/web3Utils'
 import './index.css'
 
 const LogoIcon = (props: { src: string, onClick?: OnClickFuncType }) => {
@@ -107,7 +108,8 @@ const Menu = (props) => {
                 followedClubs && followedClubs.map(i => <FollowedClubItem {...i} />)
             }
         </div>
-        <button className="switchnetbutton" onClick={() => {
+        <button className="switchnetbutton" onClick={async () => {
+            await switchChain(chainId === '0x1' ? '0x4' : '0x1')
             setChainId(chainId === '0x1' ? '0x4' : '0x1')
         }}>{chainId === '0x1' ? "Switch to Rinkeby" : "Switch to Mainnet"}</button>
         <div className="LogoutButtonWrapper">
