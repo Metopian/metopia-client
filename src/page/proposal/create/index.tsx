@@ -1,18 +1,16 @@
-import { Web3Provider } from '@ethersproject/providers';
-import { ethers, utils } from "ethers";
+import $ from 'jquery';
 import moment from "moment";
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
-import ReactLoading from 'react-loading';
 import { arabToRoman } from 'roman-numbers';
-import { domain, Proposal, proposalTypes } from '../../../config/snapshotConfig';
+import { domain, proposalTypes } from '../../../config/snapshotConfig';
 import { useChainId } from '../../../config/store';
 import { localRouter, snapshotApi } from '../../../config/urls';
 import { MainButton } from '../../../module/button';
 import { DefaultTextEditor as RichTextEditor } from '../../../module/editor/RichTextEditor';
 import { Input, Label } from '../../../module/form';
-import { getAddress, getProvider, signTypedData } from '../../../utils/web3Utils'
+import { getAddress, getProvider, signTypedData } from '../../../utils/web3Utils';
 import './index.css';
 
 const CreateProposalPage = props => {
@@ -26,11 +24,19 @@ const CreateProposalPage = props => {
     const [start, setStart] = useState(moment())
     const [end, setEnd] = useState(moment())
     const { chainId } = useChainId()
+    const container = useRef(null)
+
+    useEffect(() => {
+        $('.MainContainer').css({ 'overflow-y': 'hidden' })
+        return () => {
+            $('.MainContainer').css({ 'overflow-y': 'auto' })
+        }
+    })
 
     const addOption = useCallback(() => {
         let maxId = 0
         options.forEach(o => { if (o.id > maxId) maxId = o.id })
-        let tmp = [...options, { id: maxId + 1, text: arabToRoman(maxId + 1) }]
+        let tmp = [...options, { id: maxId + 1, text: '' }]
         setOptions(tmp)
     }, [options])
 
@@ -43,7 +49,7 @@ const CreateProposalPage = props => {
         return options.map((op, i) => {
             return <div className="optioncard" key={'optioncard' + i} >
                 <div style={{ width: '100px' }}>Option {arabToRoman(i + 1)}</div>
-                <Input key={"option" + op.id} placeholder={"Option " + (i + 1)}
+                <Input key={"option" + op.id} placeholder={"Option " + arabToRoman(i + 1)}
                     onChange={(e) => {
                         let tmp = options.find(t => t.id === op.id)
                         tmp.text = e.target.value
@@ -105,7 +111,7 @@ const CreateProposalPage = props => {
                     "Accept": "*/*"
                 }
             }).then(r => r.json()).then(cb)
-        }) 
+        })
     }
 
     return <div className="CreateProposalPage">
@@ -126,7 +132,13 @@ const CreateProposalPage = props => {
                 })
             }}>Confirm</MainButton>
         </div>
-        <div className="maincontainer">
+        <div className="maincontainer" ref={container} onScroll={e => {
+            $('#createClubScrollbar').css({
+                "top": (container.current.scrollTop + 80 + ((container.current.clientHeight - 240) * container.current.scrollTop /
+                    (container.current.scrollHeight - container.current.clientHeight))) + 'px'
+            })
+        }}>
+            <div className="scrollbar" id="createClubScrollbar"></div>
             <div className="CreateProposalForm">
                 <Label >{"Title & Description"}</Label>
                 <div className="CreateProposalMainEditorWrapper">
@@ -170,7 +182,9 @@ const CreateProposalPage = props => {
                 <div className="CreateClubPageFormGroup option" style={{ marginTop: '30px' }}>
                     <Label>Options</Label>
                     {optionJsx}
-                    <div className="addmorebonusbutton" onClick={addOption} style={{ marginTop: '24px' }}><img src="/imgs/addbuttonround.png" alt="" />Add option</div>
+                    <div style={{ display: 'flex', marginTop: '26px' }}>
+                        <div className="addmorebonusbutton" onClick={addOption} ><img src="/imgs/addbuttonround.png" alt="" />Add option</div>
+                    </div>
                 </div>
 
             </div>

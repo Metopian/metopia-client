@@ -1,7 +1,7 @@
 .HollowButton {
-    border: 1px solid #5A49DE;
+    border: 1px solid var(--theme-color);
     border-radius: 12px;
-    color: #5A49DE;
+    color: var(--theme-color);
     padding: 12px 24px;
     margin-left: auto;
     cursor: pointer;

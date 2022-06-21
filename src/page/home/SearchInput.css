@@ -5,7 +5,7 @@
     width: 360px;
     height: 48px;
     border-radius: 12px;
-    border: 1px solid #dddddd;
+    border: 1px solid var(--border-color);
     padding: 9px 15px;
     margin-top: -8px;
 }
@@ -16,11 +16,11 @@
     font-size: 16px;
     line-height: 26px;
     width: calc(100% - 30px);
-    color: #888;
+    color: var(--title-color)
 }
 
 .SearchInputWrapper input::placeholder {
-    color: #bbb;
+    color: var(--subtitle-color);
 }
 
 .SearchInputWrapper input:focus {

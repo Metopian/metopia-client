@@ -32,7 +32,7 @@ const DiscordSubPage = props => {
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Roles</th>
+                                    <th>My roles</th>
                                 </tr>
                             </thead>
                             <tbody>

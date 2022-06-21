@@ -56,26 +56,30 @@
 }
 
 .MembershipCardInput {
-    border-radius: 12px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: 1px solid #DDDDDD;
     margin-bottom: 32px;
 }
 
-.MembershipCardInput .maintitle,
-.MembershipCardPreviewCard .maintitle {
-    padding: 22px 30px;
+.MembershipCardInput>.maintitle,
+.MembershipCardPreviewCard>.maintitle {
+    padding: 20px 30px;
     font-weight: 700;
     font-size: 20px;
     line-height: 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    overflow: hidden;
+    border-radius: 0;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    background-size: cover;
 }
 
-.MembershipCardInput .container {
-    padding: 40px 30px;
+.MembershipCardInput>.container {
+    padding: 20px 30px;
+
+    border:  1px dotted var(--border-color);
+    border-top: 0;
 }
 
 .MembershipCardInput .confirmbutton {
@@ -98,8 +102,9 @@
 }
 
 .addmorebonusbutton {
-    color: #5A49DE;
-    font-size: 20px;
+    color: var(--theme-color);
+    font-size: 16px;
+    font-weight: bold;
     line-height: 30px;
     cursor: pointer;
     display: flex;
@@ -113,11 +118,10 @@
 }
 
 .MembershipCardPreviewCard {
-    /* padding: 20px 30px; */
     background: rgba(240, 240, 240, 0.4);
     border-radius: 12px;
     margin-bottom: 32px;
-    /* border: 1px solid #DDDDDD; */
+    border: 1px solid var(--border-color);
 }
 
 .MembershipCardPreviewCard .maincontainer {
@@ -204,5 +208,5 @@
     display: flex;
     align-items: center;
     background-color: rgba(239, 239, 239, 0.3);
-    color:#666;
+    color: #666;
 }

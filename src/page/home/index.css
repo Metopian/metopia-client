@@ -32,7 +32,7 @@
 
 .HomeHeadClubIntroduction {
     font-size: 20px;
-    color: #888888;
+    color: var(--subtitle-color);
     margin-top: 10px;
     font-family: Montserrat;
 }
@@ -60,7 +60,7 @@
 .HomeHeadHotTopicsHeadTitle {
     display: inline-block;
     vertical-align: top;
-    color: #222222;
+    color: var(--title-color);
     font-size: 24px;
     font-weight: bold;
     font-family: Montserrat;
@@ -69,7 +69,7 @@
 .HomeHeadHotTopicsContent {
     font-size: 16px;
     line-height: 24px;
-    color: #888888;
+    color: var(--subtitle-color);
     /* or 150% */
 
     /* text-align: justify; */
@@ -78,13 +78,13 @@
 .HomeHeadHotTopicsContent a {
     font-size: 16px;
     line-height: 24px;
-    color: #888888;
+    color: var(--subtitle-color);
     text-decoration: none;
 }
 
 .HomeHeadHotTopicsHeadPager {
     font-size: 12px;
-    color: #BBBBBB;
+    color: var(--subtitle-color);
     float: right;
     line-height: 24px;
     margin-top: 6px;

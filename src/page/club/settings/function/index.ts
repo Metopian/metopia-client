@@ -1,28 +1,10 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
+import { domain } from '../../../../config/snapshotConfig'
+import { localRouter, snapshotApi } from '../../../../config/urls'
+import { unitNumToText, unitTextToNum } from '../../../../module/form'
+import { toFixedIfNecessary } from '../../../../utils/numberUtils'
 import { getAddress } from '../../../../utils/web3Utils'
-import { snapshotApi, localRouter } from '../../../../config/urls'
-
-export const domain = {
-    "name": "snapshot",
-    "version": "0.1.4"
-};
-
-export interface Space {
-    from?: string;
-    space: string;
-    timestamp?: number;
-    settings: string;
-}
-
-export const SpaceTypes = {
-    Space: [
-        { name: 'from', type: 'address' },
-        { name: 'space', type: 'string' },
-        { name: 'timestamp', type: 'uint64' },
-        { name: 'settings', type: 'string' }
-    ]
-}
 
 export const sign = async (web3: Web3Provider | Wallet, address: string, message, types) => {
     // @ts-ignore
@@ -35,33 +17,100 @@ export const sign = async (web3: Web3Provider | Wallet, address: string, message
     return { address, sig, data }
 }
 
+const bonusFormToStrategy = (bonus) => {
+    if (!bonus?.length)
+        return []
+    let strategyParams = []
+    let holdingPeriodBonus = bonus.filter(b => {
+        return b.type === 1 && b.weight > 1 && b.value > 0 && toFixedIfNecessary(b.value / b.field, 2) !== 0
+    })
+    let attributesBonus = bonus.filter(b => {
+        return b.type === 2 && b.weight > 1 && b.value.length > 0
+    })
+    if (holdingPeriodBonus.length) {
+        strategyParams.push({
+            "name": "holding-time",
+            "defaultWeight": 100,
+            "traitTypeValueWeight": holdingPeriodBonus.map(b => {
+                let unitText = unitNumToText(b.field)
+                return {
+                    "trait_type": unitText.substring(0, unitText.length - 1),
+                    "trait_value": toFixedIfNecessary(b.value / b.field, 2),
+                    "weight": 1 + b.weight * 0.01
+                }
+            })
+        })
+    }
+    if (attributesBonus.length) {
+        strategyParams.push({
+            "name": "attributes-mul",
+            "defaultWeight": 100,
+            "traitTypeValueWeight": attributesBonus.map(b => {
+                return {
+                    "trait_type": b.field,
+                    "value_list": b.value.map(v => {
+                        return {
+                            "value": v.value,
+                            "weight": 1 + b.weight * 0.01
+                        }
+                    })
+                }
+            })
+        })
+    }
+    return strategyParams
+}
+
+const bonusStrategyToForm = (traitValues) => {
+    if (!traitValues?.length)
+        return []
+    let res = []
+    let idCounter = 1
+    traitValues.filter(t => t.name === 'holding-time').forEach(traitValue => {
+        traitValue.traitTypeValueWeight.forEach(t => {
+            res.push({
+                id: idCounter++,
+                type: 1,
+                field: unitTextToNum(t.trait_type),
+                value: t.trait_value * unitTextToNum(t.trait_type),
+                weight: toFixedIfNecessary((t.weight - 1) * 100, 2)
+            })
+        });
+    })
+    traitValues.filter(t => t.name === 'attributes-mul').forEach(traitValue => {
+        traitValue.traitTypeValueWeight.forEach(t => {
+            res.push({
+                id: idCounter++,
+                type: 2,
+                field: t.trait_type,
+                value: t.value_list.map(v => { return { text: v.value, value: v.value } }),
+                weight: (t.v[0].weight - 1) * 100
+            })
+        })
+    })
+    return res
+}
+
 export const formToSettings = async (chainId, basicFormData, consensusForm, votingFormData) => {
     let account = await getAddress()
     let res = {
         ...basicFormData,
         voting: votingFormData,
         strategies: consensusForm.membership.map(c => {
+            console.log(bonusFormToStrategy(c.bonus))
             return {
-                "name": "attributes-mul",
+                "name": "collect",
                 "params": {
                     "symbol": c.name,
                     "address": c.tokenAddress,
-                    "defaultWeight": c.defaultWeight * 100,
+                    // "defaultWeight": c.defaultWeight * 100,
                     "network": chainId.indexOf("0x") === 0 ? chainId.substring(2) : chainId,
-                    "traitTypeValueWeight": c.bonus?.filter(b => b.value?.length).map(b => {
-                        return {
-                            "trait_type": b.field,
-                            "value_list": b.value.map(v => {
-                                return {
-                                    "value": v.value,
-                                    "weight": 1 + b.weight * 0.01
-                                }
-                            })
-                        }
-                    }) || []
+                    "method": 'MUL',
+                    "traitValues": bonusFormToStrategy(c.bonus)
                 }
             }
-        }), validation: {
+        }),
+        validation: {
             name: "basic",
             params: {}
         },
@@ -87,7 +136,7 @@ export const defaultForm = () => {
             opensea: '',
             avatar: '',
             banner: '',
-        }, 
+        },
         consensusForm: { membership: [] },
         votingFormData: {
             delay: 0,
@@ -122,17 +171,7 @@ export const settingsToForm = (settings: string) => {
                 name: s.params.symbol,
                 tokenAddress: s.params.address,
                 defaultWeight: s.params.defaultWeight / 100,
-                bonus: s.params.traitTypeValueWeight?.length ? s.params.traitTypeValueWeight.map(b => {
-                    return {
-                        field: b.trait_type,
-                        value: b.value_list.map(v => {
-                            return {
-                                value: v.value,
-                                weight: (v.weight - 1) * 100
-                            }
-                        })
-                    }
-                }) : [],
+                bonus: bonusStrategyToForm(s.params.traitValues)
             }
         })
     }
@@ -141,7 +180,6 @@ export const settingsToForm = (settings: string) => {
 }
 
 export const snapshotDataToForm = (data) => {
-
     let basicFormData = {
         name: data.name,
         introduction: data.about,

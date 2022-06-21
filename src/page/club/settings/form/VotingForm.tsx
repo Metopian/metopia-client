@@ -28,7 +28,6 @@ const useData = (defaultData?) => {
     return { formId, data, update }
 }
 
-
 const VotingForm = props => {
     const { display } = props
     const { data, update: updateForm } = useData()
@@ -36,18 +35,24 @@ const VotingForm = props => {
         {/* <div className="CreateClubPageTitle">Proposal settings</div> */}
         <div className="CreateClubPageFormGroup second" >
             <Label>Preparation period</Label>
-            <div style={{ marginTop: '-10px', marginBottom: '30px', color: '#888' }}>How long will it take for a proposal from starting to public voting?</div>
-            <DurationInput onChange={val => updateForm({ delay: val })} placeholder={0}
-                value={data.delay} />
+            <div className="Tip" style={{ marginTop: '-10px', marginBottom: '20px' }}>How long will it take for a proposal from starting to public voting?</div>
+            <DurationInput
+                onChange={val => updateForm({ delay: val })}
+                placeholder={0}
+                value={data.delay}
+                unit={data.delayUnit || 1}
+                onChangeUnit={val => updateForm({ delayUnit: val })} />
         </div>
         <div className="CreateClubPageFormGroup second">
             <Label>Active period</Label>
-            <div style={{ marginTop: '-10px', marginBottom: '30px', color: '#888' }}>How long will the public voting last?</div>
-            <DurationInput onChange={val => updateForm({ period: val })} placeholder={3600} value={data.period} />
+            <div className="Tip" style={{ marginTop: '-10px', marginBottom: '20px' }}>How long will the public voting last?</div>
+            <DurationInput onChange={val => updateForm({ period: val })} placeholder={3600} value={data.period}
+                unit={data.periodUnit || 1}
+                onChangeUnit={val => updateForm({ periodUnit: val })} />
         </div>
         <div className="CreateClubPageFormGroup">
             <Label>Quorum</Label>
-            <div style={{ marginTop: '-10px', marginBottom: '30px', color: '#888' }}>How many members are required to validate each proposal?</div>
+            <div className="Tip" style={{ marginTop: '-10px', marginBottom: '20px' }}>How many members are required to validate each proposal?</div>
             <Input placeholder={0} value={data.quorum} onChange={(e) => updateForm({ quorum: parseInt(e.target.value) })} type='number' />
         </div>
     </div>

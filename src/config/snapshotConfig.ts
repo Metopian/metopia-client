@@ -3,7 +3,12 @@ export const domain = {
     "version": "0.1.4"
 }
 
-
+export interface Space {
+    from?: string;
+    space: string;
+    timestamp?: number;
+    settings: string;
+}
 export interface Vote {
     from?: string;
     space: string;
@@ -40,7 +45,7 @@ export const vote2Types = {
         { name: 'choice', type: 'uint32' },
         { name: 'metadata', type: 'string' }
     ]
-};
+}
 
 export const proposalTypes = {
     Proposal: [
@@ -59,4 +64,13 @@ export const proposalTypes = {
         { name: 'plugins', type: 'string' },
         { name: 'metadata', type: 'string' }
     ]
-};
+}
+
+export const SpaceTypes = {
+    Space: [
+        { name: 'from', type: 'address' },
+        { name: 'space', type: 'string' },
+        { name: 'timestamp', type: 'uint64' },
+        { name: 'settings', type: 'string' }
+    ]
+}

@@ -48,13 +48,17 @@
 .switchnetbutton {
     margin-top: auto;
     text-align: left;
-    padding-left: 16px;
-    background:none;
+    padding-left: 14px;
+    background: none;
     outline: 0;
     border: 0;
     cursor: pointer;
-    color:#888;
+    font-weight: bold;
+    color: var(--subtitle-color);
     line-height: 18px;
+}
+.switchnetbutton:hover{
+    color: var(--title-color);
 }
 
 .LogoutButtonWrapper {
@@ -68,4 +72,5 @@
     height: 100vh;
     align-items: center;
     padding: 40px 0;
+    box-shadow: 4px 0 12px #00000022;
 }

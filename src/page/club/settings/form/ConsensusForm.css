@@ -2,11 +2,11 @@
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
-    color: #5A49DE;
+    color: var(--theme-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px #5A49DE dotted;
+    border: 1px var(--theme-color) dotted;
     cursor: pointer;
-    padding:20px 0;
+    padding: 20px 0;
 }

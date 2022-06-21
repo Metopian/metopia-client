@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import cookie from 'react-cookies'
 import { useDebouncedCallback } from 'use-debounce'
 import { useChainId } from '../../../../config/store'
@@ -21,6 +21,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     // const [data, setData] = useState<any>({ id: props.id, name: '', tokenAddress: '',   defaultWeight: 1 })
     const [contractError, setContractError] = useState(null)
     const [syncingAttribute, setSyncingAttribute] = useState(false)
+    // const [syncingAttribute, setSyncingAttribute] = useState(false)
     const { chainId } = useChainId()
     const [queryingNft, setQueryingNft] = useState(false)
 
@@ -37,8 +38,12 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
         })
     }
 
+    const previousTokenAddress = useRef()
     const queryNft = useDebouncedCallback(
         (addr) => {
+            if (addr?.length && addr === previousTokenAddress.current)
+                return
+            previousTokenAddress.current = addr
             if (addr.indexOf('0x') !== 0) {
                 return
             }
@@ -72,8 +77,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     );
 
     useEffect(() => {
-        if (tokenAddress?.length)
-            queryNft(tokenAddress)
+        queryNft(tokenAddress)
     }, [tokenAddress, queryNft])
 
     const queryAttributes = (addr) => {
@@ -118,11 +122,10 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     }
 
     const getFormData = useCallback((params?) => {
-
         return Object.assign({},
             {
                 id, name, tokenAddress, defaultWeight, editing,
-                bonus: bonus?.filter(b => b.value?.length) || []
+                bonus: bonus?.filter(b => b.value) || []
             },
             params || {})
         // , sampleImage: imgUrl, sampleTokenId: tokenId
@@ -152,7 +155,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
 
     if (editing)
         return <div className='MembershipCardInput'>
-            <div className="maintitle" style={{ background: 'url("/imgs/membershipcardbg.png")', backgroundSize: 'cover' }}>
+            <div className="maintitle" style={{ backgroundImage: 'url("/imgs/membershipcardbg.png")' }}>
                 <div className='text'>{pad(displayedId, 2)} {name?.length ? name : "[Please provide NFT Contract]"}</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                     <img src="/imgs/tick_purple.svg" alt="" className='confirmbutton tick' onClick={submit} />
@@ -168,7 +171,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     <div className="MembershipFormGroup">
                         <div className="CreateClubPageFormGroup">
                             <Label>Ticket number per token</Label>
-                            <Input id="createclubcontractinput" value={defaultWeight} disabled type="number" onChange={(e) => {
+                            <Input id="createclubcontractinput" value={defaultWeight || 1} disabled type="number" onChange={(e) => {
                                 onChange(getFormData({ defaultWeight: e.target.value }))
                             }} />
                         </div>
@@ -204,7 +207,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     </div>
                 </div>
                 {
-                    name?.length ? <div style={{ paddingBottom: '32px', paddingTop: '32px', marginTop: '24px', borderTop: '1px solid #dddddd' }}>
+                    name?.length || bonus?.length ? <div style={{ paddingBottom: '12px', paddingTop: '32px', marginTop: '24px', borderTop: '1px solid #dddddd' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'flex-start' }}>
                             <Label style={{ fontWeight: 'bold', marginBottom: '0' }}>Bonus</Label>
                             <div className="addmorebonusbutton" onClick={() => {
@@ -256,10 +259,10 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                         <div className='title'>Contract</div>
                         <div className='text'>{tokenAddress}</div>
                     </div>
-                    <div>
+                    {/* <div>
                         <div className='title'>Vote per NFT</div>
                         <div className='text'>{defaultWeight}</div>
-                    </div>
+                    </div> */}
                 </div>
                 <img alt="edit" title="edit" src="/imgs/write2.svg" className='editbutton' onClick={() => {
                     onEdit(id)

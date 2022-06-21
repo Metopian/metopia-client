@@ -8,31 +8,20 @@
     height: 45px;
     /* width: 100%; */
     /* margin: 0 -80px 30px -80px;*/
+    position: fixed;
+    width: calc(100% - 260px);
+    z-index: 9999;
 }
 
 .CreateClubPageTitle {
     font-weight: 500;
     font-size: 24px;
     line-height: 36px;
-    color: #222222;
+    color: var(--title-color);
     margin-bottom: 30px;
     transform: translateY(2px);
 }
 
-.CreateClubButton {
-    background: linear-gradient(122.65deg, #5A49DE 23.36%, #F7C4D7 132.77%);
-    opacity: 0.4;
-    border-radius: 12px;
-    color: white;
-    padding: 12px 24px;
-    margin-left: auto;
-    cursor: pointer;
-    /* transition: 300ms; */
-}
-
-.CreateClubButton:hover {
-    opacity: 1;
-}
 
 .CreateClubStepContainer {
     display: flex;
@@ -62,7 +51,7 @@
 }
 
 .CreateClubStepContainer .splitter.active {
-    background: #5A49DE;
+    background: var(--theme-color);
 }
 
 .CreateClubStepContainer .text {
@@ -78,7 +67,7 @@
 }
 
 .CreateClubStepContainer .text.active {
-    color: #5A49DE;
+    color: var(--theme-color);
     opacity: 1;
 }
 
@@ -92,6 +81,10 @@
     display: inline-block;
     width: 100%;
     border-radius: 32px;
+}
+
+.CreateClubContainer .CreateClubForm:first-child {
+    margin-top: 0
 }
 
 .CreateClubForm.hidden {
@@ -226,8 +219,49 @@
 }
 
 .CreateClubImportContainer {
-    background: #FFFFFF;
+    /* background: #FFFFFF;
     box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
     border-radius: 32px;
-    padding: 40px 60px;
+    padding: 40px 60px; */
+
+
+    background: #FFFFFF;
+    box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+    border-radius: 0px;
+    padding: 30px 60px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    display: inline-block;
+    width: 100%;
+    border-radius: 32px;
+}
+
+.CreateClubContainer {
+    max-height: calc(100vh - 0px);
+    width: calc(100% + 50px);
+    padding-right: 50px;
+    overflow-y: auto;
+    overflow-x: visible;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 40px, black 80px, black calc(100vh - 100px), transparent calc(100vh - 80px));
+    mask-image: linear-gradient(to bottom, transparent 40px, black 80px, black calc(100vh - 100px), transparent calc(100vh - 80px));
+    padding-top: 80px;
+    padding-bottom: 80px;
+    position: relative;
+}
+
+
+.CreateClubContainer::-webkit-scrollbar {
+    width: 0px;
+}
+
+.CreateClubContainer .scrollbar {
+    width: 8px;
+    height: 60px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    position: absolute;
+    right: 4px;
+    top: 80px;
+    z-index: 9999;
+    box-shadow: 2px 2px 4px rgba(45, 35, 117, 0.1);
 }

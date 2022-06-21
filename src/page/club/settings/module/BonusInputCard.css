@@ -1,12 +1,30 @@
 .BonusInputCard {
     border-radius: 12px;
     border: 1px solid #DDDDDD;
-    margin-top: 32px;
+    margin-top: 20px;
 }
 
 .BonusInputCard .maintitle {
     font-size: 18px;
-    padding: 16px 30px;
+    padding: 18px 30px;
+    font-weight: 700;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background:  rgba(240, 240, 240, 0.4);
+    background-size: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    overflow: hidden;
+}
+
+.BonusInputCard > .container{
+    background:  rgba(240, 240, 240, 0.4);
+    padding: 30px 30px;
+    margin-top: 2px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 .BonusInputCard .RLabel {
@@ -64,4 +82,8 @@
     width: 100%;
     margin-top: 0px;
     border-radius: 0;
+}
+
+.CreateClubPageFormGroup .RLabel .loading{
+    transform: translateY(2px);
 }

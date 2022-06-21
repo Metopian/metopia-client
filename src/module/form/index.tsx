@@ -105,37 +105,50 @@ const MultiSelect = (props: { keyid, options, value?, onChange?, style?, default
     </div>
 }
 
-
 export const UNIT_SECOND = 1
 export const UNIT_HOUR = 3600
 export const UNIT_DAY = 86400
 export const UNIT_MONTH = 2592000
 export const UNIT_YEAR = 31104000
+export const unitNumToText = (num) => {
+    if (num === 1)
+        return 'seconds'
+    else if (num === 3600)
+        return 'hours'
+    else if (num === 86400)
+        return 'days'
+    else if (num === 2592000)
+        return 'months'
+    else if (num === 31104000)
+        return 'years'
+    return ''
+}
+export const unitTextToNum = (text) => {
+    if (!text)
+        return 0
+    if (text.indexOf('second') === 0)
+        return 1
+    else if (text.indexOf('hour') === 0)
+        return 3600
+    else if (text.indexOf('day') === 0)
+        return 86400
+    else if (text.indexOf('month') === 0)
+        return 2592000
+    else if (text.indexOf('year') === 0)
+        return 31104000
+}
 
-const DurationInput = (props: { onChange, value, placeholder?: number, defaultUnit?: number, unitRange?: number[] }) => {
-    const { placeholder, value, onChange, defaultUnit, unitRange } = props
-    // const [value, setValue] = useState(defaultValue || 0)
-    const [unit, setUnit] = useState(defaultUnit || 1)
-
+const DurationInput = (props: { onChange, value, onChangeUnit, unit?: number, placeholder?: number, unitRange?: number[] }) => {
+    const { placeholder, value, onChange, unit, unitRange } = props
     const options = useMemo(() => {
         return (unitRange || [1, 3600, 86400]).map(num => {
-            let text = ''
-            if (num === 1)
-                text = 'seconds'
-            else if (num === 3600)
-                text = 'hours'
-            else if (num === 86400)
-                text = 'days'
-            else if (num === 2592000)
-                text = 'months'
-            else if (num === 31104000)
-                text = 'years'
-            return <option value={num} key={"DurationInput" + num}>{text}</option>
+            return <option value={num} key={"DurationInput" + num}>{unitNumToText(num)}</option>
         })
     }, [unitRange])
 
     return <div className="DurationInput">
-        <Input placeholder={placeholder} type='number' value={toFixedIfNecessary(value/unit, 2)}
+        <Input placeholder={placeholder} type='number'
+            value={toFixedIfNecessary(value / unit, 2)}
             onChange={e => {
                 let tmpVal = parseFloat(e.target.value)
                 if (tmpVal > 0) {
@@ -148,14 +161,9 @@ const DurationInput = (props: { onChange, value, placeholder?: number, defaultUn
         <select onChange={e => {
             let tmpUnit = parseInt(e.target.value)
             onChange(Math.round(value * unit / tmpUnit))
-            setUnit(tmpUnit)
-        }} className='' defaultValue={1}>
-            {
-                options
-            }
-            {/* <option value={1}>seconds</option>
-            <option value={3600}>hours</option>
-            <option value={86400}>days</option> */}
+            props.onChangeUnit && props.onChangeUnit(tmpUnit)
+        }} className='' value={unit} >
+            {options}
         </select>
     </div>
 }

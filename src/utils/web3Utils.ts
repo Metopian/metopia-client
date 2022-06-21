@@ -8,7 +8,15 @@ let provider: Web3Provider = null
 export const getProvider = () => {
     if (!provider) {
         if ((window as any).ethereum) {
-            provider = new ethers.providers.Web3Provider((window as any).ethereum)
+            provider = new ethers.providers.Web3Provider((window as any).ethereum);
+            const tmp = () => {
+                provider = null
+            }
+            (window as any).ethereum.on('chainChanged', tmp);
+            (window as any).ethereum.on('accountsChanged', tmp)
+
+            // window.ethereum.removeListener('chainChanged', chainChangedHander.current)
+            // window.ethereum.removeListener('accountsChanged', accountsChangedHander.current)
         } else {
             window.alert("Please install web3 wallet.")
             throw new Error("Please install web3 wallet.");

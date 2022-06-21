@@ -1,7 +1,7 @@
 .RInput {
     border-radius: 12px;
-    border: 1px solid #dddddd;
-    color: #222222;
+    border: 1px solid var(--border-color);
+    color: var(--main-color);
     outline: 0;
     width: 100%;
     max-width: 480px;
@@ -16,7 +16,7 @@ input.RInput {
 }
 
 .RInput:focus {
-    border: 1px solid #dddddd;
+    border: 1px solid var(--border-color);
     outline: 0;
 }
 
@@ -27,11 +27,11 @@ input.RInput {
 
 
 .RInput::placeholder {
-    color: #BBBBBB;
+    color: var(--subtitle-color);
 }
 
 .RLabel {
-    color: #222222;
+    color: var(--main-color);
     font-size: 20px;
     font-weight: 500;
     line-height: 30px;
@@ -47,7 +47,7 @@ input.RInput {
 
 .RTextarea textarea {
     border-radius: 12px;
-    border: 1px solid #dddddd;
+    border: 1px solid var(--border-color);
     color: #222222;
     outline: 0;
     width: 100%;
@@ -112,7 +112,7 @@ input.RInput {
 }
 
 .RImageUploaderMask.empty {
-    border: 1px dashed #dddddd;
+    border: 1px dashed var(--border-color);
 }
 
 .RImageUploaderImg,
@@ -157,7 +157,7 @@ input.RInput {
 .RMultiSelect {
     display: block;
     border-radius: 12px;
-    border: 1px solid #dddddd;
+    border: 1px solid var(--border-color);
     color: #222222;
     outline: 0;
     width: 100%;
@@ -177,7 +177,7 @@ input.RInput {
 
 .RMultiSelectCard {
     background-color: #ffffff;
-    border: 1px solid #00000022;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 4px 8px;
     display: flex;
@@ -200,7 +200,7 @@ input.RInput {
     position: absolute;
     bottom: 10px;
     right: 8px;
-    color: #666;
+    color: var(--subtitle-color);
     font-size: 18px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -212,7 +212,10 @@ input.RInput {
     cursor: pointer;
     padding: 4px
 }
-
+.DurationInput option {
+    padding:2px 4px;
+    border-color: var(--border-color);
+}
 .DurationInput select::-ms-expand {
     display: none;
 }
@@ -220,7 +223,6 @@ input.RInput {
 .DurationInput select:focus {
     border: none;
 }
-
 
 
 .DurationInput input::-webkit-outer-spin-button,

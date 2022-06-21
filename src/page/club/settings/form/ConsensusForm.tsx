@@ -44,15 +44,16 @@ const useData = () => {
             })
     }
     const update = (newValue) => {
+        console.log(newValue)
         dispatch(reduxUpdateForm({
             key: formId,
             value: Object.assign({}, data, newValue)
         }))
     }
 
-    useEffect(() => {
-        update({ membership: [] })
-    }, [])
+    // useEffect(() => {
+    //     update({ membership: [] })
+    // }, [])
 
     return { formId, data, update, updateMembership, removeMembership }
 }
@@ -84,64 +85,58 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
             updateMembership(Object.assign({}, data, { editing: false }))
         }
     }
-
-    return <div>
+    
+    return <div className={"CreateClubForm" + (display ? '' : ' hidden')} style={{ padding: '40px 60px' }}>
         {
             errors.consensus && <p className="ErrorHint" style={{ fontSize: '20px' }}>{errors.consensus.error}</p>
         }
-        <div className={"CreateClubForm" + (display ? '' : ' hidden')} style={{ padding: '40px 60px' }}>
-            <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Consensus</Label>
-            {
-                chainId !== '0x1' ? <div style={{ marginTop: '-10px', marginBottom: '30px', color: '#888' }}>Warning: You are creating DAO on Testnet</div> : null
-            }
-            {
-                data.membership.map((m, i) => <MembershipCardInput
-                    ref={nftInputRefs}
-                    displayedId={i + 1} key={"MembershipCardInput" + m.id}
-                    onSubmit={submitMembership}
-                    onChange={updateMembership}
-                    onDelete={removeMembership}
-                    onEdit={id => {
-                        if (submitInputCardsData()) {
-                            setTimeout(() => {
-                                let tmp = data.membership.map(m2 =>
-                                    m2.id === id ?
-                                        Object.assign({}, m2, { editing: true }) :
-                                        Object.assign({}, m2, { editing: false })
-                                )
-                                updateForm({ membership: tmp })
-                            }, 0);
-                        }
-                    }}
-                    {...m}
-                />)
-            }
+        <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Consensus</Label>
+        {
+            chainId !== '0x1' ? <div className="Tip" style={{ marginTop: '-10px', marginBottom: '30px' }}>Warning: You are creating DAO on Testnet</div> : null
+        }
+        {
+            data.membership.map((m, i) => <MembershipCardInput
+                ref={nftInputRefs}
+                displayedId={i + 1} key={"MembershipCardInput" + m.id}
+                onSubmit={submitMembership}
+                onChange={updateMembership}
+                onDelete={removeMembership}
+                onEdit={id => {
+                    if (submitInputCardsData()) {
+                        setTimeout(() => {
+                            let tmp = data.membership.map(m2 =>
+                                m2.id === id ?
+                                    Object.assign({}, m2, { editing: true }) :
+                                    Object.assign({}, m2, { editing: false })
+                            )
+                            updateForm({ membership: tmp })
+                        }, 0);
+                    }
+                }}
+                {...m}
+            />)
+        }
 
-            <div className='addmorenftbutton' onClick={() => {
-                if (submitInputCardsData()) {
-                    setTimeout(() => {
-                        let maxId = 0
-                        data.membership.forEach(b => {
-                            if (b.id > maxId)
-                                maxId = b.id
-                        });
-                        updateForm({
-                            membership: [...(data.membership.map(m => {
-                                return Object.assign({}, m, { editing: false })
-                            })), newMembership(maxId + 1)]
-                        })
-                    }, 0)
-                }
-            }}>
-                <span style={{ transform: 'translateY(-1px)', fontSize: '20px' }}>+</span>&nbsp;&nbsp;Add membership
-            </div>
-        </div >
+        <div className='addmorenftbutton' onClick={() => {
+            if (submitInputCardsData()) {
+                setTimeout(() => {
+                    let maxId = 0
+                    data.membership.forEach(b => {
+                        if (b.id > maxId)
+                            maxId = b.id
+                    });
+                    updateForm({
+                        membership: [...(data.membership.map(m => {
+                            return Object.assign({}, m, { editing: false })
+                        })), newMembership(maxId + 1)]
+                    })
+                }, 0)
+            }
+        }}>
+            <span style={{ transform: 'translateY(-1px)', fontSize: '20px' }}>+</span>&nbsp;&nbsp;Add membership
+        </div>
+    </div >
 
-        {/* <div className={"CreateClubForm" + (display ? '' : ' hidden')} style={{ marginTop: '30px', minHeight: '160px' }}>
-            <Label>Preview of membership</Label>
-            <div style={{  color: 'rgb(187, 187, 187)'}}>There's none membership added</div>
-        </div> */}
-    </div>
 })
 
 export { Form as ConsensusForm, useData };

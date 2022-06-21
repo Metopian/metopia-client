@@ -5,6 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --title-color: #000000;
+  --text-color: #000000;
+  --subtitle-color: #BBBBBB;
+  --border-color: #DDDDDD;
+  --theme-color: #5A49DE
 }
 
 * {
@@ -174,4 +180,9 @@ code {
   padding: 10px 0;
   flex-wrap: wrap;
   max-width: 100%;
+}
+
+.Tip {
+  font-size: 14px;
+  color: var(--subtitle-color)
 }

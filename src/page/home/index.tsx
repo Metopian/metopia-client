@@ -18,7 +18,7 @@ const ProposalBoard = (props) => {
     return <div>
         <div className="HomeHeadHotTopicsHead">
             <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/fire.svg" className='HomeHeadHotTopicsHeadIcon' alt="" />
-            <div className="HomeHeadHotTopicsHeadTitle">Latest Proposal</div>
+            <div className="HomeHeadHotTopicsHeadTitle">Latest Proposals</div>
             <div className="HomeHeadHotTopicsHeadPager">
                 <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/left_arrow.svg" alt="Last" onClick={last} />
                 <div className="HomeHeadHotTopicsHeadPagerText">{index}/5</div>

@@ -20,7 +20,6 @@
 .ClubCardBgWrapper {
     width: 100%;
     min-width: 240px;
-    /* height: 270px; */
     top: 0;
     left: 0;
     position: relative;
@@ -57,15 +56,14 @@
     position: absolute;
     display: flex;
     width: calc(100% - 40px);
-    bottom: 24px;
+    bottom: 20px;
     left: 20px;
-    border-radius: 20px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(17px);
-    padding: 15px 20px;
+    backdrop-filter: blur(12px);
+    padding: 20px 20px;
     /* text-align: left; */
     cursor: pointer;
-
     justify-content: center;
 }
 
@@ -75,7 +73,7 @@
 
 .ClubCard:hover .ClubCardContent {
     background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 20px #f0f0f088;
+    /* box-shadow: 0 0 20px #f0f0f088; */
 }
 
 .ClubCardLogo img {
@@ -95,7 +93,7 @@
 }
 
 .ClubCardName {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 2px;
 }

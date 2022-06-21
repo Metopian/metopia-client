@@ -1,8 +1,9 @@
 
+import $ from 'jquery'
 import 'rc-slider/assets/index.css'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useChainId } from '../../../config/store'
-import { thirdpartyApi } from '../../../config/urls'
+import { localRouter, thirdpartyApi } from '../../../config/urls'
 import { useSpaceData } from '../../../governance'
 import { MainButton } from '../../../module/button'
 import { Input, Label } from '../../../module/form'
@@ -26,6 +27,13 @@ const ClubSettingPage = (props) => {
     const { data: defaultSpaceSettings, error } = useSpaceData(slug)
     const [network, setNetwork] = useState(null)
     const { chainId } = useChainId()
+    const container = useRef(null)
+    useEffect(() => {
+        $('.MainContainer').css({ 'overflow-y': 'hidden' })
+        return () => {
+            $('.MainContainer').css({ 'overflow-y': 'auto' })
+        }
+    })
     useEffect(() => {
         // let { basicFormData, consensusForm, votingFormData } = defaultForm()
         if (defaultSpaceSettings?.code === 200) {
@@ -34,7 +42,7 @@ const ClubSettingPage = (props) => {
             updateConsensusForm(consensusForm)
             updateVotingForm(votingFormData)
             setNetwork(network)
-            
+
         } else {
             let { basicFormData, consensusForm, votingFormData } = defaultForm()
             updateBasicForm(basicFormData)
@@ -103,32 +111,42 @@ const ClubSettingPage = (props) => {
 
     return <div className='CreateClubPage'>
         <div className="CreateClubPageHead">
-            <div className="CreateClubPageTitle" style={{ margin: 0 }}>{slug ? 'Update settings' : 'Create new DAO'}</div>
+            <div className="CreateClubPageTitle" style={{ margin: 0 }}><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
+                window.location.href = localRouter("club.prefix") + slug
+            }} />{slug ? 'Update settings' : 'Create new DAO'}</div>
             <div style={{ display: 'flex', gap: '24px', marginLeft: 'auto' }}>
                 <MainButton onClick={createClub} disabled={creating}>Confirm</MainButton>
             </div>
         </div>
-
-        <div className='CreateClubImportContainer' style={slug ? { display: 'none' } : {}}>
-            <Label style={{ marginBottom: '12px' }}>Import from Snapshot space</Label>
-            <div style={{ fontSize: '14px', color: '#BBBBBB', marginBottom: '20px' }}>Only strategies of <span style={{ fontStyle: 'italic' }}>erc721</span> on Ethereum will be automatically loaded.</div>
-            <div style={{ marginBottom: '20px' }}>
-                <Input placeholder="Paste your Snapshot sapce link" id="snapshotlinkinput" />
-            </div>
-            <div>
-                <MainButton onClick={(e) => {
-                    let url = (document.getElementById("snapshotlinkinput") as HTMLInputElement).value
-                    let tmp = url.split("/")
-                    if (!tmp.length)
-                        return
-                    syncSnapshotData(tmp[tmp.length - 1])
-                }}>Import</MainButton>
-            </div>
+        <div className='CreateClubContainer' ref={container} onScroll={e => {
+            $('#createClubScrollbar').css({
+                "top": (container.current.scrollTop + 80 + ((container.current.clientHeight - 250) * container.current.scrollTop /
+                    (container.current.scrollHeight - container.current.clientHeight))) + 'px'
+            })
+        }}>
+            {
+                slug ? null : <div className='CreateClubForm' >
+                    <Label style={{ marginBottom: '12px' }}>Import from Snapshot space</Label>
+                    <div className="Tip" style={{ marginBottom: '20px' }}>Only strategies of <span style={{ fontStyle: 'italic' }}>erc721</span> on Ethereum will be automatically loaded.</div>
+                    <div style={{ marginBottom: '20px' }}>
+                        <Input placeholder="Paste your Snapshot space link" id="snapshotlinkinput" />
+                    </div>
+                    <div>
+                        <MainButton onClick={(e) => {
+                            let url = (document.getElementById("snapshotlinkinput") as HTMLInputElement).value
+                            let tmp = url.split("/")
+                            if (!tmp.length)
+                                return
+                            syncSnapshotData(tmp[tmp.length - 1])
+                        }}>Import</MainButton>
+                    </div>
+                </div>
+            }
+            <BasicProfileForm display={true} errors={errors} />
+            <ConsensusForm display={true} errors={errors} ref={consensusFormRef} />
+            <VotingForm display={true} />
+            <div className="scrollbar" id="createClubScrollbar"></div>
         </div>
-
-        <BasicProfileForm display={true} errors={errors} />
-        <ConsensusForm display={true} errors={errors} ref={consensusFormRef} />
-        <VotingForm display={true} />
     </div >
 }
 

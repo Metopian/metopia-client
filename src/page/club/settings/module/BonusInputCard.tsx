@@ -1,10 +1,26 @@
 import React, { useMemo, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { MainButton } from '../../../../module/button';
-import { DurationInput, Input, Label, MultiSelect, Select, UNIT_DAY, UNIT_MONTH, UNIT_YEAR } from '../../../../module/form';
+import { DurationInput, Input, Label, MultiSelect, Select, UNIT_DAY, UNIT_MONTH, UNIT_YEAR, unitNumToText } from '../../../../module/form';
 import { capitalizeFirstLetter, pad } from '../../../../utils/stringUtils';
+import { toFixedIfNecessary } from '../../../../utils/numberUtils';
 import './BonusInputCard.css';
 
+const bonusArrayToString = (values) => {
+    console.log(values)
+    if (!values?.length)
+        return ''
+    let res = ''
+    values.forEach((v, i) => {
+        if (i > 3)
+            return
+        res += v.text + ", "
+    })
+    res = res.substring(0, res.length - 2)
+    if (values.length > 3)
+        res += ' ...'
+    return res
+}
 const BonusInputCard = props => {
 
     const { id, data, displayedId, attributesList, onChange, onClose, syncing } = props
@@ -15,11 +31,20 @@ const BonusInputCard = props => {
         if (data?.type === -1) {
             return '[Please select bonus basis]'
         } else if (data?.type === 1) {
-            return 'Holding time - [Please provide minimum holding period]'
+            console.log(data.value)
+            if (data.value && data.value > 0)
+                return 'Holding time - ' + toFixedIfNecessary(data.value / data.field, 2) + ' ' + unitNumToText(data.field) + ' - ' + data.weight + "%"
+            else return 'Holding time - [Please provide minimum holding period]'
         } else if (data?.type === 2) {
-            return 'Metadata attribute - [Please select trait type]'
+            if (!data.field)
+                return 'Metadata attribute - [Please select trait type]'
+            else if (!data.value?.length)
+                return 'Metadata attribute - [Please select trait values]'
+            else
+                return 'Metadata attribute - ' + data.field + ' [' + bonusArrayToString(data.value) + '] - ' + data.weight + "%"
+            // + ' - ' + data.weight+"%"
         }
-    }, [data?.type])
+    }, [data])
 
 
     const selectAttribute = (val) => {
@@ -43,13 +68,10 @@ const BonusInputCard = props => {
             })
         }
     }
-
-    const updateForm = (param) => {
-
-    }
+console.log(data)
 
     return <div className="BonusInputCard" style={{ border: 'none' }} >
-        <div className="maintitle" style={{ background: 'rgba(240, 240, 240, 0.4)', backgroundSize: 'cover', borderTopLeftRadius: '12px', borderTopRightRadius: '12px' }}>
+        <div className="maintitle" >
             <div className='text'>{pad(displayedId, 2)}&nbsp;
                 {title}</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -57,14 +79,14 @@ const BonusInputCard = props => {
                 <img src="/imgs/close_purple4.svg" alt="" className='confirmbutton' style={{ height: '16px' }} onClick={() => onClose(id)} />
             </div>
         </div>
-        <div style={{ background: 'rgba(240, 240, 240, 0.4)', padding: '16px 30px', marginTop: '2px', borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px' }}>
+        <div className='container' >
             {data?.type === -1 ?
                 <div className="BonusTypeSelectContainer">
                     <div className="BonusTypeOption" >
                         <img src="/imgs/holding-illu.jpg" alt="Hodl" />
                         <div style={{ textAlign: 'center' }}>
                             <MainButton onClick={e => {
-                                onChange({ id: id, type: 1 })
+                                onChange({ id: id, type: 1, field: UNIT_DAY })
                             }}>Holding period</MainButton>
                         </div>
                     </div>
@@ -82,7 +104,7 @@ const BonusInputCard = props => {
                     <div style={{ display: 'flex', gap: '50px' }}>
                         <div className="CreateClubPageFormGroup BonusRateInputGroup" >
                             <Label>Bonus rate</Label>
-                            <Input multi={"true"} type='number' defaultValue={extraTicket} onChange={(e) => {
+                            <Input multi={"true"} type='number' value={data.weight} onChange={(e) => {
                                 setExtraTicket(parseInt(e.target.value))
                                 onChange({
                                     id: id,
@@ -92,9 +114,11 @@ const BonusInputCard = props => {
                         </div>
                         <div className="CreateClubPageFormGroup">
                             <Label style={{ display: 'flex', gap: '8px' }}>Holding period</Label>
-                            <DurationInput onChange={val => onChange({ id: id, period: val })}
-                                placeholder={1} defaultUnit={UNIT_DAY}
-                                value={data.period || 0}
+                            <DurationInput
+                                onChangeUnit={val => onChange({ id: id, field: val })}
+                                onChange={val => onChange({ id: id, value: val })}
+                                placeholder={1} unit={data.field || UNIT_DAY}
+                                value={data.value || 0}
                                 unitRange={[UNIT_DAY, UNIT_MONTH, UNIT_YEAR]} />
                         </div>
                     </div>
@@ -102,6 +126,10 @@ const BonusInputCard = props => {
             }
             {
                 data?.type === 2 ? <div>
+                    {
+                        syncing ? <div className="Tip" style={{ marginBottom: '12px', marginTop: '-8px' }}>NFT attributes data is syncing. It might take 2-5 minutes.</div> : null
+                    }
+
                     <div style={{ display: 'flex', gap: '50px' }}>
                         <div className="CreateClubPageFormGroup BonusRateInputGroup" >
                             <Label>Bonus rate</Label>
@@ -114,7 +142,7 @@ const BonusInputCard = props => {
                             }} />
                         </div>
                         <div className="CreateClubPageFormGroup">
-                            <Label style={{ display: 'flex', gap: '8px' }}>Trait type {syncing ? <ReactLoading type={'spokes'} color={'#444'} height={'14px'} width={'14px'} /> : null}</Label>
+                            <Label style={{ display: 'flex', gap: '8px' }}>Trait type {syncing ? <ReactLoading className="loading" type={'spokes'} color={'#444'} height={'14px'} width={'14px'} /> : null}</Label>
                             <Select keyid="attr" defaultValue={data?.field || ''}
                                 onChange={(e) => {
                                     selectAttribute(e.target.value)
