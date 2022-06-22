@@ -68,7 +68,6 @@ const BonusInputCard = props => {
             })
         }
     }
-console.log(data)
 
     return <div className="BonusInputCard" style={{ border: 'none' }} >
         <div className="maintitle" >
@@ -127,7 +126,7 @@ console.log(data)
             {
                 data?.type === 2 ? <div>
                     {
-                        syncing ? <div className="Tip" style={{ marginBottom: '12px', marginTop: '-8px' }}>NFT attributes data is syncing. It might take 2-5 minutes.</div> : null
+                        syncing ? <div className="Tip Error" style={{ marginBottom: '12px', marginTop: '-8px' }}>NFT attributes data is syncing. It might take 2-5 minutes.</div> : null
                     }
 
                     <div style={{ display: 'flex', gap: '50px' }}>

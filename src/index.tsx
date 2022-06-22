@@ -1,15 +1,14 @@
 import React from 'react';
+import { CookiesProvider } from 'react-cookie';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-// import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
 import store from './config/store';
-import './index.css';
+import './index.scss';
 import LoginModal from './module/LoginModal';
 import { Menu } from './module/Menu';
 import AIActPage from './page/ai';
-import { CookiesProvider } from 'react-cookie';
 
 const Index = () => {
   return (

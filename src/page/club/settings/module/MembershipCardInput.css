@@ -9,7 +9,7 @@
     margin-bottom: 20px;
 }
 
-.MembershipFormGroup .RLabel {
+.MembershipFormGroup .r-label {
     font-size: 16px;
     line-height: 24px;
     margin-bottom: 12px;
@@ -203,7 +203,7 @@
     max-width: 100px;
 }
 
-.RInput.fake {
+.r-input.fake {
     height: 48px;
     display: flex;
     align-items: center;

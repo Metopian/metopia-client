@@ -27,7 +27,7 @@
     border-bottom-right-radius: 12px;
 }
 
-.BonusInputCard .RLabel {
+.BonusInputCard .r-label {
     font-size: 16px;
     margin-bottom: 12px;
 }
@@ -60,7 +60,7 @@
     -moz-appearance: textfield;
 }
 
-.BonusInputCard .RInput {
+.BonusInputCard .r-input {
     max-width: 100%;
 }
 
@@ -84,6 +84,6 @@
     border-radius: 0;
 }
 
-.CreateClubPageFormGroup .RLabel .loading{
+.CreateClubPageFormGroup .r-label .loading{
     transform: translateY(2px);
 }

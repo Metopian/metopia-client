@@ -148,11 +148,11 @@ const CreateProposalPage = props => {
                 </div>
                 <div className='timecontainer'>
                     <div>
-                        <div className='RLabel'>Duration</div>
+                        <div className='r-label'>Duration</div>
                         <div className='timeinputgroupwrapper'>
                             <Datetime dateFormat={"YYYY-MM-DD"} timeFormat={"HH:mm"} renderInput={(props, openCalendar, closeCalendar) => {
                                 return <div className='timeinputwrapper'>
-                                    <input {...props} className="RInput" placeholder={"Start time"}
+                                    <input {...props} className="r-input" placeholder={"Start time"}
                                         onChange={e => false} />
                                     <img src="/imgs/calendar.svg" alt="" className='calendaricon' />
                                 </div>
@@ -168,7 +168,7 @@ const CreateProposalPage = props => {
 
                             <Datetime dateFormat={"YYYY-MM-DD"} timeFormat={"HH:mm"} renderInput={(props, openCalendar, closeCalendar) => {
                                 return <div className='timeinputwrapper'>
-                                    <input {...props} className="RInput" placeholder={"End time"}
+                                    <input {...props} className="r-input" placeholder={"End time"}
                                         onChange={e => false} />
                                     <img src="/imgs/calendar.svg" alt="" className='calendaricon' />
                                 </div>

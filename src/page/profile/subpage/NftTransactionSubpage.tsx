@@ -57,7 +57,7 @@ const NftTransactionSubpage = (props) => {
     }, [nfts, nftTransactions, blocknumber])
 
     return <div className='NftTransactionSubpage' style={{ padding: '40px' }}>
-        <input {...register('blocknumber', { required: true })} placeholder="blocknumber" type="number" className="RInput" />
+        <input {...register('blocknumber', { required: true })} placeholder="blocknumber" type="number" className="r-input" />
         <MainButton onClick={handleSubmit(test)} style={{ marginLeft: '40px' }}>Confirm</MainButton>
         <div style={{ height: '40px' }}></div>
         {res}

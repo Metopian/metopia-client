@@ -194,13 +194,13 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     <div className="MembershipFormGroup">
                         <div className="CreateClubPageFormGroup">
                             <Label>Name</Label>
-                            <div className="RInput fake"  >
+                            <div className="r-input fake"  >
                                 {queryingNft ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" color='#666' /> : (name || "Obtained automatically")}
                             </div>
                         </div>
                         <div className="CreateClubPageFormGroup">
                             <Label>Symbol</Label>
-                            <div className="RInput fake">
+                            <div className="r-input fake">
                                 {queryingNft ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" color='#666' /> : (name || "Obtained automatically")}
                             </div>
                         </div>

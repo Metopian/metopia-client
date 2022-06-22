@@ -1,6 +1,6 @@
 {
   "name": "metopia-client",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "private": true,
   "dependencies": {
     "@3id/connect": "^0.2.5",
@@ -128,8 +128,7 @@
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "build": "node scripts/build.js"
   },
   "eslintConfig": {
     "extends": [
@@ -209,6 +208,7 @@
     "@ceramicnetwork/http-client": "^1.5.7",
     "@types/query-string": "^6.3.0",
     "did-resolver": "^3.1.5",
-    "nft-did-resolver": "^1.0.0"
+    "nft-did-resolver": "^1.0.0",
+    "sass": "^1.52.3"
   }
 }

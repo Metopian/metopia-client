@@ -65,7 +65,7 @@ const LinkInputModal = (props) => {
                 {formInput}
                 {
                     formInputSetting ?
-                        <input {...formInputSetting} className="RInput" value={value} /> : null
+                        <input {...formInputSetting} className="r-input" value={value} /> : null
                 }
             </div>
         </div>

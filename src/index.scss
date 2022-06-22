@@ -1,3 +1,28 @@
+$title-color: #000000;
+$text-color: #000000;
+$subtitle-color: #BBBBBB;
+$border-color: #DDDDDD;
+$theme-color: #5A49DE;
+$subtheme-color: #5A49DE11;
+$error-color: #f4212e;
+
+$default-border:1px solid $border-color;
+
+@mixin absolute-centered {
+  position: absolute;
+  margin: auto;
+  left: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  top: -9999px;
+}
+
+@mixin flex-centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,12 +30,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /* --title-color: #000000;
-  --text-color: #000000;
-  --subtitle-color: #BBBBBB;
-  --border-color: #DDDDDD;
-  --theme-color: #5A49DE */
 }
 
 * {
@@ -184,5 +203,9 @@ code {
 
 .Tip {
   font-size: 14px;
-  color: #BBBBBB
+  color: $subtitle-color;
+}
+
+.Error {
+  color: $error-color;
 }

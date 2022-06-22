@@ -39,7 +39,7 @@
     width: 100%;
 }
 
-.CreateProposalForm .optioncard .RInput {
+.CreateProposalForm .optioncard .r-input {
     margin: 0;
     width: 100%;
     max-width: 100%;
@@ -78,7 +78,7 @@
     margin-top: 50px;
 }
 
-.CreateProposalPage .RLabel {
+.CreateProposalPage .r-label {
     font-weight: bold;
 }
 
