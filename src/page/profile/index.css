@@ -97,7 +97,7 @@
 .ProfilePageMainTitle {
     display: flex;
     padding: 24px 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .ProfilePageMainTitleMenu {
@@ -111,7 +111,7 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 30px;
-    color: var(--subtitle-color);
+    color: #BBBBBB;
     margin-right: 48px;
     cursor: pointer;
     font-family: Montserrat;
@@ -119,7 +119,7 @@
 
 .ProfilePageMainTitleMenuItem.selected {
     font-weight: bold;
-    color: var(--title-color);
+    color: #000000;
 }
 
 .ProfilePageContentWrapper {

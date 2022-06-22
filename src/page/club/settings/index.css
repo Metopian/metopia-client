@@ -17,7 +17,7 @@
     font-weight: 500;
     font-size: 24px;
     line-height: 36px;
-    color: var(--title-color);
+    color: #000000;
     margin-bottom: 30px;
     transform: translateY(2px);
 }
@@ -51,7 +51,7 @@
 }
 
 .CreateClubStepContainer .splitter.active {
-    background: var(--theme-color);
+    background: #5A49DE;
 }
 
 .CreateClubStepContainer .text {
@@ -67,7 +67,7 @@
 }
 
 .CreateClubStepContainer .text.active {
-    color: var(--theme-color);
+    color: #5A49DE;
     opacity: 1;
 }
 

@@ -78,7 +78,7 @@
 .MembershipCardInput>.container {
     padding: 20px 30px;
 
-    border:  1px dotted var(--border-color);
+    border:  1px dotted #DDDDDD;
     border-top: 0;
 }
 
@@ -102,7 +102,7 @@
 }
 
 .addmorebonusbutton {
-    color: var(--theme-color);
+    color: #5A49DE;
     font-size: 16px;
     font-weight: bold;
     line-height: 30px;
@@ -121,7 +121,7 @@
     background: rgba(240, 240, 240, 0.4);
     border-radius: 12px;
     margin-bottom: 32px;
-    border: 1px solid var(--border-color);
+    border: 1px solid #DDDDDD;
 }
 
 .MembershipCardPreviewCard .maincontainer {

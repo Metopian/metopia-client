@@ -54,11 +54,11 @@
     border: 0;
     cursor: pointer;
     font-weight: bold;
-    color: var(--subtitle-color);
+    color: #BBBBBB;
     line-height: 18px;
 }
 .switchnetbutton:hover{
-    color: var(--title-color);
+    color: #000000;
 }
 
 .LogoutButtonWrapper {
