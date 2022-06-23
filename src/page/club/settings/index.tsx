@@ -11,7 +11,7 @@ import { BasicProfileForm, useData as useBasicFormData } from './form/BasicProfi
 import { ConsensusForm, useData as useConsensusForm } from './form/ConsensusForm'
 import { useData as useVotingForm, VotingForm } from './form/VotingForm'
 import { defaultForm, doCreateDao, doUpdateDao, formToSettings, settingsToForm, snapshotDataToForm } from './function'
-import './index.css'
+import './index.scss'
 
 const ClubSettingPage = (props) => {
     /**
@@ -109,23 +109,23 @@ const ClubSettingPage = (props) => {
         })
     }
 
-    return <div className='CreateClubPage'>
-        <div className="CreateClubPageHead">
-            <div className="CreateClubPageTitle" style={{ margin: 0 }}><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
+    return <div className='create-club-page'>
+        <div className="head">
+            <div className="title" style={{ margin: 0 }}><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
                 window.location.href = localRouter("club.prefix") + slug
             }} />{slug ? 'Update settings' : 'Create new DAO'}</div>
             <div style={{ display: 'flex', gap: '24px', marginLeft: 'auto' }}>
                 <MainButton onClick={createClub} disabled={creating}>Confirm</MainButton>
             </div>
         </div>
-        <div className='CreateClubContainer' ref={container} onScroll={e => {
+        <div className='body' ref={container} onScroll={e => {
             $('#createClubScrollbar').css({
                 "top": (container.current.scrollTop + 80 + ((container.current.clientHeight - 250) * container.current.scrollTop /
                     (container.current.scrollHeight - container.current.clientHeight))) + 'px'
             })
         }}>
             {
-                slug ? null : <div className='CreateClubForm' >
+                slug ? null : <div className='create-club-form' >
                     <Label style={{ marginBottom: '12px' }}>Import from Snapshot space</Label>
                     <div className="Tip" style={{ marginBottom: '20px' }}>Only strategies of <span style={{ fontStyle: 'italic' }}>erc721</span> on Ethereum will be automatically loaded.</div>
                     <div style={{ marginBottom: '20px' }}>

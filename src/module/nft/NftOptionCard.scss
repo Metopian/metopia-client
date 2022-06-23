@@ -1,0 +1,103 @@
+@import '../../index.scss';
+
+.nft-option-card {
+    min-width: 90px;
+    max-width: 120px;
+    width: 120px;
+    cursor: pointer;
+    position: relative;
+    cursor: pointer;
+    flex: 1 1 auto;
+    border-radius: 3px;
+    overflow: hidden;
+    flex: 1 1 0px;
+
+    &::before {
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+
+    .text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        max-height: inherit;
+        width: inherit;
+        min-width: inherit;
+        max-width: inherit;
+        border-radius: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 22px;
+        font-family: Montserrat;
+        font-weight: bold;
+        color: #666
+    }
+
+    >.content {
+        @include absolute-centered;
+        max-height: inherit;
+        width: inherit;
+        min-width: inherit;
+        max-width: inherit;
+        border-radius: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ddd;
+        width: 100%;
+
+        &:hover {
+            opacity: 0.3;
+        }
+
+        >.image {
+            max-height: inherit;
+            width: inherit;
+            min-width: inherit;
+            max-width: inherit;
+            border-radius: inherit;
+
+            img {
+                max-height: inherit;
+                width: inherit;
+                min-width: inherit;
+                max-width: inherit;
+                border-radius: inherit;
+            }
+        }
+
+        >.checked-icon {
+            display: none;
+            position: absolute;
+            width: 24px !important;
+            height: 24px !important;
+            top: 8px !important;
+            right: 8px !important;
+
+        }
+
+        >.unchecked-icon {
+            display: block;
+            position: absolute;
+            width: 24px !important;
+            height: 24px !important;
+            top: 8px !important;
+            right: 8px !important;
+        }
+    }
+
+    &:hover,
+    &.selected {
+        .checked-icon {
+            display: block
+        }
+        .unchecked-icon{
+            display: none
+        }
+    }
+}

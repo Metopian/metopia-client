@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
-import { Input, Label, DurationInput } from '../../../../module/form';
-import './VotingForm.css';
+import { DurationInput, Input, Label } from '../../../../module/form';
 
 const useData = (defaultData?) => {
     const formId = "voting"
@@ -31,9 +30,9 @@ const useData = (defaultData?) => {
 const VotingForm = props => {
     const { display } = props
     const { data, update: updateForm } = useData()
-    return <div className={"CreateClubForm" + (display ? '' : ' hidden')}  >
+    return <div className={"create-club-form" + (display ? '' : ' hidden')}  >
         {/* <div className="CreateClubPageTitle">Proposal settings</div> */}
-        <div className="CreateClubPageFormGroup second" >
+        <div className="form-group second" >
             <Label>Preparation period</Label>
             <div className="Tip" style={{ marginTop: '-10px', marginBottom: '20px' }}>How long will it take for a proposal from starting to public voting?</div>
             <DurationInput
@@ -43,14 +42,14 @@ const VotingForm = props => {
                 unit={data.delayUnit || 1}
                 onChangeUnit={val => updateForm({ delayUnit: val })} />
         </div>
-        <div className="CreateClubPageFormGroup second">
+        <div className="form-group second">
             <Label>Active period</Label>
             <div className="Tip" style={{ marginTop: '-10px', marginBottom: '20px' }}>How long will the public voting last?</div>
             <DurationInput onChange={val => updateForm({ period: val })} placeholder={3600} value={data.period}
                 unit={data.periodUnit || 1}
                 onChangeUnit={val => updateForm({ periodUnit: val })} />
         </div>
-        <div className="CreateClubPageFormGroup">
+        <div className="form-group">
             <Label>Quorum</Label>
             <div className="Tip" style={{ marginTop: '-10px', marginBottom: '20px' }}>How many members are required to validate each proposal?</div>
             <Input placeholder={0} value={data.quorum} onChange={(e) => updateForm({ quorum: parseInt(e.target.value) })} type='number' />
@@ -59,3 +58,4 @@ const VotingForm = props => {
 }
 
 export { VotingForm, useData };
+

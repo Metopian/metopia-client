@@ -1,0 +1,9 @@
+@import '../../index.scss';
+
+.wrapped-lazy-load-image {
+    position: relative;
+
+    .loading {
+        @include absolute-centered;
+    }
+}

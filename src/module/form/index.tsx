@@ -44,7 +44,7 @@ const ImageSelector = (props) => {
         {
             loading ? <ReactLoading type={'spin'} color={'#444'} height={'40%'} width={'40%'} className="loading" /> : null
         }
-        <input type='file' className="HiddenInput" ref={inputRef}
+        <input type='file' className="Hidden" ref={inputRef}
             onChange={async (e) => {
                 setLoading(true)
                 await props.onChange(e)

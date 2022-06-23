@@ -1,0 +1,61 @@
+@import '../../index.scss';
+
+.club-card {
+    position: relative;
+    border-radius: 24px;
+    min-width: 240px;
+    max-width: 330px;
+    flex: 1 1 0px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0px 10px 32px rgb(241, 241, 241);
+    cursor: pointer;
+
+    >.wrapper {
+        width: 100%;
+        min-width: 240px;
+        top: 0;
+        left: 0;
+        position: relative;
+        background-color: #d4dcff;
+        border-radius: 24px;
+        overflow: hidden;
+
+        &:after {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        >.bg {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+
+            img {
+                height: 100%;
+                @include absolute-centered;
+            }
+        }
+
+        >.text-container {
+            position: absolute;
+            display: flex;
+            width: calc(100% - 40px);
+            bottom: 20px;
+            left: 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            justify-content: center;
+            padding: 20px;
+
+            >.name {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 2px;
+            }
+        }
+    }
+}

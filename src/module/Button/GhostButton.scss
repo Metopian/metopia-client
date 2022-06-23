@@ -1,0 +1,49 @@
+@import '../../index.scss';
+
+.ghost-button-group {
+    display: inline-block;
+    position: relative;
+
+    .ghost-button {
+        border: $default-border;
+        box-sizing: border-box;
+        padding: 13px 18px;
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+        position: relative;
+        user-select: none;
+        filter: grayscale(100%);
+
+        img {
+            width: 20px;
+            height: 20px;
+            vertical-align: top;
+        }
+
+        &:first-of-type {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        &:last-of-type {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        &+.ghost-button {
+            border-left: 0;
+
+            &:hover,
+            &.active {
+                margin-left: -1px;
+            }
+        }
+
+        &:hover,
+        &.active {
+            border: 1px solid $theme-color;
+            filter: none;
+        }
+    }
+}

@@ -13,7 +13,7 @@ import type { Signature } from '../../config/type/web3Type';
 import { MainButton } from '../../module/button';
 import { useLoginModal } from '../../module/LoginModal';
 import { LogoIcon, MenuItem } from '../../module/Menu';
-import { NftCollectionNameButtonV2, NftOptionCard } from '../../module/nft';
+import { NftCollectionNameButton, NftOptionCard } from '../../module/nft';
 import { resyncToken, useNfts } from '../../third-party/moralis';
 import { getNFTReadableSrc, getSortedNfts, nftFind } from '../../utils/NftUtils';
 import { addrShorten } from '../../utils/stringUtils';
@@ -293,7 +293,7 @@ const AIActPage = () => {
                 </div>
                 <div className="AIActFunctionalContainer">
                     <div className="AIActPageFormContainerLeft">
-                        <div className="CreateClubPageFormGroup">
+                        <div className="form-group">
                             <div className='AIActSubTitle'>NFT Assets</div>
                             <div className="AIActMainIntroduction">We support NFT Assets on Ethereum and Polygon.</div>
                             <div>
@@ -310,7 +310,7 @@ const AIActPage = () => {
                                         {sortedNfts.map(nftGroup => {
                                             if (!nftGroup.name || nftGroup.name.length === 0)
                                                 return null
-                                            return <NftCollectionNameButtonV2 key={'nftGroup--' + nftGroup.tokenAddress}
+                                            return <NftCollectionNameButton key={'nftGroup--' + nftGroup.tokenAddress}
                                                 selected={selectedContracts.find(t => t.toLowerCase() === nftGroup.tokenAddress.toLowerCase())}
                                                 onClick={flag => {
                                                     let tmp = selectedContracts.map(i => i)
@@ -322,7 +322,7 @@ const AIActPage = () => {
 
                                                     setSelectedContracts(tmp)
 
-                                                }}>{nftGroup.name}({nftGroup.data.length})</NftCollectionNameButtonV2>
+                                                }}>{nftGroup.name}({nftGroup.data.length})</NftCollectionNameButton>
                                         })
                                         }</div>
                                 }

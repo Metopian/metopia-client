@@ -1,6 +1,6 @@
 import React from "react"
 import { fillZero } from "../../utils/stringUtils"
-import './DefaultAvatar.css'
+import './DefaultAvatar.scss'
 
 const getRandomColor = wallet => {
     let rhex = wallet.substring(2, 6)
@@ -36,11 +36,10 @@ export const DefaultAvatarWithRoundBackground = (props: { wallet, width?, height
         return null
     let color = getRandomColor(wallet)
     return <div style={{
-        display: 'inline-block', justifyContent: 'center', alignItems: 'center',
-        backgroundColor: color + '44', height: '40px', width: '40px', borderRadius: '20px',
+        backgroundColor: color + '44',
         transform: height ? `scale(${height / 40})` : 'unset'
-    }} className={'DefaultAvatarWithRoundBackground ' + (className || '')}>
-        <div className="DefaultAvatarWrapper">
+    }} className={'default-avatar-with-round-background ' + (className || '')}>
+        <div className="default-avatar-wrapper">
             <DefaultAvatar wallet={wallet} />
         </div>
     </div>

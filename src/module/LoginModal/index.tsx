@@ -15,7 +15,7 @@ import { useNfts } from '../../third-party/moralis';
 import { getNFTReadableSrc, getSortedNfts, nftEqual } from '../../utils/NftUtils';
 import { getAddress, getChainId } from '../../utils/web3Utils';
 import { MainButton } from '../button';
-import './index.css';
+import './index.scss';
 import { useLoginModal } from './useLoginModal';
 
 
@@ -64,19 +64,19 @@ const walletConfig = [
 ]
 
 const StepIcon = (props: { title, icon, active }) => {
-    return <div className={"StepIcon" + (props.active ? ' active' : '')}>
-        <div className="StepIconWrapper"><img src={props.icon} alt={props.title} /></div>
-        <div className="StepIconTitle">{props.title}</div>
+    return <div className={"step-icon" + (props.active ? ' active' : '')}>
+        <div className="img-wrapper"><img src={props.icon} alt={props.title} /></div>
+        <div className="title">{props.title}</div>
     </div>
 }
 
 const WalletIcon = (props) => {
-    return <div className={"WalletIcon" + (props.active ? ' active' : '') + (props.disabled || props.loading ? ' disabled' : '')} onClick={() => {
+    return <div className={"wallet-icon" + (props.active ? ' active' : '') + (props.disabled || props.loading ? ' disabled' : '')} onClick={() => {
         if (!props.disabled && !props.loading)
             props.onSelected()
     }}
         title={props.disabled ? 'Coming soon' : ''}>
-        <div className="WalletIconWrapper">
+        <div className="icon-wrapper">
             {/* <ReactLoading /> */}
             {
                 props.loading ? <Triangle
@@ -87,7 +87,7 @@ const WalletIcon = (props) => {
                 /> : <img src={props.icon} alt={props.title} />
             }
         </div>
-        <div className="WalletIconTitle">{props.title}</div>
+        <div className="title">{props.title}</div>
     </div>
 }
 
@@ -208,21 +208,6 @@ const LoginModal = (props: {
         })
     }, [sortedNfts, selectedNft])
 
-    const NFTLabels = useMemo(() => {
-        return sortedNfts.map(nftGroup => {
-            return <NftCollectionNameButton key={'nftGroup--' + nftGroup.name}
-                onClick={flag => {
-                    let tmp = unselectedContracts.map(i => i)
-                    if (!flag) {
-                        tmp.push(nftGroup.tokenAddress)
-                    } else {
-                        tmp = tmp.filter(t => t != nftGroup.tokenAddress)
-                    }
-                    setUnselectedContracts(tmp)
-                }}>{nftGroup.name}({nftGroup.data.length})</NftCollectionNameButton>
-        })
-    }, [sortedNfts, unselectedContracts])
-
     const selectWallet = async () => {
         if ((window as any).ethereum && !(window as any).ethereum._state.initialized) {
             alert('Please refresh the application to get your MetaMask ready.')
@@ -280,46 +265,44 @@ const LoginModal = (props: {
         isOpen={isShow}
         onRequestClose={hide}
         style={Object.assign({}, defaultLoginModalStyle, props.style || {})}>
-        <div className="LoginModalContainer">
-            <div className='LoginModalTitle'>{stepsConfig[step].title}</div>
-            <div className={"LoginModalStepInfoContainer" + (step === 0 ? ' hidden' : '')}>
+        <div className="login-modal-container">
+            <div className='title'>{stepsConfig[step].title}</div>
+            <div className={"step-container" + (step === 0 ? ' hidden' : '')}>
                 {stepsConfig.map((stepInfo, i) => <StepIcon key={"stepicon" + i} title={stepInfo.title} icon={stepInfo.icon} active={i <= step} />)}
             </div>
             {
-                step === 0 ? <div className="LoginModalWalletContainer">
+                step === 0 ? <div className="wallet-container">
                     {walletConfig.map((wallet, i) => <WalletIcon key={"walleticon" + i} loading={loadingAccount}
                         title={wallet.title} icon={wallet.icon} active={false} disabled={wallet.disabled}
                         onSelected={selectWallet} />)}
                 </div> : null
             }{
-                step === 1 ? <div className='ModalUserSettingContainer'>
+                step === 1 ? <div className='setting-container'>
                     <form>
-                        <div className="ModalUserSettingGroup">
+                        <div className="form-group">
                             <label>Username</label>
                             <input {...register('username', { required: true })} />
-                            {errors.username && <p className="ErrorHint">Username is required</p>}
+                            {errors.username && <p className="error-hint">Username is required</p>}
                         </div>
-                        <div className="ModalUserSettingGroup">
+                        <div className="form-group">
                             <label>Introduction</label>
                             <input {...register('introduction')} />
                         </div>
-                        <div className="LoginModalButtonContainer">
+                        <div className="button-container">
                             <MainButton solid onClick={handleSubmit(onSubmitUserSetting)}>Confirm</MainButton>
                             <MainButton solid onClick={() => { setStep(step - 1) }}>Previous</MainButton>
                         </div>
                     </form>
                 </div> : null
             }{
-                step === 2 ? <div className="LoginModalAvatarContainer">
-                    <div className='NftCollectionNameButtonContainer'>
-                        {NFTLabels}
-                    </div>
+                step === 2 ? <div className="avatar-container">
+                    {/* TODO */}
                     <FlexibleOrderedContainer elementMinWidth={90} elementMaxWidth={120} gap={10} style={{ marginTop: '10px' }} >
                         {NftOptionCards}
                     </FlexibleOrderedContainer>
                 </div> : null
             }{
-                step > 1 ? <div className="LoginModalButtonContainer">
+                step > 1 ? <div className="button-container">
                     <MainButton solid onClick={() => {
                         if (step === 1) {
                             // handleSubmit(onSubmitUserSetting)

@@ -3,7 +3,7 @@ import { BulletList } from 'react-content-loader'
 import FlexibleOrderedContainer from '../../module/FlexibleOrderedContainer'
 import { useSpaceListData, useLatestProposalData } from '../../governance'
 import ClubCard from './ClubCard'
-import './index.css'
+import './index.scss'
 import SearchInput from './SearchInput'
 import { localRouter } from '../../config/urls'
 import { useChainId } from '../../config/store'
@@ -15,27 +15,27 @@ const ProposalBoard = (props) => {
     const next = () => setIndex(index === 5 ? 1 : index + 1)
     const last = () => setIndex(index === 1 ? 5 : index - 1)
 
-    return <div>
-        <div className="HomeHeadHotTopicsHead">
-            <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/fire.svg" className='HomeHeadHotTopicsHeadIcon' alt="" />
-            <div className="HomeHeadHotTopicsHeadTitle">Latest Proposals</div>
-            <div className="HomeHeadHotTopicsHeadPager">
+    return <div className="proposal-board">
+        <div className="head">
+            <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/fire.svg" className='icon' alt="" />
+            <div className="title">Latest Proposals</div>
+            <div className="pager">
                 <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/left_arrow.svg" alt="Last" onClick={last} />
-                <div className="HomeHeadHotTopicsHeadPagerText">{index}/5</div>
+                <div className="text">{index}/5</div>
                 <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/right_arrow.svg" alt="Next" onClick={next} />
             </div>
         </div>
-        <div className="HomeHeadHotTopicsContent" >
+        <div className="content" >
             <a href={data ? localRouter('proposal.prefix') + data.content[index - 1]?.id : '#'}>{data?.content[index - 1]?.title}</a>
         </div>
     </div>
 }
 
-const HomePage = (props) => {
+const HomePage = () => {
     const { data: spaceData } = useSpaceListData()
     const { data: latestProposalData } = useLatestProposalData()
     const [keyword, setKeyword] = useState('')
-    const {chainId} = useChainId()
+    const { chainId } = useChainId()
 
 
     const spaceContainer = useMemo(() => {
@@ -61,26 +61,26 @@ const HomePage = (props) => {
         }</FlexibleOrderedContainer>
     }, [spaceData, keyword, chainId])
 
-    return <div className='HomePage'>
-        <div className="HomeHead" style={{ backgroundImage: "url(/imgs/index_head_bg.png)" }}>
-            <div className='HomeHeadContainer'>
-                <div className="HomeHeadLeftContainer">
-                    <div className="HomeHeadClubStats">
-                        <span className="HomeHeadClubStatsNumber">{spaceData?.content && Object.keys(spaceData.content).length}</span>
+    return <div className='home-page'>
+        <div className="head" style={{ backgroundImage: "url(/imgs/index_head_bg.png)" }}>
+            <div className='container'>
+                <div className="left-container">
+                    <div className="stats">
+                        <span className="number">{spaceData?.content && Object.keys(spaceData.content).length}</span>
                         DAOs
                     </div>
-                    <div className="HomeHeadClubIntroduction">
+                    <div className="introduction">
                         The first Web3 infrastructure that powers NFT membership
                     </div>
                 </div>
-                <div className="HomeHeadRightContainer">
+                <div className="right-container">
                     <ProposalBoard data={latestProposalData} />
                 </div>
             </div>
         </div>
-        <div className='HomeBody'>
-            <div className='HomeBodyHead'>
-                <span className='HomeBodyHeadTitle'>Metopolis list</span>
+        <div className='body'>
+            <div className='head'>
+                <span className='title'>DAO list</span>
                 <SearchInput onChange={setKeyword} />
             </div>
             {spaceContainer}

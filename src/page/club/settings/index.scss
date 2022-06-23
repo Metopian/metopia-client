@@ -1,0 +1,118 @@
+@import '../../../index.scss';
+
+.create-club-page {
+    padding: 40px 80px;
+
+    >.head {
+        display: flex;
+        margin-bottom: 30px;
+        height: 45px;
+        position: fixed;
+        width: calc(100% - 260px);
+        z-index: 9999;
+
+        >.title {
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 36px;
+            color: $title-color;
+            margin-bottom: 30px;
+            transform: translateY(2px);
+        }
+    }
+
+    .body {
+        max-height: calc(100vh - 0px);
+        width: calc(100% + 50px);
+        padding-right: 50px;
+        overflow-y: auto;
+        overflow-x: visible;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 40px, black 80px, black calc(100vh - 100px), transparent calc(100vh - 80px));
+        mask-image: linear-gradient(to bottom, transparent 40px, black 80px, black calc(100vh - 100px), transparent calc(100vh - 80px));
+        padding-top: 80px;
+        padding-bottom: 80px;
+        position: relative;
+
+        .create-club-form {
+            background: #FFFFFF;
+            box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+            border-radius: 0px;
+            padding: 30px 60px;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            display: inline-block;
+            width: 100%;
+            border-radius: 32px;
+
+            &:first-child {
+                margin-top: 0
+            }
+
+            &.hidden {
+                display: none;
+            }
+
+            .left-container {
+                display: inline-block;
+                width: 50%;
+                border-right: $default-border;
+                vertical-align: top;
+                padding-right: 60px;
+            }
+
+            .right-container {
+                display: inline-block;
+                width: 50%;
+                padding-left: 60px;
+                vertical-align: top;
+                border-left: $default-border;
+                margin-left: -1px;
+            }
+
+            .form-group {
+                margin-bottom: 40px;
+                width: 360px;
+
+                .subgroup.hidden {
+                    display: none;
+                }
+
+                .subgroup .r-label {
+                    font-size: 14px;
+                    margin-top: 12px;
+                    margin-bottom: 12px;
+                }
+
+            }
+        }
+
+        &::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        .scrollbar {
+            width: 8px;
+            height: 60px;
+            border-radius: 4px;
+            background-color: #ffffff;
+            position: absolute;
+            right: 4px;
+            top: 80px;
+            z-index: 9999;
+            box-shadow: 2px 2px 4px rgba(45, 35, 117, 0.1);
+        }
+    }
+}
+
+.add-more-nft-button {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    color: $theme-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px $theme-color dotted;
+    cursor: pointer;
+    padding: 20px 0;
+}

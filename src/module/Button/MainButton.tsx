@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import './MainButton.css'
+import './MainButton.scss'
 import ReactLoading from 'react-loading';
 
 const MainButton = (props) => {
     const [loading, setLoading] = useState(false)
-    return <div className={"MainButton" + (props.solid ? ' solid' : '') + (props.disabled ? ' disabled' : '') + (loading ? " loading" : '')} style={props.style}
+    return <div className={"main-button" + (props.solid ? ' solid' : '') + (props.disabled ? ' disabled' : '') + (loading ? " loading" : '')
+        + (props.className ? ' ' + props.className : '')} style={props.style}
         onClick={async (e) => {
             if (!props.disabled && !loading) {
                 setLoading(true)
@@ -15,7 +16,7 @@ const MainButton = (props) => {
                 }
             }
         }} >
-        <div className={'MainButtonContainer'}>
+        <div className={'container'}>
             <div className="content">{props.children}</div>
             {loading ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" /> : ""}
         </div>

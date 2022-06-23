@@ -1,0 +1,157 @@
+@import '../../../index.scss';
+
+.club-home-page {
+    >.container {
+
+        background: #FFFFFF;
+        box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.04);
+        border-radius: 32px;
+        margin: 40px 72px;
+        width: calc(100vw - 232px);
+
+        >.head {
+            height: calc(25vw - 58px);
+            border-radius: 32px 32px 0 0;
+            overflow: hidden;
+            position: relative;
+            background-color: #f2f2f2;
+
+            .cover-image {
+                width: 100%;
+                position: relative;
+                height: 100%;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    @include absolute-centered
+                }
+            }
+
+            .cover-shadow {
+                height: 10.388vw;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+                transform: matrix(1, 0, 0, -1, 0, 0);
+            }
+
+            >.stats {
+                position: absolute;
+                width: 7vw;
+                left: calc(25% - 3vw);
+                text-align: center;
+                bottom: 1.1vw;
+
+                &.right {
+                    left: calc(75% - 3vw);
+                }
+
+                >.number {
+                    font-weight: bold;
+                    font-size: 2.8vw;
+                    line-height: 4vw;
+                    color: #FFFFFF;
+                    font-family: Akrobat;
+                    background: radial-gradient(#00000033, #00000000 50%);
+                }
+
+                >.text {
+                    font-size: 1.6vw;
+                    line-height: 3.2vw;
+                    text-align: center;
+                    color: rgba(255, 255, 255, 0.8);
+                    font-family: Montserrat;
+                    background: radial-gradient(#00000033, #00000000 50%);
+                }
+            }
+        }
+
+        >.introduction-container {
+
+            text-align: center;
+            margin-top: -4.15vw;
+            position: relative;
+            padding: 0 40px;
+
+            >.symbol-wrapper {
+                display: inline-block;
+                width: 8.3vw;
+                height: 8.3vw;
+                min-width: 120px;
+                min-height: 120px;
+                border-radius: 50%;
+                overflow: hidden;
+                border: 4px solid #ffffff;
+
+                .symbol,
+                .symbol img {
+                    width: 100%;
+                    height: 100%;
+                    background-color: #eee;
+                }
+            }
+
+            >.name {
+                font-weight: 500;
+                font-size: max(1.385vw, 20px);
+                text-align: center;
+                color: $title-color;
+                margin-top: 10px;
+                text-transform: capitalize;
+                transform: translateX(20x);
+
+                img {
+                    cursor: pointer;
+                    display: inline;
+                    height: 24px;
+                    transform: translate(12px, 2px);
+                }
+            }
+
+            >.introduction {
+                font-size: 16px;
+                line-height: 24px;
+                text-align: center;
+                color: $subtitle-color;
+                max-width: 640px;
+                display: inline-block;
+                margin-top: 10px;
+            }
+        }
+
+        >.function-container {
+            margin-top: 32px;
+            gap: 16px;
+            @include flex-centered-container
+        }
+
+        >.content-container {
+            padding: 40px 44px;
+
+            .sub-menu-bar {
+                display: flex;
+                padding: 24px 0;
+                border-bottom: $default-border;
+                align-items: center;
+
+                >.title {
+                    font-weight: 500;
+                    font-size: 24px;
+                    line-height: 36px;
+                    color: $title-color;
+
+                }
+
+                >.sub-menu-item {
+                    margin-left: auto;
+                    font-size: 20px;
+                    line-height: 30px;
+                    color: $text-color;
+                }
+            }
+        }
+    }
+}

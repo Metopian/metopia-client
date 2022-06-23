@@ -9,7 +9,7 @@ import { getRandomNft } from '../../../../third-party/moralis'
 import { pad } from '../../../../utils/stringUtils'
 import { getContract } from '../../../../utils/web3Utils'
 import BonusInputCard from './BonusInputCard'
-import './MembershipCardInput.css'
+import './MembershipCardInput.scss'
 import ReactLoading from 'react-loading';
 
 const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
@@ -154,12 +154,12 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     }, [ref, displayedId, editing, submit, getFormData])
 
     if (editing)
-        return <div className='MembershipCardInput'>
-            <div className="maintitle" style={{ backgroundImage: 'url("/imgs/membershipcardbg.png")' }}>
+        return <div className='membership-card-input'>
+            <div className="title" style={{ backgroundImage: 'url("/imgs/membershipcardbg.png")' }}>
                 <div className='text'>{pad(displayedId, 2)} {name?.length ? name : "[Please provide NFT Contract]"}</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                    <img src="/imgs/tick_purple.svg" alt="" className='confirmbutton tick' onClick={submit} />
-                    <img src="/imgs/close_purple4.svg" alt="" className='confirmbutton' style={{ height: '24px' }} onClick={() => {
+                    <img src="/imgs/tick_purple.svg" alt="" className='confirm-button tick' onClick={submit} />
+                    <img src="/imgs/close_purple4.svg" alt="" className='confirm-button' style={{ height: '24px' }} onClick={() => {
                         (ref as any).current[displayedId - 1] = null
                         onDelete(id)
                     }} />
@@ -167,15 +167,15 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
             </div>
             <div className="container">
                 <Label style={{ fontWeight: 'bold', marginBottom: '12px' }}>Basic rights</Label>
-                <div className="CreateClubPageFormContainerLeft" style={{ border: 'none' }}>
-                    <div className="MembershipFormGroup">
-                        <div className="CreateClubPageFormGroup">
+                <div className="left-container" style={{ border: 'none' }}>
+                    <div className="membership-form-group">
+                        <div className="form-group">
                             <Label>Ticket number per token</Label>
                             <Input id="createclubcontractinput" value={defaultWeight || 1} disabled type="number" onChange={(e) => {
                                 onChange(getFormData({ defaultWeight: e.target.value }))
                             }} />
                         </div>
-                        <div className="CreateClubPageFormGroup">
+                        <div className="form-group">
                             <Label>NFT Contract Address</Label>
                             <Input id="createclubcontractinput" value={tokenAddress || ""} className={contractError ? " error" : ''} placeholder={""}
                                 onChange={(e) => {
@@ -190,15 +190,15 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                         </div>
                     </div>
                 </div>
-                <div className="CreateClubPageFormContainerRight" style={{ border: 'none' }} >
-                    <div className="MembershipFormGroup">
-                        <div className="CreateClubPageFormGroup">
+                <div className="right-container" style={{ border: 'none' }} >
+                    <div className="membership-form-group">
+                        <div className="form-group">
                             <Label>Name</Label>
                             <div className="r-input fake"  >
                                 {queryingNft ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" color='#666' /> : (name || "Obtained automatically")}
                             </div>
                         </div>
-                        <div className="CreateClubPageFormGroup">
+                        <div className="form-group">
                             <Label>Symbol</Label>
                             <div className="r-input fake">
                                 {queryingNft ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" color='#666' /> : (name || "Obtained automatically")}
@@ -210,7 +210,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     name?.length || bonus?.length ? <div style={{ paddingBottom: '12px', paddingTop: '32px', marginTop: '24px', borderTop: '1px solid #dddddd' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'flex-start' }}>
                             <Label style={{ fontWeight: 'bold', marginBottom: '0' }}>Bonus</Label>
-                            <div className="addmorebonusbutton" onClick={() => {
+                            <div className="add-more-bonus-button" onClick={() => {
                                 let maxId = 0
                                 bonus.forEach(b => {
                                     if (b.id > maxId)
@@ -238,16 +238,16 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
             </div>
         </div>
     else {
-        return <div className="MembershipCardPreviewCard">
-            <div className="maintitle" style={{ background: 'url("/imgs/membershipcardbg.png")', backgroundSize: 'cover' }}>
+        return <div className=".membership-card-preview-card">
+            <div className="title" style={{ background: 'url("/imgs/membershipcardbg.png")', backgroundSize: 'cover' }}>
                 <div className='text'>{pad(displayedId, 2)} {name?.length ? name : "[NFT]"}</div>
             </div>
 
-            <div className="maincontainer">
+            <div className="main-container">
                 {
-                    imgUrl ? <div className={'sampleimagewrapper'}>
+                    imgUrl ? <div className={'sample-image-wrapper'}>
                         <NftImage defaultSrc={imgUrl} chainId={chainId} tokenId={tokenId} contract={tokenAddress} width={100}
-                            className={"membershipCardImage"} />
+                            className={"sample-image"} />
                     </div> : null
                 }
                 <div className='textwrapper'>
@@ -259,23 +259,19 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                         <div className='title'>Contract</div>
                         <div className='text'>{tokenAddress}</div>
                     </div>
-                    {/* <div>
-                        <div className='title'>Vote per NFT</div>
-                        <div className='text'>{defaultWeight}</div>
-                    </div> */}
                 </div>
-                <img alt="edit" title="edit" src="/imgs/write2.svg" className='editbutton' onClick={() => {
+                <img alt="edit" title="edit" src="/imgs/write2.svg" className='edit-button' onClick={() => {
                     onEdit(id)
                 }} />
             </div>
-            <div className="bonuscontainer">
+            <div className="bonus-container">
                 {
-                    bonus?.filter(b => b.value?.length)?.length ? <div className="bonustitle">Bonus</div> : null
+                    bonus?.filter(b => b.value?.length)?.length ? <div className="title">Bonus</div> : null
                 }
-                <div className="bonuswrapper">
+                <div className="body">
                     {
                         bonus?.filter(b => b.value?.length).map((b, i) => {
-                            return <div className="bonusDisplayCard" key={'bonusDisplayCard' + i}>
+                            return <div className="bonus-display-card" key={'bonusDisplayCard' + i}>
                                 <div>
                                     <div className='title'>Trait</div>
                                     <div className='text'>{b.field}</div>

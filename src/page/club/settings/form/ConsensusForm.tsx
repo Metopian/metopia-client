@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState, useChainId } from '../../../../config/store';
-import MembershipCardInput from '../module/MembershipCardInput';
-import './ConsensusForm.css';
 import { Label } from '../../../../module/form';
+import MembershipCardInput from '../module/MembershipCardInput';
 
 const newMembership = (id) => {
     return {
@@ -44,16 +43,11 @@ const useData = () => {
             })
     }
     const update = (newValue) => {
-        console.log(newValue)
         dispatch(reduxUpdateForm({
             key: formId,
             value: Object.assign({}, data, newValue)
         }))
     }
-
-    // useEffect(() => {
-    //     update({ membership: [] })
-    // }, [])
 
     return { formId, data, update, updateMembership, removeMembership }
 }
@@ -85,8 +79,8 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
             updateMembership(Object.assign({}, data, { editing: false }))
         }
     }
-    
-    return <div className={"CreateClubForm" + (display ? '' : ' hidden')} style={{ padding: '40px 60px' }}>
+
+    return <div className={"create-club-form" + (display ? '' : ' hidden')} style={{ padding: '40px 60px' }}>
         {
             errors.consensus && <p className="ErrorHint" style={{ fontSize: '20px' }}>{errors.consensus.error}</p>
         }
@@ -117,7 +111,7 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
             />)
         }
 
-        <div className='addmorenftbutton' onClick={() => {
+        <div className='add-more-nft-button' onClick={() => {
             if (submitInputCardsData()) {
                 setTimeout(() => {
                     let maxId = 0
@@ -140,3 +134,4 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
 })
 
 export { Form as ConsensusForm, useData };
+

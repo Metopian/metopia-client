@@ -1,0 +1,128 @@
+@import '../../index.scss';
+
+.home-page {
+    padding: 40px 80px;
+
+    >.head {
+        border-radius: 32px;
+        filter: drop-shadow(0px 16px 32px rgba(45, 35, 117, 0.02));
+
+        >.container {
+
+            padding: 40px 80px;
+            border-radius: 32px;
+            background: linear-gradient(90deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 65.78%);
+
+            >.left-container {
+
+                display: inline-block;
+                width: 323px;
+            }
+
+            >.right-container {
+                background: rgba(255, 255, 255, 0.6);
+                width: 490px;
+                display: inline-block;
+                backdrop-filter: blur(20px);
+
+                border-radius: 24px;
+                float: right;
+                height: 172px;
+                margin-top: -20px;
+                padding: 40px 60px 40px 80px;
+                vertical-align: middle;
+            }
+
+            .stats {
+                color: $title-color;
+                font-size: 24px;
+                font-weight: bold;
+                font-family: "Akrobat";
+
+                .number {
+                    font-size: 56px;
+                    margin-right: 10px;
+
+                }
+            }
+
+            .introduction {
+                font-size: 20px;
+                color: #BBBBBB;
+                margin-top: 10px;
+                font-family: Montserrat;
+            }
+        }
+    }
+
+    >.body {
+        padding: 30px 40px;
+        border-radius: 32px;
+        background-color: #fff;
+        margin-top: 20px;
+        filter: drop-shadow(0px 16px 32px rgba(45, 35, 117, 0.02));
+
+        >.head {
+            position: relative;
+
+            >.title {
+                color: $title-color;
+                font-weight: 500;
+                font-size: 24px;
+            }
+        }
+    }
+}
+
+.proposal-board {
+    >.head {
+        >.icon {
+            margin-top: -10px;
+            margin-left: -60px;
+            opacity: 0;
+        }
+
+        >.title {
+
+            display: inline-block;
+            vertical-align: top;
+            color: #000000;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: Montserrat;
+        }
+
+        >.pager {
+            font-size: 12px;
+            color: $subtitle-color;
+            float: right;
+            line-height: 24px;
+            margin-top: 6px;
+
+            img {
+                height: 24px;
+                vertical-align: top;
+                cursor: pointer;
+            }
+
+            .text {
+                display: inline-block;
+                line-height: 24px;
+                vertical-align: top;
+                letter-spacing: 0.5px;
+                font-size: 15px;
+                font-family: Akrobat;
+                transform: translateY(1px);
+            }
+        }
+    }
+
+    >.content,
+    >.content a {
+
+        font-size: 16px;
+        line-height: 24px;
+        color: $subtitle-color;
+        text-decoration: none;
+    }
+}

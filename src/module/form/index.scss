@@ -94,7 +94,7 @@
         width: 100%;
     }
 
-    .mask {
+    > .mask {
         border-radius: 12px;
         cursor: pointer;
         position: absolute;
@@ -106,7 +106,7 @@
         }
     }
 
-    &.large .mask,
+    &.large > .mask,
     &.large {
         width: 200px;
         height: 200px
@@ -160,13 +160,13 @@
 }
 
 .r-multi-select {
-    .card-wrapper {
+    > .card-wrapper {
         display: flex;
         gap: 8px 12px;
         margin-bottom: 8px;
         flex-wrap: wrap;
 
-        .card {
+        > .card {
             @include flex-centered-container;
             background-color: $subtheme-color;
             color: $theme-color;
@@ -182,7 +182,7 @@
         }
     }
 
-    .selector {
+    > .selector {
         display: block;
         border-radius: 12px;
         border: 1px solid #DDDDDD;
@@ -216,7 +216,7 @@
         cursor: pointer;
         padding: 4px;
 
-        option {
+        > option {
             padding: 2px 4px;
             border-color: #DDDDDD;
         }

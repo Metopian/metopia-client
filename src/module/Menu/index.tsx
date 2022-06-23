@@ -8,17 +8,17 @@ import { getNFTReadableSrc } from '../../utils/NftUtils'
 import { getAddress } from '../../utils/web3Utils'
 import { useLoginModal } from '../LoginModal'
 import { switchChain } from '../../utils/web3Utils'
-import './index.css'
+import './index.scss'
 
 const LogoIcon = (props: { src: string, onClick?: OnClickFuncType }) => {
-    return <div className={"LogoIconWrapper"} onClick={props.onClick || function () { window.location.href = localRouter('home') }}>
+    return <div className={"logo-icon-wrapper"} onClick={props.onClick || function () { window.location.href = localRouter('home') }}>
         <img src={props.src} alt='' />
     </div >
 }
 
 const MenuItem = (props: { icon: string, name: string, link?: string, isIcon?: boolean, onClick?: OnClickFuncType, fill?: boolean }) => {
     const { icon, name, link, isIcon, fill } = props
-    return <div className={"MenuItem" + (isIcon ? ' isIcon' : '') + (fill ? ' fill' : '')} onClick={(e) => {
+    return <div className={"menu-item" + (isIcon ? ' isIcon' : '') + (fill ? ' fill' : '')} onClick={(e) => {
         if (props.onClick)
             props.onClick(e)
         else if (link) window.location.href = link
@@ -30,7 +30,7 @@ const MenuItem = (props: { icon: string, name: string, link?: string, isIcon?: b
 }
 
 const FollowedClubItem = (props) => {
-    return <div className="FollowedClubItem"></div>
+    return <div className="followed-club-item"></div>
 }
 
 const menuItems = [
@@ -67,9 +67,9 @@ const Menu = (props) => {
         getAddress(true).then(w => w?.length && setWallet(w))
     }, [])
 
-    return <div className="MenuBar">
+    return <div className="menu-bar">
         <LogoIcon src={logoUrl} />
-        <div className="MenuItemWrapper">
+        <div className="menu-item-container">
             {
                 menuItems && menuItems.map(i => {
                     if (i.id === 'user') {
@@ -103,17 +103,17 @@ const Menu = (props) => {
             }
         </div>
         {/* <div style={{ width: '20px', height: '1px', backgroundColor: '#BEC3CC', marginTop: '24px ' }}></div> */}
-        <div className="FollowedClubWrapper">
+        <div className="followed-club-wrapper">
             {
                 followedClubs && followedClubs.map(i => <FollowedClubItem {...i} />)
             }
         </div>
-        <button className="switchnetbutton" onClick={async () => {
+        <button className="switch-net-button" onClick={async () => {
             await switchChain(chainId === '0x1' ? '0x4' : '0x1')
             setChainId(chainId === '0x1' ? '0x4' : '0x1')
         }}>{chainId === '0x1' ? "Switch to Rinkeby" : "Switch to Mainnet"}</button>
-        <div className="LogoutButtonWrapper">
-            <img src={cdnPrefix + "logout.svg"} onClick={() => dispatch(logout())} alt="Logout" className="LogoutButton" />
+        <div className="logout-button-wrapper">
+            <img src={cdnPrefix + "logout.svg"} onClick={() => dispatch(logout())} alt="Logout" className="button" />
         </div>
     </div>
 }

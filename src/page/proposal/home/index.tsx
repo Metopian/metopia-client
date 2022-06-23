@@ -6,12 +6,13 @@ import ReactLoading from 'react-loading';
 import { domain, Vote, vote2Types } from '../../../config/snapshotConfig';
 import { localRouter, snapshotApi } from '../../../config/urls';
 import { useProposal, useScoreData } from '../../../governance';
+import { MainButton } from '../../../module/button';
 import { DefaultAvatarWithRoundBackground } from '../../../module/image';
 import { sum } from '../../../utils/numberUtils';
-import { addrShorten, capitalizeFirstLetter } from '../../../utils/stringUtils';
+import { addrShorten } from '../../../utils/stringUtils';
 import { customFormat, getDateDiff } from '../../../utils/TimeUtil';
 import { getAddress, getProvider } from '../../../utils/web3Utils';
-import './index.css';
+import './index.scss';
 
 const getRealVoteCount = (vote: number) => {
     return vote / 100
@@ -170,25 +171,27 @@ const ProposalHomePage = props => {
         }
     }
 
-    return <div className="ProposalIndexPage">
-        <div className="CreateClubPageTitle"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
+    return <div className="proposal-index-page">
+        <div className="title"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
             window.location.href = localRouter("club.prefix") + (proposal.space?.id)
         }} />Voting</div>
-        <div className='ProposalContainer'>
-            <div className="leftcontainer">
-                <div className="authorcontainer">
-                    <a href={`${localRouter('profile')}${proposal?.author}`}>
-                        <DefaultAvatarWithRoundBackground wallet={proposal?.author} className="ProposalCardUserAvatar" />
-                        <div className="ProposalCardAddr">{authorEns || addrShorten(proposal?.author)}</div>
-                    </a>
+        <div className='container'>
+            <div className="left-container">
+                <div className="main-container">
+                    <div className="author-container">
+                        <a href={`${localRouter('profile')}${proposal?.author}`}>
+                            <DefaultAvatarWithRoundBackground wallet={proposal?.author} className="avatar" />
+                            <div className="address">{authorEns || addrShorten(proposal?.author)}</div>
+                        </a>
+                    </div>
+                    <div className="title">{proposal?.title}</div>
+                    <div className="body">{proposal?.body && parse(proposal.body)}</div>
                 </div>
-                <div className="title">{proposal?.title}</div>
-                <div className="body">{proposal?.body && parse(proposal.body)}</div>
             </div>
-            <div className="rightcontainer">
-                <div className="votingcontainer">
+            <div className="right-container">
+                <div className="voting-container">
                     <div className='head'>
-                        <div className='maintitle'><div className="text">Voting</div></div>
+                        <div className='title'>Voting</div>
                         <div className="top">{(() => {
                             if (!proposal) return ""
                             if (proposal.state === 'closed')
@@ -200,15 +203,14 @@ const ProposalHomePage = props => {
                         })()}</div>
                     </div>
                     <div className="time">
-                        <div className="bottom">
-                            {proposal?.start ? customFormat(new Date(proposal.start * 1000), ("#YYYY#-#MM#-#DD# #hhhh#:#mm#")) : ''}&nbsp;-&nbsp;
-                            {proposal?.end ? customFormat(new Date(proposal.end * 1000), ("#YYYY#-#MM#-#DD# #hhhh#:#mm#")) : ''}</div>
+                        {proposal?.start ? customFormat(new Date(proposal.start * 1000), ("#YYYY#-#MM#-#DD# #hhhh#:#mm#")) : ''}&nbsp;-&nbsp;
+                        {proposal?.end ? customFormat(new Date(proposal.end * 1000), ("#YYYY#-#MM#-#DD# #hhhh#:#mm#")) : ''}
                     </div>
-                    <div>
+                    <div className='choice-option-wrapper'>
                         {
                             proposal?.choices.map((c, i) => {
-                                return <div key={`choiceoption${i}`}
-                                    className={'choiceoption ' + (selectedOptionId === i + 1 || mychoice === i ? 'selected' : '') + (mychoice > -1 ? ' disabled' : '')}
+                                return <div key={`choice-option-${i}`}
+                                    className={'choice-option ' + (selectedOptionId === i + 1 || mychoice === i ? 'selected' : '') + (mychoice > -1 ? ' disabled' : '')}
                                     onClick={() => {
                                         if (mychoice > -1)
                                             return
@@ -219,7 +221,7 @@ const ProposalHomePage = props => {
                                     }}>
                                     <div className="bg" style={{ width: voteSum[i] / sum(voteSum) * 100 + "%" }}></div>
                                     <div className="container">
-                                        <div className="optiontitle">{c}{mychoice === i ? <div className='tick'>√</div> : ''}</div>
+                                        <div className="title">{c}{mychoice === i ? <div className='tick'>√</div> : ''}</div>
                                         <div>{voteSum[i] / sum(voteSum) * 100}%</div>
                                     </div>
                                 </div>
@@ -227,29 +229,33 @@ const ProposalHomePage = props => {
                         }
                     </div>
                     {
-                        mychoice === -1 && proposal?.state === 'active' ? <div className={'choiceoptionbutton ' + (scoresObj[self] ? "" : " disabled")}
-                            onClick={doVote}>{scoresObj[self] ? "Cast " + getRealVoteCount(scoresObj[self]) + " Vote" : "You can't vote"}{voting ? <ReactLoading type='spokes' height={20} width={20} className="loading" /> : null}</div> : null
+                        mychoice === -1 && proposal?.state === 'active' ? <MainButton
+                            className={'choice-option-button ' + (scoresObj[self] ? "" : " disabled")}
+                            onClick={doVote}>
+                            {scoresObj[self] ? "Cast " + getRealVoteCount(scoresObj[self]) + " Vote" : "You can't vote"}
+                            {voting ? <ReactLoading type='spokes' height={20} width={20} className="loading" /> : null}
+                        </MainButton> : null
                     }
 
                 </div>
 
-                <div className="resultcontainer" >
-                    <div className='maintitle'>
-                        <div className="text">Current results</div>
-                        <div className='numberwrapper'>Total: <span className="number">{getRealVoteCount(sum(voteSum))}</span></div>
+                <div className="result-container" >
+                    <div className='head'>
+                        <div className="title">Current results</div>
+                        <div className='number-wrapper'>Total: <span className="number">{getRealVoteCount(sum(voteSum))}</span></div>
                     </div>
-                    <div className='voteContainer'>
+                    <div className='main-container'>
                         {
                             votes?.length ? <div>
                                 {
-                                    votes.map((v, i) => <div key={"votecard" + i} className="votecard">
+                                    votes.map((v, i) => <div key={"vote-card" + i} className="vote-card">
                                         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                                             {/* <img src="/imgs/face.svg" className="avatar" alt="" /> */}
                                             <DefaultAvatarWithRoundBackground wallet={v.voter} />
                                             <div className='name'><a href={`${localRouter('profile')}${v.voter}`}>{addrShorten(v.voter)}</a></div>
                                         </div>
                                         <div>{proposal?.choices.filter((t, i) => i + 1 === v.choice)}</div>
-                                        <div className="numberwrapper">{getRealVoteCount(scoresObj[v.voter])} vote(s)</div>
+                                        <div className="number-wrapper">{getRealVoteCount(scoresObj[v.voter])} vote(s)</div>
                                     </div>)
                                 }
                             </div> :

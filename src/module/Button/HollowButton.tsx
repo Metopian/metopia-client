@@ -1,7 +1,7 @@
 import React from 'react'
-import './HollowButton.css'
+import './HollowButton.scss'
  const HollowButton = (props) => {
-    return <div className={"HollowButton"} onClick={props.onClick} style={props.style}>{props.children}</div>
+    return <div className={"hollow-button"} onClick={props.onClick} style={props.style}>{props.children}</div>
 }
 
 export default HollowButton

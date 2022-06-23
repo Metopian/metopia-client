@@ -3,7 +3,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { nftDataApi } from '../../config/urls'
 import useSWR from "swr";
 import ReactLoading from 'react-loading';
-import './index.css'
+import './index.scss'
 
 interface LazyLoadImageParam {
     src: string;
@@ -34,7 +34,7 @@ const WrappedLazyLoadImage = (image: LazyLoadImageParam) => {
     }
 
     return (
-        <div className={'WrappedLazyLoadImage ' + (image.className ? image.className : '')}>
+        <div className={'wrapped-lazy-load-image ' + (image.className ? image.className : '')}>
             <LazyLoadImage
                 beforeLoad={() => setLoading(true)}
                 afterLoad={() => setLoading(false)}

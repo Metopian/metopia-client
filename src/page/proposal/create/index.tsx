@@ -11,7 +11,7 @@ import { MainButton } from '../../../module/button';
 import { DefaultTextEditor as RichTextEditor } from '../../../module/editor/RichTextEditor';
 import { Input, Label } from '../../../module/form';
 import { getAddress, getProvider, signTypedData } from '../../../utils/web3Utils';
-import './index.css';
+import './index.scss';
 
 const CreateProposalPage = props => {
     const { space } = props
@@ -179,11 +179,11 @@ const CreateProposalPage = props => {
                     </div>
                 </div>
 
-                <div className="CreateClubPageFormGroup option" style={{ marginTop: '30px' }}>
+                <div className="form-group option" style={{ marginTop: '30px' }}>
                     <Label>Options</Label>
                     {optionJsx}
                     <div style={{ display: 'flex', marginTop: '26px' }}>
-                        <div className="addmorebonusbutton" onClick={addOption} ><img src="/imgs/addbuttonround.png" alt="" />Add option</div>
+                        <div className="add-more-bonus-button" onClick={addOption} ><img src="/imgs/addbuttonround.png" alt="" />Add option</div>
                     </div>
                 </div>
 

@@ -1,0 +1,294 @@
+@import '../../../index.scss';
+
+.proposal-index-page {
+    padding: 40px 80px 40px 80px;
+
+    >.title {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 36px;
+        color: $title-color;
+        margin-bottom: 30px;
+        transform: translateY(2px);
+
+        .backarrow {
+            cursor: pointer;
+            margin-right: 8px;
+            -webkit-transform: translateY(4px);
+            transform: translateY(4px);
+        }
+    }
+
+    .left-container {
+        display: inline-block;
+        width: 50%;
+        vertical-align: top;
+        padding-right: 60px;
+        padding-bottom: 120px;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+        padding: 40px 36px 40px 36px;
+    }
+
+    .right-container {
+        display: inline-block;
+        width: 50%;
+        padding-left: 30px;
+        vertical-align: top;
+    }
+
+    >.container {
+        .author-container {
+            a {
+                >.address {
+                    color: $text-color;
+                    font-size: 15px;
+                    font-weight: 700;
+                    line-height: 24px;
+                    opacity: 1;
+                    text-decoration: none;
+                    display: inline-block;
+                    background: #f5f5f5;
+                    border-radius: 4px;
+                    padding: 4px 6px;
+                    text-align: center;
+                    transform: translateY(2px);
+                }
+
+                &:hover>.address {
+                    text-decoration: underline;
+                }
+
+                >.avatar {
+                    vertical-align: middle;
+                    margin-right: 16px;
+                }
+            }
+        }
+
+        .main-container {
+            >.title {
+                font-style: normal;
+                font-weight: 700;
+                font-size: 32px;
+                line-height: 44px;
+                display: flex;
+                align-items: center;
+                color: $title-color;
+                margin-top: 12px;
+            }
+
+            >.body {
+                margin-top: 12px;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 24px;
+                color: $text-color;
+            }
+        }
+
+        .voting-container {
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+            padding: 40px 30px 40px 30px;
+
+            >.head {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 16px;
+
+                >.title {
+                    font-weight: 700;
+                    font-size: 32px;
+                    line-height: 30px;
+                    color: $title-color;
+                }
+
+                >.top {
+
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 24px;
+                    display: flex;
+                    align-items: center;
+                    color: $theme-color;
+                    background: rgba(90, 73, 222, 0.1);
+                    border-radius: 12px;
+                    padding: 6px 8px;
+                }
+            }
+
+            >.time {
+                margin-bottom: 20px;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 18px;
+                color: $text-color;
+            }
+
+            .choice-option-wrapper {
+                margin-top: 32px;
+
+                .choice-option {
+                    font-weight: 700;
+                    font-size: 16px;
+                    line-height: 24px;
+                    color: $title-color;
+                    border: $default-border;
+                    border-radius: 12px;
+                    height: 48px;
+                    margin-bottom: 20px;
+                    cursor: pointer;
+                    position: relative;
+                    overflow: hidden;
+
+                    &:last-of-type {
+                        margin-bottom: 0px;
+                    }
+
+                    &.selected {
+                        border: 1px solid $theme-color;
+                        color: $theme-color;
+                    }
+
+                    &.tick {
+                        margin-left: 8px;
+                    }
+
+                    &.disabled {
+                        cursor: default;
+                    }
+
+                    >.container {
+                        position: absolute;
+                        height: 100%;
+                        z-index: 1;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 12px 16px;
+
+                        >.title {
+                            display: flex;
+                        }
+                    }
+
+                    >.bg {
+                        position: absolute;
+                        height: 100%;
+                        background-color: #F5F5F5;
+                        z-index: 0;
+                        left: 0;
+                        top: 0;
+                    }
+
+                    &.selected>.bg {
+                        background-color: rgba(90, 73, 222, 0.1);
+                    }
+                }
+            }
+
+            .choice-option-button {
+
+                margin-top: 24px;
+                margin-bottom: 6px;
+                width: 100%;
+
+                .loading {
+                    margin-left: 12px;
+                }
+            }
+
+
+        }
+
+        .result-container {
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+            padding: 40px 30px 40px 30px;
+            margin-top: 30px;
+
+            >.head {
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                >.title {
+                    color: $title-color;
+                    font-size: 32px;
+                    font-weight: 700;
+                    line-height: 30px;
+                }
+
+                >.number-wrapper {
+                    font-size: 16px;
+                    line-height: 24px;
+                    font-weight: normal;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    color:$text-color;
+
+                    .number {
+                        font-family: 'Abel';
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 28px;
+                        line-height: 24px;
+                        letter-spacing: 0.005em;
+                        color: $theme-color;
+                    }
+                }
+            }
+
+            .main-container {
+                border-radius: 24px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                margin-top: 40px;
+                padding: 24px 32px;
+
+                .vote-card {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 16px;
+                    line-height: 24px;
+                    /* identical to box height, or 150% */
+
+                    display: flex;
+                    align-items: center;
+
+                    color: #222222;
+                    margin-bottom: 20px;
+
+                    &:last-of-type {
+                        margin-bottom: 0px;
+                    }
+
+                    .name,
+                    .name a {
+
+                        font-weight: bold;
+                        color: #222222;
+                        text-decoration: none;
+                    }
+
+                    .avatar {
+                        height: 40px;
+                    }
+
+
+                }
+            }
+        }
+    }
+}

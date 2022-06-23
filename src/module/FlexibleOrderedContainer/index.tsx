@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { useElementSize } from 'usehooks-ts'
-import './index.css'
+import './index.scss'
 
 const FlexibleOrderedContainer = (props: { elementMinWidth: number, elementMaxWidth: number, gap: number, children, style?}) => {
     const [squareRef, { width }] = useElementSize()
@@ -12,12 +12,12 @@ const FlexibleOrderedContainer = (props: { elementMinWidth: number, elementMaxWi
     let placeHolders: JSX.Element[] = []
 
     while (placeHolders.length < ((maxRowsNum > 1 ? maxNum : minNum) - lastRowNum)) {
-        placeHolders.push(<div className="FlexibleOrderedContainerPlaceHolder" key={placeHolders.length} style={{
+        placeHolders.push(<div className="placeholder" key={placeHolders.length} style={{
             minWidth: props.elementMinWidth + 'px',
             maxWidth: props.elementMaxWidth + 'px'
         }} ><div style={{ width: props.elementMaxWidth + 'px', height: '1px' }}></div></div>)
     }
-    return <div className="FlexibleOrderedContainer" ref={squareRef} style={Object.assign({}, { gap: props.gap || 0 }, props.style || {})}>
+    return <div className="flexible-ordered-container" ref={squareRef} style={Object.assign({}, { gap: props.gap || 0 }, props.style || {})}>
         {props.children}
         {placeHolders}
     </div>

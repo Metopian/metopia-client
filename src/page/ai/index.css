@@ -221,17 +221,17 @@
     float: right
 }
 
-.MainButton .ReactLoadingWrapper {
+.main-button .ReactLoadingWrapper {
     height: 21px;
     width: 64px;
 }
 
-.MainButton .ReactLoadingWrapper.short {
+.main-button .ReactLoadingWrapper.short {
     height: 21px;
     width: 32px;
 }
 
-.MainButton .ReactLoading {
+.main-button .ReactLoading {
     height: 21px !important;
     width: 21px !important;
 }
@@ -334,7 +334,7 @@
 }
 
 
-.AIActContentContainer .CreateClubPageFormGroup {
+.AIActContentContainer .form-group {
     width: unset;
 }
 
@@ -358,22 +358,6 @@
     padding: 3px 5px
 }
 
-.NftCollectionNameButton {
-    display: inline-block;
-    border-radius: 4px;
-    padding: 5px 8px;
-    cursor: pointer;
-    margin-right: 8px;
-    font-size: 14px;
-    line-height: 22px;
-    color: #888888;
-    background: #e6e6e6;
-}
-
-.NftCollectionNameButton.selected {
-    background: rgba(90, 73, 222, 0.1);
-    color: #5A49DE;
-}
 
 .AIActContentContainer .UserNftCardContainer {
     max-height: 384px;
@@ -512,9 +496,6 @@
     margin-bottom: 20px;
 }
 
-.NftCollectionNameButtonContainer {
-    margin-top: 20px;
-}
 
 
 @media screen and (max-width: 1540px) {

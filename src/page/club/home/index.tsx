@@ -3,29 +3,28 @@ import React, { useEffect, useState } from 'react'
 import { BulletList } from 'react-content-loader'
 import { localRouter, snapshotApi } from '../../../config/urls'
 import { GhostButtonGroup, MainButton } from '../../../module/button'
-import { WrappedLazyLoadImage } from '../../../module/image'
+import { DefaultAvatarWithRoundBackground, WrappedLazyLoadImage } from '../../../module/image'
 import { addrShorten, capitalizeFirstLetter } from '../../../utils/stringUtils'
-import './index.css'
-import './ProposalCard.css'
-import { DefaultAvatarWithRoundBackground } from '../../../module/image'
+import './index.scss'
+import './ProposalCard.scss'
 
 const ProposalCard = (props) => {
-    return <div className="ProposalCard">
-        <div className="ProposalCardHead">
-            <div className="ProposalCardUserInfo">
-                <DefaultAvatarWithRoundBackground wallet={props.author} className="ProposalCardUserAvatar"/>
+    return <div className="proposal-card">
+        <div className="head">
+            <div className="user-info">
+                <DefaultAvatarWithRoundBackground wallet={props.author} className="avatar"/>
                 {/* <img src={props.avatar || "/imgs/face.svg"} alt={props.username} className="ProposalCardUserAvatar" /> */}
-                <div className="ProposalCardUsername">{props.username}</div>
-                <div className="ProposalCardAddr">{addrShorten(props.author)}</div>
+                <div className="username">{props.username}</div>
+                <div className="address">{addrShorten(props.author)}</div>
             </div>
-            <div className="ProposalCardState">
-                <div className={"ProposalCardStateLeft " + (props.state.toLowerCase())}>{capitalizeFirstLetter(props.state)}</div>
-                <div className="ProposalCardStateRight">{props.scores_total} Votes</div>
+            <div className="state">
+                <div className={"left-part " + (props.state.toLowerCase())}>{capitalizeFirstLetter(props.state)}</div>
+                <div className="right-part">{props.scores_total} Votes</div>
             </div>
         </div>
-        <div className="ProposalCardBody">
-            <div className="ProposalCardTitle"><a href={localRouter('proposal.prefix') + props.id}>{props.title}</a></div>
-            <div className="ProposalCardContent">{parse(props.body)}</div>
+        <div className="body">
+            <div className="title"><a href={localRouter('proposal.prefix') + props.id}>{props.title}</a></div>
+            <div className="content">{parse(props.body)}</div>
         </div>
     </div>
 }
@@ -69,28 +68,28 @@ const ClubHomePage = (props) => {
             }
         })
     }, [slug])
-    return <div className="ClubHomePage">
-        <div className="ClubHomeContainer">
-            <div className="ClubHomeHead">
-                <WrappedLazyLoadImage src={spaceSettings.banner || '/imgs/example_cover_large.png'} className="ClubHomeCover" />
-                <div className="ClubHomeCoverShadow"></div>
-                <div className="ClubHomeMemberStats left">
+    return <div className="club-home-page">
+        <div className="container">
+            <div className="head">
+                <WrappedLazyLoadImage src={spaceSettings.banner || '/imgs/example_cover_large.png'} className="cover-image" />
+                <div className="cover-shadow"></div>
+                <div className="stats left">
                 </div>
-                <div className="ClubHomeMemberStats right">
-                    <div className="ClubHomeMemberStatsNumber">{proposalCount}</div>
-                    <div className="ClubHomeMemberStatsText">Proposals</div>
+                <div className="stats right">
+                    <div className="number">{proposalCount}</div>
+                    <div className="text">Proposals</div>
                 </div>
             </div>
-            <div className="ClubHomeIntroductionContainer">
-                <div className='ClubHomeSymbolWrapper'>
-                    <WrappedLazyLoadImage src={spaceSettings.avatar || '/imgs/defaultavatar.png'} className="ClubHomeSymbol" />
+            <div className="introduction-container">
+                <div className='symbol-wrapper'>
+                    <WrappedLazyLoadImage src={spaceSettings.avatar || '/imgs/defaultavatar.png'} className="symbol" />
                 </div>
-                <div className="ClubHomeName">{spaceSettings.name} <img src="/imgs/write2.svg" alt="Edit" title="Edit settings" onClick={() => {
+                <div className="name">{spaceSettings.name} <img src="/imgs/write2.svg" alt="Edit" title="Edit settings" onClick={() => {
                     window.location.href = localRouter('club.update', { space: slug })
                 }} /></div>
-                <div className="ClubHomeIntroduction">{spaceSettings.about}</div>
+                <div className="introduction">{spaceSettings.about}</div>
             </div>
-            <div className="ClubHomeFunctionContainer">
+            <div className="function-container">
                 <MainButton solid style={{ width: '140px', height: '48px', margin: 0 }} onClick={() => {
                     window.location.href = localRouter('proposal.create', { space: slug })
                 }}>Propose</MainButton>
@@ -102,10 +101,10 @@ const ClubHomePage = (props) => {
                         }
                     })} />
             </div>
-            <div className='ClubHomeContentContainer'>
-                <div className='ClubHomeContentMenuContainer'>
-                    <div className='ClubHomeContentMenuTitle'>Proposal</div>
-                    <div className="ClubHomeContentMenu">All</div>
+            <div className='content-container'>
+                <div className='sub-menu-bar'>
+                    <div className='title'>Proposal</div>
+                    <div className="sub-menu-item">All</div>
                 </div>
                 {
                     proposals ? (

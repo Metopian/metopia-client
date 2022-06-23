@@ -1,0 +1,62 @@
+@import '../../index.scss';
+
+.main-button {
+    background: $theme-color;
+    opacity: 0.6;
+    border-radius: 12px;
+    color: white;
+    padding: 12px 24px;
+    margin-left: auto;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: top;
+    display: inline-block;
+
+    > .container {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    &.solid {
+        opacity: 1;
+    }
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &.disabled,
+    &.disabled:hover,
+    &.loading,
+    &.loading:hover {
+
+        opacity: 0.4;
+        cursor: default;
+    }
+
+    &.loading {
+        .content {
+            opacity: 0;
+        }
+
+        .loadingicon {
+            position: absolute;
+            margin: auto;
+            left: -9999px;
+            right: -9999px;
+            bottom: -9999px;
+            top: -9999px;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+    }
+
+}
+
+
+
+

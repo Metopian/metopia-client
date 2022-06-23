@@ -1,0 +1,29 @@
+@import '../../index.scss';
+
+.nft-selection-pane {
+    .nft-collection-name-button-container {
+        margin-top: 20px;
+
+        .nft-collection-name-button {
+            user-select: none;
+
+            display: inline-block;
+            border-radius: 4px;
+            padding: 5px 8px;
+            cursor: pointer;
+            margin-right: 8px;
+            font-size: 14px;
+            line-height: 22px;
+            color: $text-color;
+            background: #e6e6e6;
+            margin-bottom: 8px;
+            font-family: montserrat;
+
+            &.selected {
+                background: rgba(90, 73, 222, 0.1);
+                color: #5A49DE;
+            }
+        }
+    }
+
+}
