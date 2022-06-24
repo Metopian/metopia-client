@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react'
-import './DonationSubpage.css'
-import { getGitcoinData, useGitcoinData } from '../../../third-party/rss3'
+import React from 'react'
+import { useGitcoinData } from '../../../third-party/rss3'
+import './DonationSubpage.scss'
+import Reference from '../module/Reference'
+import ProfileTable from '../module/ProfileTable'
 
 const summarizeGitcoinData = (data) => {
     let buff = {}
@@ -16,38 +18,37 @@ const DonationSubpage = (props) => {
     const { slug } = props
     const { data: gitcoinData } = useGitcoinData(slug)
 
-    return <div className="DonationSubpage">
-        <div className="GitcoinSummary">
-            <div className="GitcoinSummaryTitle">Overall Gitcoin donations:</div>
-            {gitcoinData?.length ? summarizeGitcoinData(gitcoinData).map(s => {
-                return <div className="GitcoinSummaryData" key={"GitcoinSummaryData" + s}>{s.symbol} - {s.amount.toFixed(1)}</div>
-            }) : <div className='GitcoinSummaryData'>None</div>}
-        </div>
-        {gitcoinData?.length ?
-            <table className="GitcoinTable ">
-                <thead>
-                    <tr>
-                        {/* <th></th> */}
-                        <th>Title</th>
-                        <th>Token/Coin</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {gitcoinData && gitcoinData.map(d => {
-                        return <tr className="GitcoinDataWrapper" key={'gitcoindata' + d.id}>
-                            {/* <td></td> */}
-                            <td><div className="GitcoinDataTitleWrapper"><img src={d.detail.grant.logo} className="GitcoinDataLogo" />{d.detail.grant.title}</div></td>
-                            {/* <td>{d.detail.grant.description}</td> */}
-                            <td>{d.detail.txs[0].symbol}</td>
-                            <td>{d.detail.txs[0].formatedAmount}</td>
-                        </tr>
-                    })}
-                </tbody>
-            </table> : null}
-        <div className="DonationSubpageFooter">
-            <div className="DonationSubpageFooterTitle GitcoinSummaryTitle">Data source:</div>
-            <a href="https://rss3.io/"><img src="/imgs/rss3logo.svg" alt="rss3" /></a>
+    return <div className="donation-subpage">
+        <div className="gitcoin-container">
+            <div className="head">
+                <div className="gitcoin-summary-container">
+                    <div className="title">Overall Gitcoin donations</div>
+                    <div className="data-wrapper">
+                        {gitcoinData?.length ? summarizeGitcoinData(gitcoinData).map(s => {
+                            return <div className="data" key={"GitcoinSummaryData" + s}>{s.symbol} <span className='number'>{s.amount.toFixed(1)}</span></div>
+                        }) : <div className='data'>None</div>}
+                    </div>
+                </div>
+                <div className='gitcoin-reference-container'>
+                    <Reference sources={[{ link: "https://rss3.io/", imgUrl: "/imgs/rss3logo.svg" }]} /></div>
+
+            </div>
+            {gitcoinData?.length ?
+                <div className='gitcoin-detail-container'>
+
+                    <ProfileTable heads={['Title', 'Token/Coin', 'Amount']}
+                        data={gitcoinData.map(d => {
+                            return [<div className="GitcoinDataTitleWrapper">
+                                <img src={d.detail.grant.logo} className="GitcoinDataLogo" alt="" />
+                                {d.detail.grant.title}
+                            </div>,
+                            d.detail.txs[0].symbol,
+                            d.detail.txs[0].formatedAmount
+                            ]
+                        })} />
+                    
+                </div>
+                : null}
         </div>
     </div>
 }

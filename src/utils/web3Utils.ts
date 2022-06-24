@@ -2,7 +2,6 @@
 import { ethers, utils } from "ethers";
 import { Web3Provider } from "ethers/node_modules/@ethersproject/providers";
 import { defaultChainId } from "../config/constant";
-import { Wallet } from '@ethersproject/wallet';
 
 let provider: Web3Provider = null
 export const getProvider = () => {
@@ -70,4 +69,13 @@ export const signTypedData = async (message, types, domain) => {
     const data: any = { domain, types, message };
     const sig = await signer._signTypedData(domain, data.types, message);
     return { address, sig, data }
+}
+
+export const ifConnectedCheckChainAndSwitch = async (chainId) => {
+    if (getAddress(true)) {
+        let current = await getChainId();
+        if (current !== chainId) {
+            switchChain(chainId)
+        }
+    }
 }

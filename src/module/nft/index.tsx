@@ -66,9 +66,12 @@ const NftSelectionPane = (props: { sortedNfts, onSelect?, minWidth?, maxWidth?, 
             })
             }
         </div>
-        <FlexibleOrderedContainer elementMinWidth={props.minWidth || 90} elementMaxWidth={props.maxWidth || 90} gap={props.gap || 10} style={{ marginTop: '10px' }} >
-            {cards}
-        </FlexibleOrderedContainer>
+        <div className="image-container">
+            <FlexibleOrderedContainer elementMinWidth={props.minWidth || 90} elementMaxWidth={props.maxWidth || 90}
+                gap={props.gap || 10} style={{ marginTop: '10px' }} >
+                {cards}
+            </FlexibleOrderedContainer>
+        </div>
     </div>
 }
 

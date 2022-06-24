@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react'
-import { usePoapData } from '../../../third-party/rss3'
-import Metable from '../module/MeTable'
+import React, { useMemo, useState } from 'react';
+import { BulletList } from 'react-content-loader';
 import Modal from 'react-modal';
-import './PoapSubpage.css'
-// import ReactLoading from 'react-loading'
-import { BulletList } from 'react-content-loader'
+import { usePoapData } from '../../../third-party/rss3';
+import ProfileTable from '../module/ProfileTable';
+import './PoapSubpage.scss';
+import { customFormat } from '../../../utils/TimeUtil'
 
 const PoapContentModalStyle = {
     overlay: {
@@ -17,11 +17,10 @@ const PoapContentModalStyle = {
         bottom: 'auto',
         marginRight: '-50%',
         width: '440px',
-        //  height: '542px',
         transform: 'translate(-50%, -50%)',
         borderRadius: '32px',
         padding: 0,
-        overflow: 'hidden',
+        overflow: 'hidden'
     }
 }
 
@@ -77,18 +76,21 @@ const PoapContentModal = (props) => {
 
 const PoapSubpage = (props) => {
     const { slug } = props
-    const { data: poapData, error } = usePoapData(slug)
+    const { data: poapData } = usePoapData(slug)
     const [selectedPoapData, setSelectedPoapData] = useState({})
     const [showModal, setShowModal] = useState(false)
     const poapTable = useMemo(() => {
-        return poapData && <Metable data={poapData.map(d => {
-            return [d.detail.name, formatDate(new Date(d.detail.date_created), 'yyyy-MM-dd')]
+        return poapData && <ProfileTable data={poapData.map(d => {
+            console.log(d.detail.date_created)
+
+            return [d.detail.name, customFormat(new Date(d.detail.date_created), 'yyyy-MM-dd')]
+            // return [d.detail.name, formatDate(new Date(d.detail.date_created), 'yyyy-MM-dd')]
         })} heads={['Event', 'Date']} onSelect={(i) => {
             setSelectedPoapData(poapData[i].detail)
             setShowModal(true)
         }} />
     }, [poapData])
-    return poapData ? <div className='PoapSubpage' style={{ padding: '10px 0 40px 0' }}>
+    return poapData ? <div className='poap-subpage' style={{}}>
         {poapData.length > 0 ? poapTable : <div style={{ fontSize: '18px', marginTop: '20px' }}>You have not collected any POAPs.</div>}
         <PoapContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedPoapData} />
     </div> : <div style={{ marginTop: '20px' }}>

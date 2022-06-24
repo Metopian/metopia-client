@@ -2,11 +2,9 @@
 
 .nft-selection-pane {
     .nft-collection-name-button-container {
-        margin-top: 20px;
 
         .nft-collection-name-button {
             user-select: none;
-
             display: inline-block;
             border-radius: 4px;
             padding: 5px 8px;
@@ -25,5 +23,4 @@
             }
         }
     }
-
 }

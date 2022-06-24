@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useParams, useSearchParams  } from "react-router-dom";
+import React, { useMemo } from 'react';
+import { useParams, useSearchParams } from "react-router-dom";
 import './App.css';
-import { ClubSettingPage, ClubHomePage } from './page/club';
+import { ClubHomePage, ClubSettingPage } from './page/club';
 import HomePage from './page/home';
 import ProfilePage from './page/profile';
 import { ProposalCreatePage, ProposalHomePage } from './page/proposal';
-import  TestMintPage  from './test/TestMintPage'
+import TestMintPage from './test/TestMintPage';
 
 const App = () => {
   const routeParams = useParams()

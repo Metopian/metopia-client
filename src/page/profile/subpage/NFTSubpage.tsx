@@ -10,7 +10,7 @@ import { useNfts, useNftTransactions } from '../../../third-party/moralis';
 import { getSortedNfts } from '../../../utils/NftUtils';
 import { addrShorten, capitalizeFirstLetter } from '../../../utils/stringUtils';
 import { getDateDiff } from '../../../utils/TimeUtil';
-import './NFTSubpage.css';
+import './NFTSubpage.scss';
 
 const PoapContentModalStyle = {
     overlay: {
@@ -55,20 +55,20 @@ const NftContentModal = (props) => {
         isOpen={isShow}
         onRequestClose={hide}
         style={Object.assign({}, PoapContentModalStyle, { width: metadata.attributes && metadata.attributes.length > 0 ? '720px' : '540px' })}>
-        <div className="NftContentModalContainer">
-            <div className="NftContentModalGroup">
-                <div className={"NftContentModalImageWrapper" + (metadata.attributes && metadata.attributes.length > 0 ? ' narrow' : '')}>
+        <div className="nft-content-modal-container">
+            <div className="content-group">
+                <div className={"image-wrapper" + (metadata.attributes && metadata.attributes.length > 0 ? ' narrow' : '')}>
                     <NftImage defaultSrc={metadata.image || metadata.image_url} width={null}
                         chainId={chainId} tokenId={data.token_id} contract={data.token_address} />
                     {/* <img src={metadata.image} alt="" /> */}
                 </div>
                 {
                     (metadata.attributes && metadata.attributes.length > 0) ?
-                        <div className="NftContentModalAttributesContainer">
+                        <div className="attributes-container">
                             {/* <div className='NftContentTitle'>Attributes</div> */}
-                            <div className="NftContentModalAttributesGroupWrapper">
+                            <div className="attributes-group-wrapper">
                                 {metadata.attributes.map((attr, i) => {
-                                    return <div className='NftContentModalAttributeGroup' key={"NftContentModalAttributeGroup" + i}>
+                                    return <div className='group' key={"NftContentModalAttributeGroup" + i}>
                                         <div className="title">{capitalizeFirstLetter(attr.trait_type)}</div>
                                         <div className="value">{attr.value}</div>
                                     </div>
@@ -78,35 +78,35 @@ const NftContentModal = (props) => {
                         </div> : null
                 }
             </div>
-            <div className="NftContentModalGroup">
-                <div className='NftContentTitle'>Name</div>
+            <div className="content-group">
+                <div className='main-title'>Name</div>
                 <div>{data.name}</div>
             </div>
-            <div className="NftContentModalGroup">
-                <div className='NftContentTitle'>Chain</div>
+            <div className="content-group">
+                <div className='main-title'>Chain</div>
                 <div>{chainMap[data.chainId]}</div>
-                <div className='NftContentTitle' style={{ width: '60px', minWidth: '60px', marginLeft: '40px' }}>Contract</div>
+                <div className='main-title' style={{ width: '60px', minWidth: '60px', marginLeft: '40px' }}>Contract</div>
                 <div style={{ marginLeft: '10px' }}><a href={chainExplorerMap[data.chainId] + data.token_address}>{addrShorten(data.token_address)}</a></div>
-                <div className='NftContentTitle' style={{ width: '60px', minWidth: '60px', marginLeft: '40px' }}>Token-Id</div>
+                <div className='main-title' style={{ width: '60px', minWidth: '60px', marginLeft: '40px' }}>Token-Id</div>
                 <div style={{ marginLeft: '10px' }}>{data.token_id}</div>
             </div>
             {
-                metadata.description ? <div className="NftContentModalGroup">
-                    <div className='NftContentTitle'>Description</div>
+                metadata.description ? <div className="content-group">
+                    <div className='main-title'>Description</div>
                     <div>{metadata.description}</div>
                 </div> : null
             }
             {
-                metadata.external_url ? <div className="NftContentModalGroup">
-                    <div className='NftContentTitle'>Link</div>
+                metadata.external_url ? <div className="content-group">
+                    <div className='main-title'>Link</div>
                     <a href={metadata.external_url}>{metadata.external_url}</a>
                 </div > : null
             }
-            <div className="NftContentModalGroup">
-                <div className='NftContentTitle'>Hold since</div>
+            <div className="content-group">
+                <div className='main-title'>Hold since</div>
                 <div>{acquiredTx && getDateDiff(new Date(acquiredTx.block_timestamp))}</div>
             </div>
-            <div className="NftContentModalGroup openseawrapper">
+            <div className="content-group opensea">
                 <a href={`https://opensea.io/assets/${data.token_address}/${data.token_id}`}><img src="/imgs/opensea.svg" alt="" />View on Opensea</a>
             </div>
 
@@ -154,20 +154,26 @@ const NFTSubpage = (props) => {
         return res
     }, [slug, nftTransactions, selectedNftData])
 
-    if (sortedNfts) {
-        if (sortedNfts.length)
-            return <div>
-                <NftSelectionPane noTick sortedNfts={sortedNfts} maxWidth={160} minWidth={120} onSelect={(nft) => {
-                    setSelectedNftData(nft)
-                    setShowModal(true)
-                }} />
-                <NftContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedNftData} acquiredTx={lastPurchasedTx} />
-            </div>
-        else {
-            return <div style={{ fontSize: '18px', marginTop: '20px' }}>You have not collected any NFTs.</div>
-        }
-    } else return <div style={{ marginTop: '20px' }}>
-        <BulletList style={{ height: '200px' }} />
+    const content = useMemo(() => {
+        if (sortedNfts) {
+            if (sortedNfts.length)
+                return <div>
+                    <NftSelectionPane noTick sortedNfts={sortedNfts} maxWidth={160} minWidth={160} gap={20} onSelect={(nft) => {
+                        setSelectedNftData(nft)
+                        setShowModal(true)
+                    }} />
+                    <NftContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedNftData} acquiredTx={lastPurchasedTx} />
+                </div>
+            else {
+                return <div style={{ fontSize: '18px', marginTop: '20px' }}>You have not collected any NFTs.</div>
+            }
+        } else return <div style={{ marginTop: '20px' }}>
+            <BulletList style={{ height: '200px' }} />
+        </div>
+    }, [sortedNfts, showModal, selectedNftData, lastPurchasedTx])
+
+    return <div className='profile-nft-subpage'>
+        {content}
     </div>
 }
 

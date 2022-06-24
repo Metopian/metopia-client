@@ -1,13 +1,13 @@
 import React from "react";
 import { MainButton } from "../../../module/button";
 import { useDiscordData } from "../../../third-party/discord";
-import './DiscordSubPage.css';
+import './DiscordSubPage.scss';
 
 const DiscordSubPage = props => {
     const { slug, state, code } = props
     const { data, error } = useDiscordData(slug, code)
 
-    return <div className="DiscordSubPage">
+    return <div className="discord-subpage">
         {
             data?.data?.redirect_uri ? <MainButton onClick={e => {
                 window.open(data?.data?.redirect_uri)
@@ -15,10 +15,10 @@ const DiscordSubPage = props => {
         }
         {
             data?.data?.discordId ? <div>
-                <div className="profilecontainer">
+                <div className="container">
                     <div className="title">Profile</div>
                     <div style={{ display: "flex", alignItems: 'center', gap: '20px' }}>
-                        <div className="avatarwrapper"><img src={"https://cdn.discordapp.com/avatars/" + data.data.discordId + "/" + data.data.discordAvatar + ".webp"} alt="avatar" /></div>
+                        <div className="avatar-wrapper"><img src={"https://cdn.discordapp.com/avatars/" + data.data.discordId + "/" + data.data.discordAvatar + ".webp"} alt="avatar" /></div>
                         <div>
                             <div className="name">{data.data.discordName}</div>
                             <div>#{data.data.discordDiscrim}</div>
@@ -26,7 +26,7 @@ const DiscordSubPage = props => {
                     </div>
                 </div>
                 {
-                    data.data.accountGuilds.filter(g => g.roles).length ? <div className="guilddetailcontainer">
+                    data.data.accountGuilds.filter(g => g.roles).length ? <div className="guild-detail-container">
                         <div className="title">Guilds</div>
                         <table >
                             <thead>

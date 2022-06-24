@@ -1,0 +1,51 @@
+@import '../../font.scss';
+
+.profile-table {
+    width: 100%;
+    margin-top: 20px;
+
+    &,
+    th,
+    td,
+    tr {
+        border-collapse: collapse;
+    }
+
+    thead {
+        border-bottom: $default-border;
+
+        th {
+            @include profile-table-head;
+            text-align: left;
+            border-right: 1px solid #f4f4f4;
+
+            padding: 24px 50px;
+
+            &:last-of-type {
+                border-right: 0;
+            }
+        }
+    }
+
+    tbody {
+        tr.selectable{
+            cursor: pointer;
+        }
+        tr:nth-child(even) {
+            background-color: #F9F9FE;
+        }
+
+
+        td {
+            @include profile-table-cell;
+            text-align: left;
+            border-right: 1px solid #f4f4f4;
+            padding: 24px 50px;
+
+            &:last-of-type {
+                border-right: 0;
+            }
+
+        }
+    }
+}

@@ -3,7 +3,7 @@ import './GovernanceSubpage.css'
 import { nftDataApi } from '../../../config/urls'
 import useSWR from 'swr'
 // import ReactLoading from 'react-loading'
-import Metable from '../module/MeTable'
+import Metable from '../module/ProfileTable'
 import { BulletList } from 'react-content-loader'
 
 const formatDate = function (date, fmt) { //author: meizz 
@@ -59,8 +59,8 @@ const useSnapshotData = (address, flag) => {
 }
 const GovernanceSubpage = (props) => {
     const { slug } = props
-    const { data: governanceData, error } = useGovernanceData(slug)
-    const { data: snapshotData, error: snapshotError } = useSnapshotData(slug, true)
+    const { data: governanceData } = useGovernanceData(slug)
+    const { data: snapshotData } = useSnapshotData(slug, true)
 
     const snapshotTable = useMemo(() => {
         if (snapshotData?.data?.votes?.length)

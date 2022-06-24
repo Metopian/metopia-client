@@ -6,7 +6,7 @@ import { DefaultAvatar } from '../../module/image';
 import { useNfts } from '../../third-party/moralis';
 import { encodeQueryData } from '../../utils/RestUtils';
 import { getAddress } from '../../utils/web3Utils';
-import './index.css';
+import './index.scss';
 import DiscordSubPage from './subpage/DiscordSubPage';
 import DonationSubpage from "./subpage/DonationSubpage";
 import FungiblesSubpage from './subpage/FungiblesSubpage';
@@ -67,42 +67,42 @@ const ProfilePage = (props) => {
         return { subpageJsx: tmpJsx, subpageIndex: tmpIndex }
     }, [slug, subpage])
     
-    return <div className="ProfilePage">
-        <div className="ProfilePageContainer">
-            <div className="ProfilePageHead" style={{ backgroundImage: 'url(/imgs/profile_page_head_bg.png)' }}>
-                <div className="ProfilePageHeadContainer">
-                    <div className='ProfilePageHeadAvatarWrapper'>
-                        <DefaultAvatar wallet={slug} className="ProfilePageHeadAvatar" />
+    return <div className="profile-page">
+        <div className="container">
+            <div className="head" style={{ backgroundImage: 'url(/imgs/profile_page_head_bg.png)' }}>
+                <div className="container">
+                    <div className='avatar-wrapper'>
+                        <DefaultAvatar wallet={slug} className="avatar" />
                     </div>
                     {/* <img src={'/imgs/face.svg'} className="ProfilePageHeadAvatar" alt="" /> */}
-                    <div className="ProfilePageHeadName">
+                    <div className="name">
                         {ens || slug}
                     </div>
-                    <div className="ProfilePageHeadStats">
-                        <div className="ProfilePageHeadStatsGroup">
-                            <div className="ProfilePageHeadStatsNumber">
+                    <div className="stats-wrapper">
+                        <div className="group">
+                            <div className="number">
                                 {nftCount}
                             </div>
-                            <div className="ProfilePageHeadStatsText">
+                            <div className="text">
                                 NFTs
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="ProfilePageMainContainer">
-                <div className="ProfilePageMainTitle">
-                    <div className="ProfilePageMainTitleMenu">
-                        <div className={"ProfilePageMainTitleMenuItem" + (subpageIndex === 0 ? ' selected' : '')}
+            <div className="body">
+                <div className="main-title">
+                    <div className="sub-menu-bar">
+                        <div className={"sub-menu-item" + (subpageIndex === 0 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'nft' })}>NFTs</div>
                         {/* <div className={"ProfilePageMainTitleMenuItem" + (selectedTabIndex === 1 ? ' selected' : '')} onClick={() => setSelectedTabIndex(1)}>Fungibles</div> */}
-                        <div className={"ProfilePageMainTitleMenuItem" + (subpageIndex === 2 ? ' selected' : '')}
+                        <div className={"sub-menu-item" + (subpageIndex === 2 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'donations' })}>Donations</div>
-                        <div className={"ProfilePageMainTitleMenuItem" + (subpageIndex === 3 ? ' selected' : '')}
+                        <div className={"sub-menu-item" + (subpageIndex === 3 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'momentos' })}>Mementos</div>
-                        <div className={"ProfilePageMainTitleMenuItem" + (subpageIndex === 5 ? ' selected' : '')}
+                        <div className={"sub-menu-item" + (subpageIndex === 5 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'governance' })}>Governance</div>
-                        <div className={"ProfilePageMainTitleMenuItem" + (subpageIndex === 6 ? ' selected' : '')}
+                        <div className={"sub-menu-item" + (subpageIndex === 6 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'discord' })}>Discord</div>
                         {/* <div className={"ProfilePageMainTitleMenuItem" + (selectedTabIndex === 4 ? ' selected' : '')} onClick={() => setSelectedTabIndex(4)}>Governance</div> */}
                         {/* <div style={{ marginLeft: 'auto' }}><MainButton onClick={() => {
@@ -112,7 +112,7 @@ const ProfilePage = (props) => {
                         }}>Log out</MainButton></div> */}
                     </div>
                 </div>
-                <div className="ProfilePageContentWrapper">
+                <div className="content-container">
                     {subpageJsx}
                 </div>
             </div>

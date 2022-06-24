@@ -13,6 +13,7 @@ import { addrShorten } from '../../../utils/stringUtils';
 import { customFormat, getDateDiff } from '../../../utils/TimeUtil';
 import { getAddress, getProvider } from '../../../utils/web3Utils';
 import './index.scss';
+import { toFixedIfNecessary } from '../../../utils/numberUtils';
 
 const getRealVoteCount = (vote: number) => {
     return vote / 100
@@ -222,7 +223,7 @@ const ProposalHomePage = props => {
                                     <div className="bg" style={{ width: voteSum[i] / sum(voteSum) * 100 + "%" }}></div>
                                     <div className="container">
                                         <div className="title">{c}{mychoice === i ? <div className='tick'>√</div> : ''}</div>
-                                        <div>{voteSum[i] / sum(voteSum) * 100}%</div>
+                                        <div>{toFixedIfNecessary(voteSum[i] / (sum(voteSum) || 1) * 100, 2)}%</div>
                                     </div>
                                 </div>
                             })

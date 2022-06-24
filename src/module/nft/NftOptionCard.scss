@@ -48,11 +48,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #ddd;
+        // background-color: #ddd;
         width: 100%;
 
         &:hover {
             opacity: 0.3;
+            background-color: #ddd;
         }
 
         >.image {

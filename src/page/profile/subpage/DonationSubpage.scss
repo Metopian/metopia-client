@@ -1,0 +1,137 @@
+@import '../../../index.scss';
+@import '../font.scss';
+
+.donation-subpage {
+    margin-top: 20px;
+    padding-bottom: 40px;
+
+    .gitcoin-container {
+        >.head {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+
+            .gitcoin-summary-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 36px;
+                background-color: #ffffff;
+                box-shadow: 0 0 10px #e5e5e5;
+                border-radius: 20px;
+                padding: 24px 30px;
+                flex: 1;
+
+                >.title {
+                    @include profile-title;
+                }
+
+                .data-wrapper {
+                    transform: translateY(1px);
+
+                    .data {
+                        @include profile-content;
+                        line-height: 36px;
+                        display: flex;
+                        align-items: center;
+
+                        .number {
+                            font-family: Akrobat;
+                            font-size: 30px;
+                            color: $theme-color;
+                            margin-left: 24px;
+                        }
+                    }
+                }
+            }
+
+            .gitcoin-reference-container {
+                background-color: #ffffff;
+                box-shadow: 0 0 10px #e5e5e5;
+                border-radius: 20px;
+                padding: 24px 30px;
+                flex: 1;
+
+                .profile-reference {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin: 0;
+
+                    img {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .gitcoin-detail-container {
+        margin-top: 24px;
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 0 10px #e5e5e5;
+
+        .gitcoin-table {
+            width: 100%;
+            margin-top: 20px;
+
+            &,
+            th,
+            td,
+            tr {
+                border-collapse: collapse;
+            }
+
+
+
+            thead {
+                border-bottom: $default-border;
+
+                th {
+                    @include profile-table-head;
+                    text-align: left;
+                    border-right: 1px solid #f4f4f4;
+
+                    padding: 24px 50px;
+
+                    &:last-of-type {
+                        border-right: 0;
+                    }
+                }
+            }
+
+            tbody {
+                tr:nth-child(even) {
+                    background-color: #F9F9FE;
+                }
+
+                td {
+                    @include profile-table-cell;
+                    text-align: left;
+                    border-right: 1px solid #f4f4f4;
+                    padding: 24px 50px;
+
+                    &:last-of-type {
+                        border-right: 0;
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+
+.GitcoinDataLogo {
+    height: 40px;
+    width: 40px;
+}
+
+
+.GitcoinDataTitleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px
+}

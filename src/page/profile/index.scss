@@ -1,0 +1,117 @@
+@import '../../index.scss';
+
+.profile-page {
+    margin: 80px;
+    border-radius: 32px;
+
+    >.container {
+        >.head {
+            height: max(15vw, 216px);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            padding: max(60px, 4.2vw) max(2.8vw, 40px);
+            position: relative;
+            border-radius: 24px;
+            box-shadow: 0 0 10px #e5e5e5;
+
+            >.container {
+                height: max(6.6vw, 96px);
+                display: flex;
+                align-items: center;
+
+                >.avatar-wrapper {
+                    height: max(6.6vw, 96px);
+                    width: max(6.6vw, 96px);
+                    border-radius: max(3.3vw, 48px);
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    >.avatar {
+                        height: max(4.4vw, 64px);
+                        width: max(4.4vw, 64px);
+                    }
+                }
+
+                >.name {
+                    font-size: max(1.37vw, 20px);
+                    font-weight: bold;
+                    color: $title-color;
+                    margin-left: 12px;
+                    display: flex;
+                    align-items: center;
+                    font-family: montserrat;
+                }
+
+                .stats-wrapper {
+                    margin-left: auto;
+                    margin-right: 24px;
+                    display: flex;
+                    >.group {
+                        text-align: center;
+                        margin-left: max(3.9vw, 56px);
+
+                        .number {
+                            background: linear-gradient(122.65deg, #5A49DE 23.36%, #F7C4D7 132.77%),
+                                linear-gradient(0deg, #222222, #222222);
+                            background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            font-family: Akrobat;
+                            font-style: normal;
+                            font-weight: bold;
+                            font-size: 2.76vw;
+                            font-size: max(2.76vw, 40px);
+                            text-align: center;
+                        }
+
+                        .text {
+                            font-size: max(1.64vw, 24px);
+                            color: #BBBBBB;
+                            font-family: Akrobat;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        >.body {
+
+            >.main-title {
+                display: flex;
+                padding: 24px 0;
+                border-bottom: $default-border;
+
+                .sub-menu-bar {
+                    display: flex;
+                    width: 100%;
+                    align-items: center;
+
+                    .sub-menu-item {
+                        font-style: normal;
+                        font-size: 20px;
+                        line-height: 30px;
+                        color: $subtitle-color;
+                        color: #888888;
+                        margin-right: 48px;
+                        cursor: pointer;
+                        font-family: Montserrat;
+                        font-weight: bold;
+
+                        &.selected {
+                            color: $theme-color;
+                        }
+                    }
+                }
+            }
+
+            >.content-container {
+                // min-height: 50vh;
+                // border-radius: 24px;
+                // padding: 30px 40px;
+                margin-top: 24px;
+            }
+        }
+    }
+}
