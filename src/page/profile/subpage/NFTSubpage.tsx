@@ -127,7 +127,7 @@ const NFTSubpage = (props) => {
             return []
 
         let nftList = []
-        if (nfts) {
+        if (nfts?.result) {
             nftList.push(...(nfts.result.filter(item => item.metadata).map(item => {
                 return Object.assign({}, item, { chainId: chainId })
             })))

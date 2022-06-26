@@ -5,6 +5,7 @@ import { usePoapData } from '../../../third-party/rss3';
 import ProfileTable from '../module/ProfileTable';
 import './PoapSubpage.scss';
 import { customFormat } from '../../../utils/TimeUtil'
+import { WrappedLazyLoadImage } from '../../../module/image';
 
 const PoapContentModalStyle = {
     overlay: {
@@ -16,7 +17,7 @@ const PoapContentModalStyle = {
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
-        width: '440px',
+        width: '1100px',
         transform: 'translate(-50%, -50%)',
         borderRadius: '32px',
         padding: 0,
@@ -24,52 +25,48 @@ const PoapContentModalStyle = {
     }
 }
 
-const formatDate = function (date, fmt) { //author: meizz 
-    var o = {
-        "M+": date.getMonth() + 1, //月份 
-        "d+": date.getDate(), //日 
-        "h+": date.getHours(), //小时 
-        "m+": date.getMinutes(), //分 
-        "s+": date.getSeconds(), //秒 
-        "q+": Math.floor((date.getMonth() + 3) / 3), //季度 
-        "S": date.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
-
 const PoapContentModal = (props) => {
     const { isShow, hide, data } = props
-
     return <Modal
+        size="xl"
         appElement={document.getElementById('root')}
         isOpen={isShow}
         onRequestClose={hide}
         style={Object.assign({}, PoapContentModalStyle, props.style || {})}>
-        <div className="PoapContentModalContainer">
-            <div className="PoapContentModalGroup">
-                <div  ><img src={data.image_url} alt="" /></div>
+        <div className="poap-content-modal">
+            <div className="head">
+                <div className="title">POAP</div>
+                <img src="/imgs/close.svg" alt="close" onClick={hide} />
             </div>
-            <div className="PoapContentModalGroup">
-                <div className='PoapContentTitle'>Title</div>
-                <div>{data.name}</div>
+            <div className='body'>
+                <div className='container'>
+                    <div className='avatar-wrapper'>
+                        <div className="avatar">
+                            <WrappedLazyLoadImage src={data.image_url} alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div className='container right'>
+                    <div className="group">
+                        <div className='title'>Title</div>
+                        <div>{data.name}</div>
+                    </div>
+                    <div className="group">
+                        <div className='title'>Description</div>
+                        <div className='description-area'>{data.description}</div>
+                    </div>
+                    <div className="group">
+                        <div className='title'>Date</div>
+                        <div>{data?.date_created ? customFormat(new Date(data.date_created), '#YYYY#-#MM#-#DD#') : ''}</div>
+                    </div>
+                    {
+                        data.event_url ? <div className="group">
+                            <div className='title'>Link</div>
+                            <a href={data.event_url}>{data.event_url}</a>
+                        </div > : null
+                    }
+                </div>
             </div>
-            <div className="PoapContentModalGroup">
-                <div className='PoapContentTitle'>Description</div>
-                <div className='PoapDescriptionArea'>{data.description}</div>
-            </div>
-            <div className="PoapContentModalGroup">
-                <div className='PoapContentTitle'>Date</div>
-                <div>{formatDate(new Date(data.date_created), 'yyyy-MM-dd')}</div>
-            </div>
-            {
-                data.event_url ? <div className="PoapContentModalGroup">
-                    <div className='PoapContentTitle'>Link</div>
-                    <a href={data.event_url}>{data.event_url}</a>
-                </div > : null
-            }
         </div >
     </Modal >
 }
@@ -81,20 +78,17 @@ const PoapSubpage = (props) => {
     const [showModal, setShowModal] = useState(false)
     const poapTable = useMemo(() => {
         return poapData && <ProfileTable data={poapData.map(d => {
-            console.log(d.detail.date_created)
-
-            return [d.detail.name, customFormat(new Date(d.detail.date_created), 'yyyy-MM-dd')]
-            // return [d.detail.name, formatDate(new Date(d.detail.date_created), 'yyyy-MM-dd')]
+            return [d.detail.name, customFormat(new Date(d.detail.date_created), '#YYYY#-#MM#-#DD#')]
         })} heads={['Event', 'Date']} onSelect={(i) => {
             setSelectedPoapData(poapData[i].detail)
             setShowModal(true)
         }} />
     }, [poapData])
     return poapData ? <div className='poap-subpage' style={{}}>
-        {poapData.length > 0 ? poapTable : <div style={{ fontSize: '18px', marginTop: '20px' }}>You have not collected any POAPs.</div>}
+        {poapData.length > 0 ? poapTable : <div className="no-content-container" style={{ marginTop: '20px' }}>You have not collected any POAPs.</div>}
         <PoapContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedPoapData} />
-    </div> : <div style={{ marginTop: '20px' }}>
-        <BulletList style={{ height: '200px' }} />
+    </div> : <div style={{ marginTop: '20px' }} className="no-content-container" >
+        <BulletList style={{ height: '200px' }} color="#ffffff" />
         {/* <ReactLoading height={21} width={40} color='#333' /> */}
     </div>
 }

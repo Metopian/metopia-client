@@ -1,4 +1,5 @@
 @import '../../index.scss';
+@import './font.scss';
 
 .profile-page {
     margin: 80px;
@@ -48,6 +49,7 @@
                     margin-left: auto;
                     margin-right: 24px;
                     display: flex;
+
                     >.group {
                         text-align: center;
                         margin-left: max(3.9vw, 56px);
@@ -77,7 +79,6 @@
         }
 
         >.body {
-
             >.main-title {
                 display: flex;
                 padding: 24px 0;
@@ -107,10 +108,15 @@
             }
 
             >.content-container {
-                // min-height: 50vh;
-                // border-radius: 24px;
-                // padding: 30px 40px;
                 margin-top: 24px;
+            }
+
+            .no-content-container {
+                background-color: #ffffff;
+                border-radius: 20px;
+                box-shadow: 0 0 10px #e5e5e5;
+                padding: 24px 30px;
+                @include profile-title;
             }
         }
     }

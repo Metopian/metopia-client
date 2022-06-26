@@ -17,7 +17,7 @@ import PoapSubpage from "./subpage/PoapSubpage";
 
 const ProfilePage = (props) => {
     const { slug, subpage, state, code } = props
-    const {chainId} = useChainId()
+    const { chainId } = useChainId()
     const { data: nfts } = useNfts(slug, chainId)
     const [ens, setEns] = useState(null)
     const nftCount = useMemo(() => {
@@ -51,7 +51,7 @@ const ProfilePage = (props) => {
         } else if (subpage === 'donations') {
             tmpJsx = <DonationSubpage slug={slug} />
             tmpIndex = 2
-        } else if (subpage === 'momentos') {
+        } else if (subpage === 'poap') {
             tmpJsx = <PoapSubpage slug={slug} />
             tmpIndex = 3
         } else if (subpage === 4) {
@@ -66,7 +66,7 @@ const ProfilePage = (props) => {
         }
         return { subpageJsx: tmpJsx, subpageIndex: tmpIndex }
     }, [slug, subpage])
-    
+
     return <div className="profile-page">
         <div className="container">
             <div className="head" style={{ backgroundImage: 'url(/imgs/profile_page_head_bg.png)' }}>
@@ -74,7 +74,6 @@ const ProfilePage = (props) => {
                     <div className='avatar-wrapper'>
                         <DefaultAvatar wallet={slug} className="avatar" />
                     </div>
-                    {/* <img src={'/imgs/face.svg'} className="ProfilePageHeadAvatar" alt="" /> */}
                     <div className="name">
                         {ens || slug}
                     </div>
@@ -99,7 +98,7 @@ const ProfilePage = (props) => {
                         <div className={"sub-menu-item" + (subpageIndex === 2 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'donations' })}>Donations</div>
                         <div className={"sub-menu-item" + (subpageIndex === 3 ? ' selected' : '')}
-                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'momentos' })}>Mementos</div>
+                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'poap' })}>Poap</div>
                         <div className={"sub-menu-item" + (subpageIndex === 5 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'governance' })}>Governance</div>
                         <div className={"sub-menu-item" + (subpageIndex === 6 ? ' selected' : '')}

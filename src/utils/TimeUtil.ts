@@ -205,6 +205,8 @@ let getImDateDisplay = (dateString) => {
 
 
 export const customFormat = (date, formatString) => {
+	if (!date)
+		return ''
 	var YYYY, YY, MMMM, MMM, MM, M, DDDD, DDD, DD, D, hhhh, hhh, hh, h, mm, m, ss, s, ampm, AMPM, dMod, th;
 	YY = ((YYYY = date.getFullYear()) + "").slice(-2);
 	MM = (M = date.getMonth() + 1) < 10 ? ('0' + M) : M;

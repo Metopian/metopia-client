@@ -1,26 +1,10 @@
 import React, { useMemo } from 'react'
-import './GovernanceSubpage.css'
-import { nftDataApi } from '../../../config/urls'
 import useSWR from 'swr'
-// import ReactLoading from 'react-loading'
-import Metable from '../module/ProfileTable'
+import { nftDataApi } from '../../../config/urls'
+import './GovernanceSubpage.scss'
 import { BulletList } from 'react-content-loader'
-
-const formatDate = function (date, fmt) { //author: meizz 
-    var o = {
-        "M+": date.getMonth() + 1, //月份 
-        "d+": date.getDate(), //日 
-        "h+": date.getHours(), //小时 
-        "m+": date.getMinutes(), //分 
-        "s+": date.getSeconds(), //秒 
-        "q+": Math.floor((date.getMonth() + 3) / 3), //季度 
-        "S": date.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
+import Metable from '../module/ProfileTable'
+import { customFormat } from '../../../utils/TimeUtil'
 
 const nftServiceFetcher = (owner) => fetch(nftDataApi.goverance_selectByOwner + "?owner=" + owner).then((res) => res.json())
 
@@ -65,12 +49,12 @@ const GovernanceSubpage = (props) => {
     const snapshotTable = useMemo(() => {
         if (snapshotData?.data?.votes?.length)
             return <Metable data={snapshotData.data.votes.map(d => {
-                return [d.space.name, d.proposal.title, formatDate(new Date(d.created * 1000), 'yyyy-MM-dd')]
+                return [d.space.name, d.proposal.title, customFormat(new Date(d.created * 1000), '#YYYY#-#MM#-#DD#')]
             })} heads={['Space', 'Title', 'Date']} onSelect={(i) => {
                 window.open('https://snapshot.org/#/' + snapshotData.data.votes[i].space.id + "/proposal/" + snapshotData.data.votes[i].proposal.id)
             }} />
     }, [snapshotData])
-    
+
     return <div className="GovernanceSubpage">
         {
             snapshotData?.data && governanceData?.data ? <div>
