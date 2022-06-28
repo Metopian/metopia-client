@@ -1,6 +1,6 @@
 {
   "name": "metopia-client",
-  "version": "0.2.4",
+  "version": "0.3.1",
   "private": true,
   "dependencies": {
     "@3id/connect": "^0.2.5",
