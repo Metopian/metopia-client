@@ -11,6 +11,7 @@ const nftDataApi = {
     nft_image: dataCenterRoot + "nfts/image",
     nft_cache: dataCenterRoot + "nfts/cache",
     nft_cacheAll: dataCenterRoot + "nfts/cache-all",
+    nft_transfer_cacheAll: dataCenterRoot + "nfts/transfers/cache-all",
     nft_attributes: dataCenterRoot + "nfts/attributes",
     goverance_selectByOwner: dataCenterRoot + "owners/governance-records",
 }

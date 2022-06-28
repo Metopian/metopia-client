@@ -1,15 +1,16 @@
 import $ from 'jquery';
 import moment from "moment";
-import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
 import { arabToRoman } from 'roman-numbers';
 import { domain, proposalTypes } from '../../../config/snapshotConfig';
 import { useChainId } from '../../../config/store';
-import { localRouter, snapshotApi } from '../../../config/urls';
+import { localRouter, snapshotApi, nftDataApi } from '../../../config/urls';
 import { MainButton } from '../../../module/button';
 import { DefaultTextEditor as RichTextEditor } from '../../../module/editor/RichTextEditor';
 import { Input, Label } from '../../../module/form';
+import { encodeQueryData } from '../../../utils/RestUtils';
 import { getAddress, getProvider, signTypedData } from '../../../utils/web3Utils';
 import './index.scss';
 
@@ -87,6 +88,9 @@ const CreateProposalPage = props => {
         let timestamp = Math.ceil(new Date().getTime() / 1000),
             startUnix = start.unix(),
             endUnix = end.unix()
+        spaceSettings.strategies.forEach(s => {
+            fetch(encodeQueryData(nftDataApi.nft_transfer_cacheAll, { chain_id: `0x${s.params.network}`, address: s.params.address }))
+        })
         signTypedData({
             "space": space,
             "type": "single-choice",

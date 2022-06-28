@@ -3,10 +3,11 @@ import $ from 'jquery'
 import 'rc-slider/assets/index.css'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useChainId } from '../../../config/store'
-import { localRouter, thirdpartyApi } from '../../../config/urls'
+import { localRouter, nftDataApi, thirdpartyApi } from '../../../config/urls'
 import { useSpaceData } from '../../../governance'
 import { MainButton } from '../../../module/button'
 import { Input, Label } from '../../../module/form'
+import { encodeQueryData } from '../../../utils/RestUtils'
 import { BasicProfileForm, useData as useBasicFormData } from './form/BasicProfileForm'
 import { ConsensusForm, useData as useConsensusForm } from './form/ConsensusForm'
 import { useData as useVotingForm, VotingForm } from './form/VotingForm'
@@ -28,12 +29,14 @@ const ClubSettingPage = (props) => {
     const [network, setNetwork] = useState(null)
     const { chainId } = useChainId()
     const container = useRef(null)
+
     useEffect(() => {
         $('.MainContainer').css({ 'overflow-y': 'hidden' })
         return () => {
             $('.MainContainer').css({ 'overflow-y': 'auto' })
         }
     })
+
     useEffect(() => {
         // let { basicFormData, consensusForm, votingFormData } = defaultForm()
         if (defaultSpaceSettings?.code === 200) {
@@ -60,7 +63,11 @@ const ClubSettingPage = (props) => {
         formToSettings(network || chainId, basicFormData, consensusForm, votingFormData).then(settings => {
             if (!window.confirm("Do you want to continue?"))
                 return
+
             setCreating(true)
+            settings.strategies.forEach(s => {
+                fetch(encodeQueryData(nftDataApi.nft_transfer_cacheAll, { chain_id: network || chainId, address: s.params.address }))
+            })
             if (slug) {
                 doUpdateDao(slug, settings, () => setCreating(false))
             } else {

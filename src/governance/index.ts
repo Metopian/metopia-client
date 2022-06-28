@@ -67,7 +67,6 @@ const useProposal = (id) => {
     return { data: data?.data?.proposal, error }
 }
 
-
 const useLatestProposalData = (): { data: ResponsePack<Space[]>, error: any } => {
     const { data, error } = useSWR([snapshotApi.proposal_selectLatest], getFetcher, defaultSWRConfig)
     return { data, error }

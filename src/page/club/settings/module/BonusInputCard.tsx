@@ -31,7 +31,6 @@ const BonusInputCard = props => {
         if (data?.type === -1) {
             return '[Please select bonus basis]'
         } else if (data?.type === 1) {
-            console.log(data.value)
             if (data.value && data.value > 0)
                 return 'Holding time - ' + toFixedIfNecessary(data.value / data.field, 2) + ' ' + unitNumToText(data.field) + ' - ' + data.weight + "%"
             else return 'Holding time - [Please provide minimum holding period]'
