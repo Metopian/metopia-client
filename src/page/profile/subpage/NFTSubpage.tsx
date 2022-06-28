@@ -165,7 +165,7 @@ const NFTSubpage = (props) => {
                     <NftContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedNftData} acquiredTx={lastPurchasedTx} />
                 </div>
             else {
-                return <div style={{ fontSize: '18px', marginTop: '20px' }}>You have not collected any NFTs.</div>
+                return <div className="no-content-container" style={{ marginTop: '20px' }}>You have not collected any NFTs.</div>
             }
         } else return <div style={{ marginTop: '20px' }}>
             <BulletList style={{ height: '200px' }} />

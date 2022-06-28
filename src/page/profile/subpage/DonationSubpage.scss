@@ -72,6 +72,7 @@
         background-color: #ffffff;
         border-radius: 20px;
         box-shadow: 0 0 10px #e5e5e5;
+        overflow: hidden;
 
         .gitcoin-table {
             width: 100%;
@@ -171,6 +172,7 @@
                     overflow: hidden;
                     height: 300px;
                     width: 300px;
+
                     img {
                         height: 300px;
                         @include absolute-centered;

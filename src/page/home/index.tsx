@@ -7,6 +7,7 @@ import './index.scss'
 import SearchInput from './SearchInput'
 import { localRouter } from '../../config/urls'
 import { useChainId } from '../../config/store'
+import { WrappedLazyLoadImage } from '../../module/image'
 
 const ProposalBoard = (props) => {
     const { data } = props
@@ -17,16 +18,20 @@ const ProposalBoard = (props) => {
 
     return <div className="proposal-board">
         <div className="head">
-            <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/fire.svg" className='icon' alt="" />
             <div className="title">Latest Proposals</div>
-            <div className="pager">
-                <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/left_arrow.svg" alt="Last" onClick={last} />
-                <div className="text">{index}/5</div>
-                <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/right_arrow.svg" alt="Next" onClick={next} />
+            <div className="space-info">
+                <WrappedLazyLoadImage src={data?.content[index - 1]?.spaceAvatar} className="avatar-wrapper" />
+                <div className='name'>{data?.content[index - 1]?.spaceName}</div>
+                <div>&gt;</div>
             </div>
         </div>
         <div className="content" >
             <a href={data ? localRouter('proposal.prefix') + data.content[index - 1]?.id : '#'}>{data?.content[index - 1]?.title}</a>
+        </div>
+        <div className="pager">
+            <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/left_arrow.svg" alt="Last" onClick={last} />
+            <div className="text">{index}<div className='slash'>/</div>5</div>
+            <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/right_arrow.svg" alt="Next" onClick={next} />
         </div>
     </div>
 }
@@ -36,7 +41,6 @@ const HomePage = () => {
     const { data: latestProposalData } = useLatestProposalData()
     const [keyword, setKeyword] = useState('')
     const { chainId } = useChainId()
-
 
     const spaceContainer = useMemo(() => {
         if (!spaceData?.content) {

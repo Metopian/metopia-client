@@ -1,11 +1,10 @@
-import { ethers } from 'ethers';
 import React, { useEffect, useMemo, useState } from "react";
 import { useChainId } from '../../config/store';
 import { localRouter } from "../../config/urls";
 import { DefaultAvatar } from '../../module/image';
 import { useNfts } from '../../third-party/moralis';
 import { encodeQueryData } from '../../utils/RestUtils';
-import { getAddress } from '../../utils/web3Utils';
+import { getAddress, getEns } from '../../utils/web3Utils';
 import './index.scss';
 import DiscordSubPage from './subpage/DiscordSubPage';
 import DonationSubpage from "./subpage/DonationSubpage";
@@ -28,10 +27,13 @@ const ProfilePage = (props) => {
     }, [nfts])
 
     useEffect(() => {
-        let provider = ethers.getDefaultProvider();
-        provider.lookupAddress(slug).then(e => setEns(e)).catch(e => {
-            console.error(e)
-        })
+        if (slug?.length) {
+            (async () => {
+                const ens = await getEns(slug)
+                if (ens?.length)
+                    setEns(ens)
+            })()
+        }
     }, [slug])
 
     useEffect(() => {
@@ -93,16 +95,16 @@ const ProfilePage = (props) => {
                 <div className="main-title">
                     <div className="sub-menu-bar">
                         <div className={"sub-menu-item" + (subpageIndex === 0 ? ' selected' : '')}
-                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'nft' })}>NFTs</div>
+                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'nft' })}>NFT</div>
                         {/* <div className={"ProfilePageMainTitleMenuItem" + (selectedTabIndex === 1 ? ' selected' : '')} onClick={() => setSelectedTabIndex(1)}>Fungibles</div> */}
                         <div className={"sub-menu-item" + (subpageIndex === 2 ? ' selected' : '')}
-                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'donations' })}>Donations</div>
+                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'donations' })}>Donation</div>
                         <div className={"sub-menu-item" + (subpageIndex === 3 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'poap' })}>Poap</div>
                         <div className={"sub-menu-item" + (subpageIndex === 5 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'governance' })}>Governance</div>
-                        <div className={"sub-menu-item" + (subpageIndex === 6 ? ' selected' : '')}
-                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'discord' })}>Discord</div>
+                        {/* <div className={"sub-menu-item" + (subpageIndex === 6 ? ' selected' : '')}
+                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'discord' })}>Discord</div> */}
                         {/* <div className={"ProfilePageMainTitleMenuItem" + (selectedTabIndex === 4 ? ' selected' : '')} onClick={() => setSelectedTabIndex(4)}>Governance</div> */}
                         {/* <div style={{ marginLeft: 'auto' }}><MainButton onClick={() => {
                             window.localStorage?.removeItem('user')

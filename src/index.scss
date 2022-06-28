@@ -24,6 +24,19 @@ $default-border:1px solid $border-color;
   align-items: center;
 }
 
+@mixin ellipsis($line) {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @if $line==1 {
+    white-space: nowrap;
+  } @else{
+    display: -webkit-box;
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

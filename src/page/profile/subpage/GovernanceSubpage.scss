@@ -1,3 +1,5 @@
+@import '../font.scss';
+
 .GovernanceSubpage {
     margin-top: 24px;
     padding-bottom: 40px;
@@ -13,20 +15,109 @@
 .GovernanceSubpageGroup:last-child {
     margin-bottom: 0;
 }
-
+    
 
 .GovernanceSubpageGroup .label {
-        font-weight: bold;
-        width: 200px;
-        min-width: 200px;
-        /* font-family: Montserrat; */
-        font-size: 18px;
+    font-weight: bold;
+    width: 200px;
+    min-width: 200px;
+    /* font-family: Montserrat; */
+    font-size: 18px;
 }
 
 .GovernanceSubpageGroup th {
     font-size: 16px;
-    color: #333;font-weight: normal;
+    color: #333;
+    font-weight: normal;
 }
+
 .GovernanceSubpageGroup td {
     font-size: 14px;
+}
+
+.governance-card-layout {
+    display: flex;
+    width: 100%;
+    gap: 30px;
+
+    .left-container,
+    .right-container {
+        flex: 1;
+        max-width: calc(50% - 15px);
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+}
+
+.snapshot-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #e5e5e5;
+    padding: 24px 40px;
+    align-items: center;
+
+    >.head a{
+        display: flex;
+        gap: 10px;
+        text-decoration: none;
+
+        img {
+            height: 32px;
+            width: 32px;
+        }
+
+        >.name {
+            @include profile-title;
+            display: flex;
+            align-items: center;
+            transform: translateY(-2px);
+        }
+
+    }
+
+    >.container {
+        margin-top: 12px;
+
+        >.title, >.title a {
+            @include profile-title;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        >.time-wrapper {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+
+            .time {
+                font-size: 13px;
+                color: #AAAAAA;
+                transform: translateY(-1px);
+            }
+        }
+
+        .body {
+            @include ellipsis(4);
+            // display: -webkit-box;
+            // -webkit-box-orient: vertical;
+            // -webkit-line-clamp: 2;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+
+            * {
+                @include profile-content;
+            }
+        }
+        .voted-wrapper{
+            margin-top: 12px;
+            @include profile-content;
+            text-align: right;
+            font-family:akrobat;
+            font-size: 15px;letter-spacing: 0.1px;
+        }
+    }
+
+
 }

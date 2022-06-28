@@ -79,3 +79,20 @@ export const ifConnectedCheckChainAndSwitch = async (chainId) => {
         }
     }
 }
+
+export const getEns = async (address): Promise<string> => {
+    if (!address.length)
+        return ''
+    const ens = localStorage.getItem(address);
+    if (ens?.length)
+        return ens;
+
+    return await getProvider().lookupAddress(address).then(e => {
+        if (e)
+            localStorage.setItem(address, e);
+        return e
+    }).catch(e => {
+        console.error(e)
+        return ''
+    })
+}

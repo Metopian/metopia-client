@@ -85,11 +85,10 @@ const PoapSubpage = (props) => {
         }} />
     }, [poapData])
     return poapData ? <div className='poap-subpage' style={{}}>
-        {poapData.length > 0 ? poapTable : <div className="no-content-container" style={{ marginTop: '20px' }}>You have not collected any POAPs.</div>}
+        {poapData.length > 0 ? poapTable : <div className="no-content-container" style={{boxShadow:'unset' }}>You have not collected any POAPs.</div>}
         <PoapContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedPoapData} />
-    </div> : <div style={{ marginTop: '20px' }} className="no-content-container" >
+    </div> : <div style={{ boxShadow:'unset' }} className="no-content-container" >
         <BulletList style={{ height: '200px' }} color="#ffffff" />
-        {/* <ReactLoading height={21} width={40} color='#333' /> */}
     </div>
 }
 

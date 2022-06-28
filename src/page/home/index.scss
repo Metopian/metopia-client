@@ -14,7 +14,6 @@
             background: linear-gradient(90deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 65.78%);
 
             >.left-container {
-
                 display: inline-block;
                 width: 323px;
             }
@@ -29,7 +28,7 @@
                 float: right;
                 height: 172px;
                 margin-top: -20px;
-                padding: 40px 60px 40px 80px;
+                padding: 32px 32px 40px 60px;
                 vertical-align: middle;
             }
 
@@ -42,7 +41,6 @@
                 .number {
                     font-size: 56px;
                     margin-right: 10px;
-
                 }
             }
 
@@ -76,6 +74,10 @@
 
 .proposal-board {
     >.head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
         >.icon {
             margin-top: -10px;
             margin-left: -60px;
@@ -83,7 +85,6 @@
         }
 
         >.title {
-
             display: inline-block;
             vertical-align: top;
             color: #000000;
@@ -92,37 +93,74 @@
             font-family: Montserrat;
         }
 
-        >.pager {
+        .space-info {
             font-size: 12px;
-            color: $subtitle-color;
-            float: right;
+            color: #000000;
+            background: #8DFFA8;
+            padding: 8px 16px;
+            border-radius: 45px;
+            display: flex;
+            gap: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transform: translateY(2px);
+
+            >.name {
+                max-width: 80px;
+                @include ellipsis(1);
+            }
+
+            .avatar-wrapper,
+            .avatar-wrapper img {
+                height: 16px;
+                width: 16px;
+                border-radius: 2px;
+            }
+        }
+
+    }
+
+    >.content {
+        margin-top: 12px;
+        height: 48px;
+
+        a {
+            font-size: 16px;
             line-height: 24px;
-            margin-top: 6px;
-
-            img {
-                height: 24px;
-                vertical-align: top;
-                cursor: pointer;
-            }
-
-            .text {
-                display: inline-block;
-                line-height: 24px;
-                vertical-align: top;
-                letter-spacing: 0.5px;
-                font-size: 15px;
-                font-family: Akrobat;
-                transform: translateY(1px);
-            }
+            color: $subtitle-color;
+            text-decoration: none;
+            @include ellipsis(2);
         }
     }
 
-    >.content,
-    >.content a {
 
-        font-size: 16px;
-        line-height: 24px;
+    >.pager {
+        font-size: 12px;
         color: $subtitle-color;
-        text-decoration: none;
+        float: right;
+        line-height: 24px;
+        margin-top: 6px;
+
+        img {
+            height: 22px;
+            vertical-align: top;
+            cursor: pointer;
+        }
+
+        .text {
+            display: inline-block;
+            line-height: 24px;
+            vertical-align: top;
+            letter-spacing: 2px;
+            font-size: 15px;
+            font-family: Akrobat;
+            // transform: translateY(1px);
+
+            >.slash {
+                font-size: 14px;
+                transform: translateY(-1px);
+                display: inline-block;
+            }
+        }
     }
 }

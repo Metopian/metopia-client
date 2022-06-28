@@ -11,7 +11,7 @@ import { DefaultAvatarWithRoundBackground } from '../../../module/image';
 import { sum } from '../../../utils/numberUtils';
 import { addrShorten } from '../../../utils/stringUtils';
 import { customFormat, getDateDiff } from '../../../utils/TimeUtil';
-import { getAddress, getProvider } from '../../../utils/web3Utils';
+import { getAddress, getProvider, getEns } from '../../../utils/web3Utils';
 import './index.scss';
 import { toFixedIfNecessary } from '../../../utils/numberUtils';
 
@@ -38,19 +38,24 @@ const vote = async (web3: Web3Provider | Wallet, address: string, message: Vote)
 const ProposalHomePage = props => {
     const { id } = props
     const { data: proposal } = useProposal(id)
-    // const [proposal, setProposal] = useState<any>({})
     const [votes, setVotes] = useState([])
     const [selectedOptionId, setSelectedOptionId] = useState(-1)
     const [voting, setVoting] = useState(false)
     const [self, setSelf] = useState(null)
     const [authorEns, setAuthorEns] = useState(null)
+    
     useEffect(() => {
         getAddress().then(addr => setSelf(addr))
     }, [])
 
     useEffect(() => {
-        if (proposal?.author)
-            getProvider().lookupAddress(proposal?.author).then(e => setAuthorEns(e))
+        if (proposal?.author) {
+            (async () => {
+                const ens = await getEns(proposal.author)
+                if (ens?.length)
+                    setAuthorEns(ens)
+            })()
+        }
     }, [proposal])
 
     const getAddressToCalcScore = () => {
