@@ -43,7 +43,7 @@ const ProposalHomePage = props => {
     const [voting, setVoting] = useState(false)
     const [self, setSelf] = useState(null)
     const [authorEns, setAuthorEns] = useState(null)
-    
+
     useEffect(() => {
         getAddress().then(addr => setSelf(addr))
     }, [])

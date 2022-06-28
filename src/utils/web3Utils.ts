@@ -96,3 +96,23 @@ export const getEns = async (address): Promise<string> => {
         return ''
     })
 }
+
+export const fromEns = async (ens): Promise<string> => {
+    if (!ens.length)
+        return ''
+    const address = localStorage.getItem(ens);
+    if (address?.length)
+        return address;
+
+    await getProvider().getResolver(ens).then(e => {
+        return e.getAddress()
+    }).then(address => {
+        if (!address?.length)
+            return ''
+        localStorage.setItem(ens, address);
+        return address
+    }).catch(e => {
+        console.error(e)
+        return ''
+    })
+}
