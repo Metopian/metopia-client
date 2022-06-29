@@ -5,6 +5,7 @@ import { localRouter, snapshotApi } from '../../../../config/urls'
 import { unitNumToText, unitTextToNum } from '../../../../module/form'
 import { toFixedIfNecessary } from '../../../../utils/numberUtils'
 import { getAddress } from '../../../../utils/web3Utils'
+import { unique } from '../../../../utils/stringUtils'
 
 export const sign = async (web3: Web3Provider | Wallet, address: string, message, types) => {
     // @ts-ignore
@@ -91,8 +92,7 @@ const bonusStrategyToForm = (traitValues) => {
     return res
 }
 
-export const formToSettings = async (chainId, basicFormData, consensusForm, votingFormData) => {
-    let account = await getAddress()
+export const formToSettings = (chainId, basicFormData, consensusForm, votingFormData) => {
     let res = {
         ...basicFormData,
         voting: votingFormData,
@@ -116,7 +116,7 @@ export const formToSettings = async (chainId, basicFormData, consensusForm, voti
         },
         filters: {},
         about: basicFormData.introduction,
-        admins: [account],
+        admins: unique(basicFormData.admins.map(admin => admin.addres)),
         plugins: [],
         categories: [],
         network: chainId.indexOf("0x") === 0 ? chainId.substring(2) : chainId,

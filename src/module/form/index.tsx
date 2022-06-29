@@ -10,7 +10,7 @@ const Label = (props) => {
 }
 
 const Input = (props) => {
-    return <input  {...props} className={'r-input ' + (props.className ? props.className : "")} />
+    return <input  {...props} className={'r-input ' + (props.className ? props.className : "")}  />
 }
 
 const Textarea = (props) => {

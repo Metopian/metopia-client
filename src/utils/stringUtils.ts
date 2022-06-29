@@ -1,3 +1,4 @@
+import { str } from "ajv";
 
 const addrShorten = (addr: string): string => {
     return addr && addr.length > 6 ? addr.substring(0, 6) + '...' + addr.substring(addr.length - 5, addr.length) : null
@@ -13,5 +14,11 @@ function pad(num, size) {
     return num;
 }
 
+const unique = (arr: string[]) => {
+    let tmp = {}
+    arr.forEach(str => tmp[str] = '')
+    return Object.keys(tmp)
+}
+
 export const fillZero = (x) => ('00' + x).slice(-2);
-export { addrShorten, capitalizeFirstLetter, pad }
+export { addrShorten, capitalizeFirstLetter, pad ,unique}

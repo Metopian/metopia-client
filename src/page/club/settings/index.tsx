@@ -29,6 +29,7 @@ const ClubSettingPage = (props) => {
     const [network, setNetwork] = useState(null)
     const { chainId } = useChainId()
     const container = useRef(null)
+    const [expandImportDiv, setExpandImportDiv] = useState(false)
 
     useEffect(() => {
         $('.MainContainer').css({ 'overflow-y': 'hidden' })
@@ -60,20 +61,20 @@ const ClubSettingPage = (props) => {
             window.alert(errors[errorKeys[0]])
             return
         }
-        formToSettings(network || chainId, basicFormData, consensusForm, votingFormData).then(settings => {
-            if (!window.confirm("Do you want to continue?"))
-                return
+        let settings = formToSettings(network || chainId, basicFormData, consensusForm, votingFormData)
 
-            setCreating(true)
-            settings.strategies.forEach(s => {
-                fetch(encodeQueryData(nftDataApi.nft_transfer_cacheAll, { chain_id: network || chainId, address: s.params.address }))
-            })
-            if (slug) {
-                doUpdateDao(slug, settings, () => setCreating(false))
-            } else {
-                doCreateDao(settings, () => setCreating(false))
-            }
+        if (!window.confirm("Do you want to continue?"))
+            return
+
+        setCreating(true)
+        settings.strategies.forEach(s => {
+            fetch(encodeQueryData(nftDataApi.nft_transfer_cacheAll, { chain_id: network || chainId, address: s.params.address }))
         })
+        if (slug) {
+            doUpdateDao(slug, settings, () => setCreating(false))
+        } else {
+            doCreateDao(settings, () => setCreating(false))
+        }
     }
 
     const validateData = useCallback(() => {
@@ -118,9 +119,10 @@ const ClubSettingPage = (props) => {
 
     return <div className='create-club-page'>
         <div className="head">
-            <div className="title" style={{ margin: 0 }}><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
-                window.location.href = localRouter("club.prefix") + slug
-            }} />{slug ? 'Update settings' : 'Create new DAO'}</div>
+            <div className="title" style={{ margin: 0 }}>
+                <img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
+                    window.location.href = localRouter("club.prefix") + slug
+                }} />{slug ? 'Update settings' : 'Create new DAO'}</div>
             <div style={{ display: 'flex', gap: '24px', marginLeft: 'auto' }}>
                 <MainButton onClick={createClub} disabled={creating}>Confirm</MainButton>
             </div>
@@ -133,19 +135,25 @@ const ClubSettingPage = (props) => {
         }}>
             {
                 slug ? null : <div className='create-club-form' >
-                    <Label style={{ marginBottom: '12px' }}>Import from Snapshot space</Label>
-                    <div className="Tip" style={{ marginBottom: '20px' }}>Only strategies of <span style={{ fontStyle: 'italic' }}>erc721</span> on Ethereum will be automatically loaded.</div>
-                    <div style={{ marginBottom: '20px' }}>
-                        <Input placeholder="Paste your Snapshot space link" id="snapshotlinkinput" />
-                    </div>
-                    <div>
-                        <MainButton onClick={(e) => {
-                            let url = (document.getElementById("snapshotlinkinput") as HTMLInputElement).value
-                            let tmp = url.split("/")
-                            if (!tmp.length)
-                                return
-                            syncSnapshotData(tmp[tmp.length - 1])
-                        }}>Import</MainButton>
+                    <div className={'import-snapshot-container' + (expandImportDiv ? ' expanded' : '')}>
+                        <div className='head' onClick={() => { setExpandImportDiv(!expandImportDiv) }}>
+                            <img src="/imgs/lil-triangle.svg" className='flag' alt="" />
+                            <Label>Import from Snapshot space</Label>
+                        </div>
+                        <div className="Tip" style={{ marginBottom: '20px' }}>Only strategies of <span style={{ fontStyle: 'italic' }}>erc721</span> on Ethereum will be automatically loaded.</div>
+                        <div style={{ marginBottom: '20px' }}>
+                            <Input placeholder="Paste your Snapshot space link" id="snapshotlinkinput" />
+                        </div>
+                        <div>
+                            <MainButton onClick={(e) => {
+                                let url = (document.getElementById("snapshotlinkinput") as HTMLInputElement).value
+                                let tmp = url.split("/")
+                                if (!tmp.length)
+                                    return
+                                syncSnapshotData(tmp[tmp.length - 1])
+                            }}>Import</MainButton>
+                        </div>
+
                     </div>
                 </div>
             }
