@@ -11,6 +11,7 @@ import { getContract } from '../../../../utils/web3Utils'
 import BonusInputCard from './BonusInputCard'
 import './MembershipCardInput.scss'
 import ReactLoading from 'react-loading';
+import { max } from '../../../../utils/numberUtils'
 
 const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
     const { onSubmit, onChange, onDelete, editing, onEdit, displayedId } = props
@@ -211,11 +212,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'flex-start' }}>
                             <Label style={{ fontWeight: 'bold', marginBottom: '0' }}>Bonus</Label>
                             <div className="add-more-bonus-button" onClick={() => {
-                                let maxId = 0
-                                bonus.forEach(b => {
-                                    if (b.id > maxId)
-                                        maxId = b.id
-                                });
+                                let maxId = max(bonus, 'id')
                                 onChange(getFormData({ bonus: [...bonus, { id: maxId + 1, weight: 1, type: -1 }] }))
                             }}><img src="/imgs/addbuttonround.png" alt="" />Add Bonus</div>
                         </div>

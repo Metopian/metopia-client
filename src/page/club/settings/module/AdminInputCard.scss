@@ -1,0 +1,74 @@
+@import '../../../../index.scss';
+
+.admin-input-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 8px;
+    position: relative;
+    width: 384px;
+
+    &.not-editing {
+        margin-bottom: 10px;
+
+        .r-input {
+            border: none;
+
+        }
+    }
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .r-input {
+        padding: 0;
+        font-size: 14px;
+        height: unset;
+        padding: 2px 0;
+
+        border: {
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        border-radius: 0;
+        // border-top: 0;
+        // border-bottom: 0;
+        // border: ;
+
+        &:disabled {
+            background: none;
+        }
+    }
+
+    .del-button {
+        height: 16px;
+        cursor: pointer;
+        transform: translateY(-1px);
+    }
+
+    // >.avatar{
+    //     height: 20px;
+    //     position: absolute;
+    //     left:-28px;
+    //     top:1px
+    // }
+    >.avatar {
+        height: 22px;
+        width: 22px;
+        position: absolute;
+        left: -32px;
+        top: 0px;
+        .default-avatar-wrapper {
+            padding: 2px 2px;
+        }
+        svg {
+            height:17px;
+            width: 15px;
+        }
+
+    }
+}

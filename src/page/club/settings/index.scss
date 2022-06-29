@@ -18,13 +18,21 @@
             color: $title-color;
             margin-bottom: 30px;
             transform: translateY(2px);
+            white-space: nowrap;
+            .backarrow
+            {
+                margin-right: 12px;
+                transform: translateY(3px);
+            }
         }
     }
 
     .body {
         max-height: calc(100vh - 0px);
-        width: calc(100% + 50px);
+        width: calc(100% + 100px);
         padding-right: 50px;
+        transform: translateX(-50px);
+        padding-left: 50px;
         overflow-y: auto;
         overflow-x: visible;
         -webkit-mask-image: linear-gradient(to bottom, transparent 40px, black 80px, black calc(100vh - 100px), transparent calc(100vh - 80px));
@@ -35,7 +43,7 @@
 
         .create-club-form {
             background: #FFFFFF;
-            box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.02);
+            box-shadow: 0px 16px 32px rgba(45, 35, 117, 0.1);
             border-radius: 0px;
             padding: 30px 60px;
             margin-bottom: 30px;
@@ -84,6 +92,7 @@
                 }
 
             }
+
         }
 
         &::-webkit-scrollbar {
@@ -115,4 +124,37 @@
     border: 1px $theme-color dotted;
     cursor: pointer;
     padding: 20px 0;
+}
+
+.import-snapshot-container {
+    height: 30px;
+    overflow: hidden;
+
+    >.head {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        user-select: none;
+
+        .flag {
+            margin-right: 12px;
+            transform: translateY(1px);
+        }
+
+        .r-label {
+            margin: 0;
+            // color: $theme-color;
+        }
+    }
+
+    &.expanded {
+        height: unset;
+
+        overflow: visible;
+
+        >.head .flag {
+            transform: rotate(90deg) translateX(2px)
+        }
+    }
 }
