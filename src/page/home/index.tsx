@@ -84,7 +84,7 @@ const HomePage = () => {
         </div>
         <div className='body'>
             <div className='head'>
-                <span className='title'>DAO list</span>
+                <span className='title'>DAOs</span>
                 <SearchInput onChange={setKeyword} />
             </div>
             {spaceContainer}
