@@ -78,13 +78,14 @@ const bonusStrategyToForm = (traitValues) => {
         });
     })
     traitValues.filter(t => t.name === 'attributes-mul').forEach(traitValue => {
+        console.log(traitValue)
         traitValue.traitTypeValueWeight.forEach(t => {
             res.push({
                 id: idCounter++,
                 type: 2,
                 field: t.trait_type,
                 value: t.value_list.map(v => { return { text: v.value, value: v.value } }),
-                weight: (t.v[0].weight - 1) * 100
+                weight: (t.value_list[0].weight - 1) * 100
             })
         })
     })

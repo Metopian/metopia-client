@@ -26,6 +26,7 @@ const CreateProposalPage = props => {
     const [end, setEnd] = useState(moment())
     const { chainId } = useChainId()
     const container = useRef(null)
+    const [now, setNow] = useState(null)
 
     useEffect(() => {
         $('.MainContainer').css({ 'overflow-y': 'hidden' })
@@ -48,7 +49,7 @@ const CreateProposalPage = props => {
 
     let optionJsx = useMemo(() => {
         return options.map((op, i) => {
-            return <div className="optioncard" key={'optioncard' + i} >
+            return <div className="option-card" key={'optioncard' + i} >
                 <div style={{ width: '100px' }}>Option {arabToRoman(i + 1)}</div>
                 <Input key={"option" + op.id} placeholder={"Option " + arabToRoman(i + 1)}
                     onChange={(e) => {
@@ -56,7 +57,7 @@ const CreateProposalPage = props => {
                         tmp.text = e.target.value
                         setOptions(options.map(o => o))
                     }} value={options.find(t => t.id === op.id).text} />
-                <img src="/imgs/close.svg" alt="remove" className='removebutton' onClick={() => removeOption(op.id)} />
+                <img src="/imgs/close.svg" alt="remove" className='remove-button' onClick={() => removeOption(op.id)} />
             </div>
         })
     }, [options, removeOption])
@@ -72,8 +73,10 @@ const CreateProposalPage = props => {
                 setSpaceSetting(JSON.parse(d.content.settings))
                 let delay = parseInt(JSON.parse(d.content.settings).voting?.delay || 0)
                 let period = parseInt(JSON.parse(d.content.settings).voting?.period || 0)
-                setStart(moment().add(delay, 'seconds'))
-                setEnd(moment().add(delay + period, 'seconds'))
+                let tmp = moment()
+                setNow(tmp)
+                setStart(moment(tmp).add(delay, 'seconds'))
+                setEnd(moment(tmp).add(delay + period, 'seconds'))
             }
         })
     }, [space])
@@ -85,7 +88,7 @@ const CreateProposalPage = props => {
         const provider = getProvider()
         const account = await getAddress()
         let blocknumber = await provider.getBlockNumber()
-        let timestamp = Math.ceil(new Date().getTime() / 1000),
+        let timestamp = now.unix(),
             startUnix = start.unix(),
             endUnix = end.unix()
         spaceSettings.strategies.forEach(s => {
@@ -118,9 +121,9 @@ const CreateProposalPage = props => {
         })
     }
 
-    return <div className="CreateProposalPage">
-        <div className="CreateClubPageHead">
-            <div className="CreateClubPageTitle" ><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
+    return <div className="create-proposal-page">
+        <div className="head">
+            <div className="title" ><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
                 window.location.href = localRouter("club.prefix") + space
             }} />Create new proposal
             </div>
@@ -136,49 +139,49 @@ const CreateProposalPage = props => {
                 })
             }}>Confirm</MainButton>
         </div>
-        <div className="maincontainer" ref={container} onScroll={e => {
+        <div className="body" ref={container} onScroll={e => {
             $('#createClubScrollbar').css({
                 "top": (container.current.scrollTop + 80 + ((container.current.clientHeight - 240) * container.current.scrollTop /
                     (container.current.scrollHeight - container.current.clientHeight))) + 'px'
             })
         }}>
             <div className="scrollbar" id="createClubScrollbar"></div>
-            <div className="CreateProposalForm">
+            <div className="form">
                 <Label >{"Title & Description"}</Label>
-                <div className="CreateProposalMainEditorWrapper">
+                <div className="editor-wrapper">
                     <RichTextEditor html className="BlogEditor" onChange={setBody} placeholder="Please enter the description of your proposal">
                         <Input placeholder={"Please enter the title of your proposal"} id="proposaltitleinput" autoComplete="off" />
                     </RichTextEditor>
                 </div>
-                <div className='timecontainer'>
+                <div className='time-container'>
                     <div>
                         <div className='r-label'>Duration</div>
-                        <div className='timeinputgroupwrapper'>
+                        <div className='time-input-group-wrapper'>
                             <Datetime dateFormat={"YYYY-MM-DD"} timeFormat={"HH:mm"} renderInput={(props, openCalendar, closeCalendar) => {
-                                return <div className='timeinputwrapper'>
+                                return <div className='time-input-wrapper'>
                                     <input {...props} className="r-input" placeholder={"Start time"}
                                         onChange={e => false} />
-                                    <img src="/imgs/calendar.svg" alt="" className='calendaricon' />
+                                    <img src="/imgs/calendar.svg" alt="" className='calendar-icon' />
                                 </div>
                             }} isValidDate={(currentDate, selectedDate) => {
-                                return !currentDate?.isBefore(moment(moment().add(delay, 'seconds').format('YYYY-MM-DD')))
+                                return !currentDate?.isBefore(moment(moment(now).add(delay, 'seconds').format('YYYY-MM-DD')))
                             }} onChange={d => {
                                 setStart(moment(d))
                                 let endLimit = moment(d).add(delay + period, 'seconds')
                                 if (end.isBefore(endLimit)) {
                                     setEnd(endLimit)
                                 }
-                            }} value={start} />
+                            }} value={start} inputProps={{ disabled: delay !== null && delay > 0 }} />
 
                             <Datetime dateFormat={"YYYY-MM-DD"} timeFormat={"HH:mm"} renderInput={(props, openCalendar, closeCalendar) => {
-                                return <div className='timeinputwrapper'>
+                                return <div className='time-input-wrapper'>
                                     <input {...props} className="r-input" placeholder={"End time"}
                                         onChange={e => false} />
-                                    <img src="/imgs/calendar.svg" alt="" className='calendaricon' />
+                                    <img src="/imgs/calendar.svg" alt="" className='calendar-icon' />
                                 </div>
                             }} isValidDate={(currentDate, selectedDate) => {
                                 return !currentDate?.isBefore(moment(moment(start).add(delay + period, 'seconds').format('YYYY-MM-DD')))
-                            }} value={end} onChange={d => setEnd(moment(d))} />
+                            }} value={end} onChange={d => setEnd(moment(d))} inputProps={{ disabled: period !== null && period > 0 }} />
                         </div>
                     </div>
                 </div>

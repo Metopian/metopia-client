@@ -238,7 +238,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
             </div>
         </div>
     else {
-        return <div className=".membership-card-preview-card">
+        return <div className="membership-card-preview-card">
             <div className="title" style={{ background: 'url("/imgs/membershipcardbg.png")', backgroundSize: 'cover' }}>
                 <div className='text'>{pad(displayedId, 2)} {name?.length ? name : "[NFT]"}</div>
             </div>
@@ -250,12 +250,12 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                             className={"sample-image"} />
                     </div> : null
                 }
-                <div className='textwrapper'>
-                    <div>
+                <div className='text-wrapper'>
+                    <div className='group'>
                         <div className='title'>Name</div>
                         <div className='text'>{name}</div>
                     </div>
-                    <div style={{ marginLeft: 'auto' }}>
+                    <div style={{ marginLeft: 'auto' }} className='group'>
                         <div className='title'>Contract</div>
                         <div className='text'>{tokenAddress}</div>
                     </div>
@@ -266,11 +266,11 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
             </div>
             <div className="bonus-container">
                 {
-                    bonus?.filter(b => b.value?.length)?.length ? <div className="title">Bonus</div> : null
+                    false&&bonus?.filter(b => b.value?.length)?.length ? <div className="title">Bonus</div> : null
                 }
-                <div className="body">
+                <div className="body" style={{display:'none'}}>
                     {
-                        bonus?.filter(b => b.value?.length).map((b, i) => {
+                        false&&bonus?.filter(b => b.value?.length).map((b, i) => {
                             return <div className="bonus-display-card" key={'bonusDisplayCard' + i}>
                                 <div>
                                     <div className='title'>Trait</div>

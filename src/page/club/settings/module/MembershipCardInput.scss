@@ -100,24 +100,27 @@
         gap: 40px;
         padding: 20px 30px 0px 30px;
 
-        >.textwrapper {
+        >.text-wrapper {
 
             display: flex;
             gap: 40px;
 
-            >.title {
-                font-weight: 700;
-                font-size: 20px;
-                line-height: 30px;
-                color: #222222;
-                margin-bottom: 12px;
-            }
+            >.group {
 
-            >.text {
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 22px;
-                color: #444444;
+                >.title {
+                    font-weight: 700;
+                    font-size: 20px;
+                    line-height: 30px;
+                    color: #222222;
+                    margin-bottom: 12px;
+                }
+
+                >.text {
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 22px;
+                    color: #444444;
+                }
             }
         }
 
