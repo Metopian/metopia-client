@@ -63,7 +63,7 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
         if (nftInputRefs.current?.length) {
             nftInputRefs.current.forEach(c => {
                 if (c && !c()) {
-                    flag = false
+                    flag = false    
                 }
             })
         }
