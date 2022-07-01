@@ -1,0 +1,83 @@
+.create-club-form {
+    .form-group {
+        .link {
+            font-size: 13px;
+            margin-top: 12px;
+        }
+    }
+
+    .form-group.mode {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+        .r-label {
+            margin: 0;
+            // transform: translateY(1px);
+            // width: 140px;
+        }
+
+        .value {
+            font-size: 16px;
+            margin-left: auto;
+        }
+
+        img {
+            height: 20px;
+            cursor: pointer;
+            transform: translateY(2px);
+        }
+    }
+
+    .type-selector {
+        display: flex;
+        gap: 32px;
+
+        .option {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .main-button {
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+                margin-top: 0px;
+                border-radius: 0;
+                font-size: 15px;
+            }
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+        }
+    }
+
+    .typed-form-content {
+        border-radius: 12px;
+        background-color: rgba(240, 240, 240, 0.4);
+        padding: 40px 30px;
+
+        .form-group {
+            .r-label {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            &:last-of-type {
+                margin-bottom: 0 !important;
+            }
+
+            .r-multi-select{
+                .card-wrapper{
+                    gap:4px;
+                }
+                .card{
+                    font-size: 14px;
+                    font-weight: bold;gap:2px;
+                }
+            }
+        }
+    }
+}

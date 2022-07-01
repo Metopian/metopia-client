@@ -141,7 +141,7 @@ const BonusInputCard = props => {
                         </div>
                         <div className="form-group">
                             <Label style={{ display: 'flex', gap: '8px' }}>Trait type {syncing ? <ReactLoading className="loading" type={'spokes'} color={'#444'} height={'14px'} width={'14px'} /> : null}</Label>
-                            <Select keyid="attr" defaultValue={data?.field || ''}
+                            <Select defaultValue={data?.field || ''}
                                 onChange={(e) => {
                                     selectAttribute(e.target.value)
                                 }}
@@ -150,7 +150,7 @@ const BonusInputCard = props => {
                     </div>
                     <div className="form-group" style={{ width: '100%' }}>
                         <Label>Values</Label>
-                        <MultiSelect keyid="value" style={{ width: '100%' }}
+                        <MultiSelect style={{ width: '100%' }}
                             value={data?.value || []}
                             options={selectedAttribute ?
                                 [{ text: 'None', value: 'None' }, ...(selectedAttribute.values.map(v => { return { text: v, value: v } }))] :

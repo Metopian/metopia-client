@@ -11,6 +11,7 @@ import { encodeQueryData } from '../../../utils/RestUtils'
 import { BasicProfileForm, useData as useBasicFormData } from './form/BasicProfileForm'
 import { ConsensusForm, useData as useConsensusForm } from './form/ConsensusForm'
 import { useData as useVotingForm, VotingForm } from './form/VotingForm'
+import { useData as useProposalForm, ProposalForm } from './form/ProposalForm'
 import { defaultForm, doCreateDao, doUpdateDao, formToSettings, settingsToForm, snapshotDataToForm } from './function'
 import './index.scss'
 
@@ -97,7 +98,7 @@ const ClubSettingPage = (props) => {
                 "variables": {
                     "id_in": [
                         id,
-                        null
+                        null    
                     ]
                 },
                 "query": "query Spaces($id_in: [String]) {\n  spaces(where: {id_in: $id_in}) {\n    id\n    name\n    about\n    network\n    symbol\n    network\n    terms\n    skin\n    avatar\n    twitter\n    website\n    github\n    private\n    domain\n    members\n    admins\n    categories\n    plugins\n    followersCount\n    voting {\n      delay\n      period\n      type\n      quorum\n      hideAbstain\n    }\n    strategies {\n      name\n      network\n      params\n    }\n    validation {\n      name\n      params\n    }\n    filters {\n      minScore\n      onlyMembers\n    }\n  }\n}"
@@ -157,9 +158,10 @@ const ClubSettingPage = (props) => {
                     </div>
                 </div>
             }
-            <BasicProfileForm display={true} errors={errors} />
-            <ConsensusForm display={true} errors={errors} ref={consensusFormRef} />
-            <VotingForm display={true} />
+            <BasicProfileForm  errors={errors} />
+            <ConsensusForm  errors={errors} ref={consensusFormRef} />
+            <ProposalForm />
+            <VotingForm  />
             <div className="scrollbar" id="createClubScrollbar"></div>
         </div>
     </div >

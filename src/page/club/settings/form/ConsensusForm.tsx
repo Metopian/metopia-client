@@ -53,7 +53,7 @@ const useData = () => {
 }
 
 const Form = React.forwardRef<any, any>((props, collectDataRef) => {
-    const { display, errors } = props
+    const { errors } = props
     const { chainId } = useChainId()
     const { data, update: updateForm, updateMembership, removeMembership } = useData()
     const nftInputRefs = useRef([])
@@ -63,7 +63,7 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
         if (nftInputRefs.current?.length) {
             nftInputRefs.current.forEach(c => {
                 if (c && !c()) {
-                    flag = false    
+                    flag = false
                 }
             })
         }
@@ -80,11 +80,12 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
         }
     }
 
-    return <div className={"create-club-form" + (display ? '' : ' hidden')} style={{ padding: '40px 60px' }}>
+    return <div className={"create-club-form"  } style={{ padding: '40px 60px' }}>
         {
             errors.consensus && <p className="ErrorHint" style={{ fontSize: '20px' }}>{errors.consensus.error}</p>
         }
-        <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Consensus</Label>
+        <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Voting power</Label>
+        <div className="Tip" style={{ marginTop: '-10px', marginBottom: '30px' }}>How to calculate voting power?</div>
         {
             chainId !== '0x1' ? <div className="Tip" style={{ marginTop: '-10px', marginBottom: '30px' }}>Warning: You are creating DAO on Testnet</div> : null
         }
@@ -127,7 +128,7 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
                 }, 0)
             }
         }}>
-            <span style={{ transform: 'translateY(-1px)', fontSize: '20px' }}>+</span>&nbsp;&nbsp;Add membership
+            <span style={{ transform: 'translateY(-1px)', fontSize: '20px' }}>+</span>&nbsp;&nbsp;Add strategy
         </div>
     </div >
 

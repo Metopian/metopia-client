@@ -1,13 +1,9 @@
 
 import useSWR from "swr";
 import { snapshotApi } from '../config/urls';
+import { defaultSWRConfig, getFetcher, postFetcher, ResponsePack } from "../utils/RestUtils";
 
-export interface ResponsePack<T> {
-    code: number,
-    content: T
-}
-
-export interface Space {
+export interface Dao {
     id: string,
     settings: string,
     verified: number,
@@ -16,42 +12,18 @@ export interface Space {
     proposalCount?: number
 }
 
-const defaultSWRConfig = {
-    refreshInterval: 0,
-    revalidateOnFocus: false
-}
-
-const encodeQueryData = (url, data) => {
-    if (!data || !Object.keys(data))
-        return url
-    const ret = [];
-    for (let d in data)
-        ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-    return url + "?" + ret.join('&');
-}
-
-const getFetcher = (url, params?) => fetch(encodeQueryData(url, params)).then((res) => res.json())
-
-const postFetcher = (url, params) => fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(params),
-    headers: {
-        'content-type': "application/json"
-    }
-}).then((res) => res.json())
-
-const useSpaceListData = (): { data: ResponsePack<Space[]>, error: any } => {
+const useDaoListData = (): { data: ResponsePack<Dao[]>, error: any } => {
     const { data, error } = useSWR([snapshotApi.dao_select], getFetcher, defaultSWRConfig)
     return { data, error }
 }
-const useSpaceData = (id: string): { data: ResponsePack<Space>, error: any } => {
+const useDaoData = (id: string): { data: ResponsePack<Dao>, error: any } => {
     const { data, error } = useSWR(id ? [snapshotApi.dao_selectById, { id: id }] : null, getFetcher, defaultSWRConfig)
     return { data, error }
 }
 
-const useScoreData = (space: string, network: string, snapshot: number, strategies: string, addresses?: string[]) => {
-    let scoreParam = { "params": { space, network, snapshot, strategies, addresses } }
-    const { data, error } = useSWR(space && addresses?.length && strategies && snapshot ? [snapshotApi.score, scoreParam] : null, postFetcher, defaultSWRConfig)
+const useScoreData = (dao: string, network: string, snapshot: number, strategies: string, addresses?: string[]) => {
+    let scoreParam = { "params": { space: dao, network, snapshot, strategies, addresses } }
+    const { data, error } = useSWR(dao && addresses?.length && strategies && snapshot ? [snapshotApi.score, scoreParam] : null, postFetcher, defaultSWRConfig)
     return { data, error }
 }
 
@@ -67,9 +39,10 @@ const useProposal = (id) => {
     return { data: data?.data?.proposal, error }
 }
 
-const useLatestProposalData = (): { data: ResponsePack<Space[]>, error: any } => {
+const useLatestProposalData = (): { data: ResponsePack<Dao[]>, error: any } => {
     const { data, error } = useSWR([snapshotApi.proposal_selectLatest], getFetcher, defaultSWRConfig)
     return { data, error }
 }
 
-export { defaultSWRConfig, getFetcher, useSpaceListData, useSpaceData, useScoreData, useProposal, useLatestProposalData };
+
+export { defaultSWRConfig, getFetcher, useDaoListData as useSpaceListData, useDaoData as useSpaceData, useScoreData, useProposal, useLatestProposalData };

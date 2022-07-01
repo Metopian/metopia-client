@@ -30,16 +30,21 @@ export const DefaultAvatar = (props: { wallet, className?}) => {
     </svg >
 }
 
-export const DefaultAvatarWithRoundBackground = (props: { wallet, width?, height?, className?}) => {
-    const { wallet, width, height, className } = props
+export const DefaultAvatarWithRoundBackground = (props: { wallet, height?, className?}) => {
+    const { wallet, height, className } = props
     if (!wallet || wallet.length < 40)
-        return null
+        return <div style={{
+            backgroundColor:  '#00000044',
+        }} className={'default-avatar-with-round-background ' + (className || '')}>
+            </div>
     let color = getRandomColor(wallet)
     return <div style={{
         backgroundColor: color + '44',
-        transform: height ? `scale(${height / 40})` : 'unset'
     }} className={'default-avatar-with-round-background ' + (className || '')}>
-        <div className="default-avatar-wrapper">
+        <div className="default-avatar-wrapper" style={{
+
+transform: height ? `scale(${height / 40})` : 'unset'
+        }}>
             <DefaultAvatar wallet={wallet} />
         </div>
     </div>

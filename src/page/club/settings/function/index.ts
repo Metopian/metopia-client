@@ -115,7 +115,7 @@ export const formToSettings = (chainId, basicFormData, consensusForm, votingForm
             name: "basic",
             params: {}
         },
-        filters: {},
+        filters: { minScore: 0 },
         about: basicFormData.introduction,
         admins: unique(basicFormData.admins.map(admin => admin.addres)),
         plugins: [],

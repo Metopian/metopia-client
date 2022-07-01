@@ -1,0 +1,38 @@
+$title-color: #000000;
+$text-color: #888888;
+$subtitle-color: #BBBBBB;
+$border-color: #DDDDDD;
+$border-color-light: #ECECEC;
+$theme-color: #5A49DE;
+$subtheme-color: #5A49DE11;
+$error-color: #f4212e;
+
+$default-border:1px solid $border-color;
+
+@mixin absolute-centered {
+  position: absolute;
+  margin: auto;
+  left: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  top: -9999px;
+}
+
+@mixin flex-centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin ellipsis($line) {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @if $line==1 {
+    white-space: nowrap;
+  } @else{
+    display: -webkit-box;
+  }
+}

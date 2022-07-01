@@ -171,7 +171,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                 <div className="left-container" style={{ border: 'none' }}>
                     <div className="membership-form-group">
                         <div className="form-group">
-                            <Label>Ticket number per token</Label>
+                            <Label>Voting power per token</Label>
                             <Input id="createclubcontractinput" value={defaultWeight || 1} disabled type="number" onChange={(e) => {
                                 onChange(getFormData({ defaultWeight: e.target.value }))
                             }} />

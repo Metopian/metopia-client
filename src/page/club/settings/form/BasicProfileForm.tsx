@@ -15,7 +15,7 @@ const useData = () => {
     const formId = "basicinfo"
     const { form: formData } = useSelector((state: RootState) => state.form)
     const data = formData && formData[formId] ? formData[formId] : {
-        name: '', introduction: '', website: '', discord: '', twitter: '', avatar: '', banner: '', admins: []
+        name: '', introduction: '', website: '', discord: '', opensea: '', twitter: '', avatar: '', banner: '', admins: []
     }
     const dispatch = useDispatch()
 
@@ -27,14 +27,14 @@ const useData = () => {
     }
 
     useEffect(() => {
-        update({ name: '', introduction: '', website: '', discord: '', twitter: '', avatar: '', banner: '', admins: [] })
+        update({ name: '', introduction: '', website: '', discord: '', opensea: '', twitter: '', avatar: '', banner: '', admins: [] })
     }, [])
 
     return { formId, data, update }
 }
 
 const Form = props => {
-    const { display, errors } = props
+    const { errors } = props
     const imageInput = useRef<HTMLInputElement | null>()
     const [logoImg, setLogoImg] = useState<File | null>()
     const [selectingCover, setSelectingCover] = useState<boolean>(false)
@@ -50,7 +50,7 @@ const Form = props => {
         })
     }, [])
 
-    return <div className={"create-club-form" + (display ? '' : ' hidden')}>
+    return <div className={"create-club-form"}>
         <div className="left-container">
             <div className="form-group">
                 <Label>Name</Label>
@@ -122,7 +122,8 @@ const Form = props => {
                     updateForm({ 'banner': "ipfs://" + result.IpfsHash })
                     setCroppedBanner(croppedImage)
                 }} />
-            </div><div className="form-group">
+            </div>
+            <div className="form-group">
                 <Label>Link</Label>
 
                 <GhostButtonGroup items={[

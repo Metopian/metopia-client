@@ -9,6 +9,9 @@ const numberToLetter = (num) => {
 function toFixedIfNecessary(value, dp) {
     return +parseFloat(value).toFixed(dp);
 }
+function removeUnecessaryZero(value, dp) {
+    return +parseFloat(value).toFixed(dp);
+}
 
 const sum = (array) => {
     let sum = 0
@@ -18,7 +21,12 @@ const sum = (array) => {
     return sum
 }
 
-const max = (array, keyword?:string) => {
+/**
+ * @returns Minimum value = 0
+ */
+const max = (array, keyword?: string) => {
+    if (!array?.length)
+        return 0
     let res = -1
     array?.forEach(ele => {
         if (keyword) {

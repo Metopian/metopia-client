@@ -10,7 +10,7 @@ const Label = (props) => {
 }
 
 const Input = (props) => {
-    return <input  {...props} className={'r-input ' + (props.className ? props.className : "")}  />
+    return <input  {...props} className={'r-input ' + (props.className ? props.className : "")} />
 }
 
 const Textarea = (props) => {
@@ -54,22 +54,55 @@ const ImageSelector = (props) => {
     </div >
 }
 
-const Select = (props: { keyid, options, onChange?, defaultValue?}) => {
-    const { keyid, options, onChange, defaultValue } = props
+const Select = (props: { options: { value: any, text: string }[], onChange?, defaultValue?}) => {
+    const { options, onChange, defaultValue } = props
     if (!options || options.length === 0)
         return null
     return <select className="r-select" onChange={onChange} defaultValue={defaultValue}>
         {
             options.map(op => {
-                return <option key={keyid + "-" + op.value} value={op.value} className="r-option">{op.text}</option>
+                return <option key={"option-" + op.value} value={op.value} className="r-option">{op.text}</option>
             })
         }
     </select>
 }
+const SelectV2 = (props: {
+    options: { value: any, text: string }[],
+    onChange: ({ value: any, text: string }) => any,
+    defaultValue?
+}) => {
+    const { options, onChange } = props
+    const [display, setDisplay] = useState(false)
+    const [keyword, setKeyword] = useState('')
+    if (!options || options.length === 0)
+        return null
+    return <div className="r-select-v2" >
+        <Input onFocus={e => setDisplay(true)}
+            value={keyword}
+            onChange={e => { setKeyword(e.target.value) }} 
+            onBlur={e=>{
+                setTimeout(() => {
+                    setDisplay(false)
+                }, 100);
+            }}/>
+        <div className={'drop-down-pane' + (display ? ' display' : '')}>
+            {
+                options.filter(op => op.text.indexOf(keyword) > -1 || op.value === keyword).map((op, i) => {
+                    return <div key={"option-" + i} className="option" onClick={e => {
+                        onChange(op)
+                        setKeyword(op.text)
+                        return false
+                    }}>{op.text}</div>
+                })
+            }
+        </div>
+        {/*  */}
+    </div>
+}
 
 
-const MultiSelect = (props: { keyid, options, value?, onChange?, style?, defaultValue?}) => {
-    const { keyid, options, onChange, style, value, defaultValue } = props
+const MultiSelect = (props: { options, value?, onChange?, style?, defaultValue?}) => {
+    const { options, onChange, style, value, defaultValue } = props
     const [selectedOptions, setSelectedOptions] = useState(defaultValue || [])
     if (!options || options.length === 0)
         return null
@@ -96,7 +129,7 @@ const MultiSelect = (props: { keyid, options, value?, onChange?, style?, default
         }}>
             {
                 options.filter(op => !(value || selectedOptions).find(sop => sop.value === op.value)).map(op => {
-                    return <option key={keyid + "-" + op.value} value={op.value} className="r-option" onClick={() => {
+                    return <option key={"option-" + op.value} value={op.value} className="r-option" onClick={() => {
                         setSelectedOptions([...(value || selectedOptions), op])
                         onChange([...(value || selectedOptions), op])
                     }}>{op.text}</option>
@@ -152,10 +185,10 @@ const DurationInput = (props: { onChange, value, onChangeUnit, unit?: number, pl
             value={toFixedIfNecessary(value / unit, 2)}
             onChange={e => {
                 let tmpVal = parseFloat(e.target.value)
-                if (tmpVal > 0) {
+                if (tmpVal >= 0) {
                     onChange(tmpVal * unit)
                 } else {
-                    return false
+                    onChange(0)
                 }
             }} />
         <select onChange={e => {
@@ -169,5 +202,5 @@ const DurationInput = (props: { onChange, value, onChangeUnit, unit?: number, pl
 }
 
 
-export { Label, Input, Textarea, ImageSelector, Select, MultiSelect, DurationInput };
+export { Label, Input, Textarea, ImageSelector, Select, MultiSelect, DurationInput, SelectV2 };
 

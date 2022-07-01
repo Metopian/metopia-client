@@ -7,11 +7,7 @@ const AdminInputCard = props => {
     const { disabled, data, onChange, onDelete } = props
     const [editing, setEditing] = useState(false)
     return <div className={'admin-input-card' + (!disabled && (editing || (!data.address?.length)) ? ' editing' : ' not-editing')}>
-        {
-            data.address?.length > 39 ?
-            
-                <DefaultAvatarWithRoundBackground wallet={data.address} className="avatar"/> : null
-        }
+        <DefaultAvatarWithRoundBackground height={24} wallet={data.address} className="avatar" />
         <Input
             disabled={disabled}
             value={data.address}

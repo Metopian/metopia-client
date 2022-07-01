@@ -18,7 +18,6 @@ const useData = (defaultData?) => {
     }
 
     useEffect(() => {
-        // update({ delay: 0, period: 3600, quorum: 0, hideAbstain: false })
         if (defaultData) {
             update(defaultData)
         }
@@ -28,11 +27,10 @@ const useData = (defaultData?) => {
 }
 
 const VotingForm = props => {
-    const { display } = props
     const { data, update: updateForm } = useData()
-    return <div className={"create-club-form" + (display ? '' : ' hidden')}  >
+    return <div className={"create-club-form"}  >
         {/* <div className="CreateClubPageTitle">Proposal settings</div> */}
-        <div className="form-group second" >
+        <div className="form-group second">
             <Label>Preparation period</Label>
             <div className="Tip" style={{ marginTop: '-10px', marginBottom: '20px' }}>How long will it take for a proposal from starting to public voting?</div>
             <DurationInput

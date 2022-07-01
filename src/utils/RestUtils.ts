@@ -24,5 +24,9 @@ const postFetcher = (url, params) => fetch(url, {
     }
 }).then((res) => res.json())
 
+export interface ResponsePack<T> {
+    code: number,
+    content: T
+}
 
 export { defaultSWRConfig, encodeQueryData, getFetcher, postFetcher }

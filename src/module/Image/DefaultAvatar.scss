@@ -1,16 +1,23 @@
-.default-avatar-wrapper {
-    width: 100%;
-    height: 100%;
-    padding-left: 6px;
-    padding-top: 4px;
-}
+
 
 .default-avatar-with-round-background {
     display: inline-block;
-    justify-content: center;
-    align-items: center;
 
     height: 40px;
     width: 40px;
     border-radius: 20px;
+}
+
+.default-avatar-wrapper {
+    width: 100%;
+    height: 100%;
+    // padding-left: 6px;
+    // padding-top: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg{
+        transform: translateX(-2px);
+    }
+    
 }

@@ -1,13 +1,13 @@
-@import '../../../../index.scss';
+@import '../../../../global.scss';
 
 .admin-input-card {
     display: flex;
     justify-content: space-between;
-    gap: 24px;
+    gap: 12px;
     align-items: center;
     margin-bottom: 8px;
-    position: relative;
-    width: 384px;
+    // position: relative;
+    width: 410px;
 
     &.not-editing {
         margin-bottom: 10px;
@@ -48,6 +48,7 @@
         height: 16px;
         cursor: pointer;
         transform: translateY(-1px);
+        margin-left: 4px;
     }
 
     // >.avatar{
@@ -57,18 +58,17 @@
     //     top:1px
     // }
     >.avatar {
-        height: 22px;
-        width: 22px;
-        position: absolute;
-        left: -32px;
-        top: 0px;
-        .default-avatar-wrapper {
-            padding: 2px 2px;
-        }
-        svg {
-            height:17px;
-            width: 15px;
-        }
+        height: 24px;
+        width: 24px;
+        min-width: 24px;
+        transform: translateY(-1px);
+        // .default-avatar-wrapper {
+        //     padding: 2px 2px;
+        // }
+        // svg {
+        //     height:17px;
+        //     width: 15px;
+        // }
 
     }
 }

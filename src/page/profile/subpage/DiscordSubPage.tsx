@@ -1,11 +1,11 @@
 import React from "react";
 import { MainButton } from "../../../module/button";
-import { useDiscordData } from "../../../third-party/discord";
+import { usePersonalDiscordData } from "../../../third-party/discord";
 import './DiscordSubPage.scss';
 
 const DiscordSubPage = props => {
     const { slug, state, code } = props
-    const { data, error } = useDiscordData(slug, code)
+    const { data, error } = usePersonalDiscordData(slug, code)
 
     return <div className="discord-subpage">
         {

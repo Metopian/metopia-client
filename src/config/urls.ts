@@ -7,6 +7,12 @@ const snapshotScoreApiRoot = process.env.REACT_APP_SNAPSHOT_SCORE_API_PREFIX
 const snapshotCoreRoot = process.env.REACT_APP_SNAPSHOT_CORE_API_PREFIX
 const metopiaApiRoot = process.env.REACT_APP_METOPIA_SERVICE_API_PREFIX
 
+const discordApi = {
+    guild_selectAll: dataCenterRoot + 'discord/bot/guilds',
+    role_select: dataCenterRoot + 'discord/guilds/roles',
+    personal_auth: dataCenterRoot + "discord/auth"
+}
+
 const nftDataApi = {
     nft_image: dataCenterRoot + "nfts/image",
     nft_cache: dataCenterRoot + "nfts/cache",
@@ -30,7 +36,6 @@ const snapshotApi = {
 
 const thirdpartyApi = {
     snapshot_api_graph: "https://hub.snapshot.org/graphql",
-    discord_api: dataCenterRoot + "discord/auth"
 }
 
 const localRouter = (name?: string | null, param?: any) => {
@@ -60,4 +65,5 @@ const testApi = {
 
 const ceramicNode = process.env.REACT_APP_CERAMIC_API
 
-export { cdnPrefix, localRouter, nftDataApi, snapshotApi, ipfsApi, ceramicNode, thirdpartyApi, testApi,metopiaServer}
+
+export { cdnPrefix, localRouter, nftDataApi, snapshotApi, ipfsApi, ceramicNode, thirdpartyApi, testApi, metopiaServer, discordApi }
