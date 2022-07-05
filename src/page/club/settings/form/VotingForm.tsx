@@ -1,23 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
 import { DurationInput, Input, Label } from '../../../../module/form';
 
-const useData = ( ) => {
+const useData = () => {
     const formId = "voting"
     const { form: formData } = useSelector((state: RootState) => state.form)
-    const data = formData && formData[formId] ? formData[formId] : { delay: 0, period: 3600, quorum: 0, hideAbstain: false }
     const dispatch = useDispatch()
 
-    const update = (newValue) => {
+    const update = useCallback((newValue) => {
         dispatch(reduxUpdateForm({
             key: formId,
-            value: Object.assign({}, data, newValue)
+            value: newValue
         }))
-    }
+    }, [dispatch])
 
-    return { formId, data, update }
+    return { formId, data: formData[formId] || { delay: 0, period: 3600, quorum: 0, hideAbstain: false }, update }
 }
 
 const VotingForm = props => {

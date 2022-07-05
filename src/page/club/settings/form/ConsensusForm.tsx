@@ -42,12 +42,12 @@ const useData = () => {
                 })
             })
     }
-    const update = (newValue) => {
+    const update = useCallback((newValue) => {
         dispatch(reduxUpdateForm({
             key: formId,
-            value: Object.assign({}, data, newValue)
+            value: newValue
         }))
-    }
+    }, [dispatch])
 
     return { formId, data, update, updateMembership, removeMembership }
 }
@@ -63,7 +63,7 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
         if (nftInputRefs.current?.length) {
             nftInputRefs.current.forEach(c => {
                 if (c && !c()) {
-                    flag = false    
+                    flag = false
                 }
             })
         }
@@ -80,8 +80,8 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
         }
     }
 
-    return <div className={"create-club-form"  } style={{ padding: '40px 60px' }}>
-    {errors.consensus && <div className="ErrorHint" >{errors.consensus}</div>}
+    return <div className={"create-club-form"} style={{ padding: '40px 60px' }}>
+        {errors.consensus && <div className="ErrorHint" >{errors.consensus}</div>}
         <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Voting power</Label>
         <div className="Tip" style={{ marginTop: '-10px', marginBottom: '30px' }}>How to calculate voting power?</div>
         {

@@ -32,19 +32,18 @@ const ClubSettingPage = (props) => {
     const { chainId } = useChainId()
     const container = useRef(null)
     const [expandImportDiv, setExpandImportDiv] = useState(false)
-    console.log(proposalForm)
+
     useEffect(() => {
         $('.MainContainer').css({ 'overflow-y': 'hidden' })
         return () => {
             $('.MainContainer').css({ 'overflow-y': 'auto' })
         }
-    })
+    }, [])
 
     useEffect(() => {
-        // let { basicFormData, consensusForm, votingFormData } = defaultForm()
         if (updateBasicForm && updateConsensusForm && updateVotingForm) {
             if (defaultSpaceSettings?.code === 200) {
-                let { basicFormData, consensusForm, votingFormData, network } = settingsToForm(defaultSpaceSettings.content.settings)
+                let { basicFormData, consensusForm, votingFormData, network } = settingsToForm(defaultSpaceSettings.content.settings) || defaultForm()
                 updateBasicForm(basicFormData)
                 updateConsensusForm(consensusForm)
                 updateVotingForm(votingFormData)
@@ -64,7 +63,7 @@ const ClubSettingPage = (props) => {
             window.alert(errors[errorKeys[0]])
             return
         }
-        let settings = formToSettings(network || chainId, basicFormData, consensusForm, votingFormData)
+        let settings = formToSettings(network || chainId, basicFormData, consensusForm, proposalForm, votingFormData)
 
         if (!window.confirm("Do you want to continue?"))
             return

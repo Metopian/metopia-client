@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
@@ -12,17 +12,16 @@ import { useGuildsData, useRolesData } from '../../../../third-party/discord';
 const useData = () => {
     const formId = "proposal"
     const { form: formData } = useSelector((state: RootState) => state.form)
-    const data = formData && formData[formId] ? formData[formId] : { validation: { name: "basic", params: {} }, filters: { onlyMembers: false, minScore: 0 }, members: [] }
     const dispatch = useDispatch()
 
-    const update = (newValue) => {
+    const update = useCallback((newValue) => {
         dispatch(reduxUpdateForm({
             key: formId,
-            value: Object.assign({}, data, newValue)
+            value: newValue
         }))
-    }
+    }, [dispatch])
 
-    return { formId, data, update }
+    return { formId, data: formData[formId] || { validation: { name: "basic", params: {} }, filters: { onlyMembers: false, minScore: 0 }, members: [] }, update }
 }
 
 const DaoMemberForm = props => {
@@ -128,7 +127,7 @@ const ProposalForm = props => {
                                     <SelectV2 options={guildsData?.data?.guilds.map(g => {
                                         return {
                                             value: g.guildId, text: g.name,
-                                            ele: <div className="guild-option"><img src={`https://cdn.discordapp.com/icons/${g.guildId}/${g.icon}.png`} alt=""/>{g.name}</div>
+                                            ele: <div className="guild-option"><img src={`https://cdn.discordapp.com/icons/${g.guildId}/${g.icon}.png`} alt="" />{g.name}</div>
                                         }
                                     })} onChange={({ value }) => {
                                         updateForm({ validation: { name: "discord", params: { guildId: value, roles: [] } } })

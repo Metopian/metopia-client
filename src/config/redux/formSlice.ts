@@ -9,10 +9,13 @@ export const formSlice = createSlice({
         update: (state, action) => {
             let key = action.payload.key
             let val = action.payload.value
-            state.form[key] = val
-            // state.isShow = true
-            // state.stepRequired = action.payload
+            state.form[key] = Object.assign({}, state.form[key], val)
         }
+        // update: (state, action) => {
+        //     let key = action.payload.key
+        //     let val = action.payload.value
+        //     state.form[key] = val
+        // }
     },
 })
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as updateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
@@ -14,19 +14,20 @@ import './BasicProfileForm.scss';
 const useData = () => {
     const formId = "basicinfo"
     const { form: formData } = useSelector((state: RootState) => state.form)
-    const data = formData && formData[formId] ? formData[formId] : {
-        name: '', introduction: '', website: '', discord: '', opensea: '', twitter: '', avatar: '', banner: '', admins: []
-    }
     const dispatch = useDispatch()
 
-    const update = (newValue) => {
+    const update = useCallback((newValue) => {
         dispatch(updateForm({
             key: formId,
-            value: Object.assign({}, data, newValue)
+            value: newValue
         }))
-    }
+    }, [dispatch])
 
-    return { formId, data, update }
+    return {
+        formId, data: formData[formId] || {
+            name: '', introduction: '', website: '', discord: '', opensea: '', twitter: '', avatar: '', banner: '', admins: []
+        }, update
+    }
 }
 
 const Form = props => {
@@ -44,7 +45,7 @@ const Form = props => {
             setSelf(addr)
             updateForm({ admins: [{ address: addr, id: 1 }] })
         })
-    })
+    }, [updateForm])
 
     return <div className={"create-club-form"}>
         <div className="left-container">
@@ -63,7 +64,7 @@ const Form = props => {
             <div className="form-group">
                 <Label>Admins</Label>
                 {
-                    data.admins.map(admin => {
+                    data.admins?.map(admin => {
                         return <AdminInputCard key={'AdminInputCard' + admin.id} data={admin} onChange={(val) => {
                             updateForm({ admins: data.admins.map(tmp => tmp.id === admin.id ? Object.assign({}, admin, { address: val }) : tmp) })
                         }}
