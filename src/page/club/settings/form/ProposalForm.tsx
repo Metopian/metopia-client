@@ -128,7 +128,7 @@ const ProposalForm = props => {
                                     <SelectV2 options={guildsData?.data?.guilds.map(g => {
                                         return {
                                             value: g.guildId, text: g.name,
-                                            ele: <div className="guild-option"><img src={`https://cdn.discordapp.com/icons/${g.guildId}/${g.icon}.png`} />{g.name}</div>
+                                            ele: <div className="guild-option"><img src={`https://cdn.discordapp.com/icons/${g.guildId}/${g.icon}.png`} alt=""/>{g.name}</div>
                                         }
                                     })} onChange={({ value }) => {
                                         updateForm({ validation: { name: "discord", params: { guildId: value, roles: [] } } })

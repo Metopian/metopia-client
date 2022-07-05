@@ -8,7 +8,6 @@ import store from './config/store';
 import './index.scss';
 import LoginModal from './module/LoginModal';
 import { Menu } from './module/Menu';
-import AIActPage from './page/ai';
 
 const Index = () => {
   return (
@@ -23,7 +22,6 @@ const Index = () => {
             <BrowserRouter basename="">
               <Routes>
                 <Route path="/" element={<App />} />
-                <Route path="/ai" element={<AIActPage />} />
                 <Route path="/alpha" element={<App />} />
                 <Route path="/alpha/:page" element={<App />} />
                 <Route path="/alpha/:page/:event" element={<App />} />

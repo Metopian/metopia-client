@@ -62,7 +62,7 @@ const DonationContentModal = (props) => {
                         <div>{data?.txs ? customFormat(new Date(parseInt(data.txs[0]?.timeStamp) * 1000), '#YYYY#-#MM#-#DD#') : ''}</div>
                     </div>
                     {
-                        data&&data.grant.reference_url !== "https://gitcoin.co" ? <div className="group">
+                        data && data.grant.reference_url !== "https://gitcoin.co" ? <div className="group">
                             <div className='title'>Link</div>
                             <a href={data.grant.reference_url}>{data.grant.reference_url}</a>
                         </div > : null
@@ -102,7 +102,7 @@ const DonationSubpage = (props) => {
                 </div>
                 <div className='gitcoin-reference-container'>
                     <Reference sources={[{ link: "https://rss3.io/", imgUrl: "/imgs/rss3logo.svg" }]} />
-                    </div>
+                </div>
             </div>
             {!gitcoinData ?
                 <div style={{ marginTop: '20px' }} className="no-content-container" >

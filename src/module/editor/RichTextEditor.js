@@ -4,12 +4,12 @@ import RichTextBySlate from './RichTextCore'
 import './RichTextEditor.css'
 const emoji = RichTextBySlate.Emoji
 let SimpleTextEditor = (props) => {
-    const { html, editorHeight, initialValue } = props
+    const { html, editorHeight, initialValue, onChange } = props
     const [rawValue, setRawValue] = useState([])
 
     useEffect(() => {
-        props.onChange && props.onChange(html ? serialize({ children: rawValue }) : rawValue)
-    }, [rawValue])
+        onChange && onChange(html ? serialize({ children: rawValue }) : rawValue)
+    }, [rawValue, onChange, html])
 
     return (
         <div className={"SimpleTextEditor " + props.className} style={props.style}>
@@ -21,11 +21,11 @@ let SimpleTextEditor = (props) => {
 }
 
 function RichTextEditor(props) {
-    const { html, editorHeight, initialValue, disabled, selectimage } = props
+    const { html, editorHeight, initialValue, disabled, selectimage, onChange } = props
     const [rawValue, setRawValue] = useState([])
     useEffect(() => {
-        props.onChange && props.onChange(html ? serialize({ children: rawValue }) : rawValue)
-    }, [rawValue])
+        onChange && onChange(html ? serialize({ children: rawValue }) : rawValue)
+    }, [rawValue, html, onChange])
 
     return (
         <div className={"DefaultRichTextEditorWrapper " + props.className + (disabled ? " disabled " : '')}>

@@ -143,7 +143,7 @@ const FungiblesSubpage = (props) => {
             return res
         }
         return []
-    }, [transactions, analysedPriceData])
+    }, [transactions, analysedPriceData, holdings])
 
     if (uniswapV3RawData) {
         let data = handleUniswapV3Data(uniswapV3RawData)
@@ -201,9 +201,9 @@ const FungiblesSubpage = (props) => {
             <div className="FungiblesSubpageFooter">
                 <div className="FungiblesSubpageFooterTitle">Data source:</div>
                 <div className="FungiblesSubpageFooterImgWrapper">
-                    <a href="https://uniswap.org/"><img src="/imgs/uniswaplogo.svg" /></a>
-                    <a href="https://thegraph.com/hosted-service/"><img src="/imgs/thegraphlogo.svg" /></a>
-                    <a href="https://moralis.io/"><img src="/imgs/moralislogo.svg" /></a>
+                    <a href="https://uniswap.org/"><img src="/imgs/uniswaplogo.svg" alt=""/></a>
+                    <a href="https://thegraph.com/hosted-service/"><img src="/imgs/thegraphlogo.svg"  alt=""/></a>
+                    <a href="https://moralis.io/"><img src="/imgs/moralislogo.svg"  alt=""/></a>
                 </div>
             </div></div>
     }

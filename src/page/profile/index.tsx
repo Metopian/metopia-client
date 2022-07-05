@@ -67,7 +67,7 @@ const ProfilePage = (props) => {
             tmpIndex = 6
         }
         return { subpageJsx: tmpJsx, subpageIndex: tmpIndex }
-    }, [slug, subpage])
+    }, [slug, subpage, code, state])
 
     return <div className="profile-page">
         <div className="container">

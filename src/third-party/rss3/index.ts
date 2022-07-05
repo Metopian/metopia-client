@@ -1,31 +1,36 @@
 import { ethers } from 'ethers';
-import RSS3 from 'rss3';
 import useSWR from 'swr';
-// import { getAccount, sign } from '../../web3/web3Utils';
-import {getAddress, sign} from '../../utils/web3Utils'
+import { getAddress, sign } from '../../utils/web3Utils'
 
-declare global {
-    interface Window {
-        rss3: any;
+let RSS3Class = null
+let rss3 = null
+const importRSS3 = async () => {
+    if (!RSS3Class) {
+        let { default: tmp } = await import('rss3')
+        RSS3Class = tmp
     }
+    return RSS3Class
 }
 
 const initRss3 = async () => {
-    const address = await getAddress()
-    const rss3 = new RSS3({
-        endpoint: 'https://prenode.rss3.dev',
-        address: address,
-        sign: sign,
-    });
-    window.rss3 = rss3
-    return rss3
+    if (!rss3) {
+        const address = await getAddress()
+        const RSS3 = await importRSS3()
+        rss3 = new RSS3({
+            endpoint: 'https://prenode.rss3.dev',
+            address: address,
+            sign: sign,
+        });
+        return rss3
+    }
+
 }
 
 const testAccountInfo = async () => {
     const provider = new ethers.providers.Web3Provider((window as any).ethereum);
     const signer = provider.getSigner();
     console.log(signer, await signer.getAddress())
-
+    const RSS3 = await importRSS3()
     const rss3 = new RSS3({
         endpoint: 'https://prenode.rss3.dev',
         // https://hub.rss3.io
@@ -54,6 +59,7 @@ const testAccountInfo = async () => {
 
 
 const getGitcoinData = async (persona) => {
+    const RSS3 = await importRSS3()
     const rss3 = new RSS3({
         endpoint: 'https://prenode.rss3.dev'
     })
@@ -73,6 +79,7 @@ const getGitcoinData = async (persona) => {
 }
 
 const getPoapData = async (persona) => {
+    const RSS3 = await importRSS3()
     const rss3 = new RSS3({
         endpoint: 'https://prenode.rss3.dev'
     })
@@ -112,5 +119,5 @@ const usePoapData = (persona) => {
     return { data, error }
 }
 
-export { initRss3, testAccountInfo, getGitcoinData, useGitcoinData, usePoapData };
+export { initRss3, testAccountInfo, getGitcoinData, useGitcoinData, getPoapData, usePoapData };
 

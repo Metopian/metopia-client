@@ -15,6 +15,8 @@ import { getAddress, getProvider, getEns } from '../../../utils/web3Utils';
 import './index.scss';
 import { toFixedIfNecessary } from '../../../utils/numberUtils';
 
+const Tmp = props=><ReactLoading type='spokes' height={20} width={20} className="loading" /> 
+
 const getRealVoteCount = (vote: number) => {
     return vote / 100
 }
@@ -109,31 +111,32 @@ const ProposalHomePage = props => {
         })
     }
 
-    const initVotes = () => {
-        let votesParam = {
-            "operationName": "Votes",
-            "variables": {
-                "id": id,
-                "orderBy": "vp",
-                "orderDirection": "desc",
-                "first": 10
-            },
-            "query": "query Votes($id: String!, $first: Int, $skip: Int, $orderBy: String, $orderDirection: OrderDirection, $voter: String) {\n  votes(\n    first: $first\n    skip: $skip\n    where: {proposal: $id, vp_gt: 0, voter: $voter}\n    orderBy: $orderBy\n    orderDirection: $orderDirection\n  ) {\n    ipfs\n    voter\n    choice\n    vp\n    vp_by_strategy\n  }\n}"
-        }
-        return fetch(snapshotApi.graphql, {
-            method: 'POST',
-            body: JSON.stringify(votesParam),
-            headers: {
-                'content-type': "application/json"
-            }
-        }).then(d => d.json()).then(d => {
-            setVotes(d.data.votes)
-        })
-    }
 
     useEffect(() => {
+        const initVotes = () => {
+            let votesParam = {
+                "operationName": "Votes",
+                "variables": {
+                    "id": id,
+                    "orderBy": "vp",
+                    "orderDirection": "desc",
+                    "first": 10
+                },
+                "query": "query Votes($id: String!, $first: Int, $skip: Int, $orderBy: String, $orderDirection: OrderDirection, $voter: String) {\n  votes(\n    first: $first\n    skip: $skip\n    where: {proposal: $id, vp_gt: 0, voter: $voter}\n    orderBy: $orderBy\n    orderDirection: $orderDirection\n  ) {\n    ipfs\n    voter\n    choice\n    vp\n    vp_by_strategy\n  }\n}"
+            }
+            return fetch(snapshotApi.graphql, {
+                method: 'POST',
+                body: JSON.stringify(votesParam),
+                headers: {
+                    'content-type': "application/json"
+                }
+            }).then(d => d.json()).then(d => {
+                setVotes(d.data.votes)
+            })
+        }
+
         initVotes()
-    }, [])
+    }, [id])
 
     const { data: scores } = useScoreData(id, "1", proposal?.snapshot, proposal?.strategies, getAddressToCalcScore())
 
@@ -163,7 +166,7 @@ const ProposalHomePage = props => {
             })
         }
         return res
-    }, [scores])
+    }, [scores, votes])
 
     let mychoice = -1
     if (self) {
@@ -239,7 +242,7 @@ const ProposalHomePage = props => {
                             className={'choice-option-button ' + (scoresObj[self] ? "" : " disabled")}
                             onClick={doVote}>
                             {scoresObj[self] ? "Cast " + getRealVoteCount(scoresObj[self]) + " Vote" : "You can't vote"}
-                            {voting ? <ReactLoading type='spokes' height={20} width={20} className="loading" /> : null}
+                            {voting ?  <ReactLoading type='spokes' height={20} width={20} className="loading" /> : null}
                         </MainButton> : null
                     }
 

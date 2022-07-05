@@ -1,6 +1,7 @@
 {
   "name": "metopia-client",
   "version": "0.3.1",
+  "license": "nolisence",
   "private": true,
   "dependencies": {
     "@3id/connect": "^0.2.5",
@@ -15,16 +16,16 @@
     "@graphprotocol/graph-ts": "^0.26.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@reduxjs/toolkit": "^1.7.1",
-    "@self.id/framework": "^0.2.0",
+    "@self.id/framework": "^0.3.2",
     "@self.id/react": "^0.2.0",
-    "@svgr/webpack": "^5.5.0",
+    "@svgr/webpack": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.11",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.6",
     "ajv": "^8.11.0",
     "ajv-formats": "^2.1.1",
     "assert": "^2.0.0",
@@ -52,7 +53,9 @@
     "eslint-webpack-plugin": "^3.1.1",
     "ethers": "^5.6.1",
     "file-loader": "^6.2.0",
+    "follow-redirects": ">=1.14.8",
     "fs-extra": "^10.0.0",
+    "got": ">=11.8.5",
     "html-react-parser": "^1.4.12",
     "html-webpack-plugin": "^5.5.0",
     "https-browserify": "^1.0.0",
@@ -68,6 +71,8 @@
     "key-did-resolver": "^1.4.4",
     "markdown-to-jsx": "^7.1.7",
     "mini-css-extract-plugin": "^2.4.5",
+    "moment": "^2.29.3",
+    "nth-check": ">=2.1.1",
     "os-browserify": "^0.3.0",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -106,7 +111,7 @@
     "slate-hyperscript": "^0.67.0",
     "slate-react": "^0.79.0",
     "source-map-explorer": "^2.5.2",
-    "source-map-loader": "^3.0.0",
+    "source-map-loader": "^4.0.0",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "style-loader": "^3.3.1",
@@ -119,16 +124,11 @@
     "usehooks-ts": "^2.4.2",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.2",
-    "web3": "^1.6.1",
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.1",
-    "xhr2-cookies": "^1.1.0",
-    "axios": ">=0.21.2",
-    "follow-redirects": ">=1.14.8",
-    "got": ">=11.8.5",
-    "nth-check": ">=2.0.1"
+    "xhr2-cookies": "^1.1.0"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
@@ -139,7 +139,12 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "eqeqeq": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -214,6 +219,7 @@
     "@types/query-string": "^6.3.0",
     "did-resolver": "^3.1.5",
     "nft-did-resolver": "^1.0.0",
+    "process": "^0.11.10",
     "sass": "^1.52.3"
   }
 }

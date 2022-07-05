@@ -35,7 +35,7 @@ const getAttr = (el, type) => {
     let res = null
     if (attr) {
         tmp = attr.split(";")
-        tmp.map(item => {
+        tmp.forEach(item => {
             result = item.split(':')
             if (result[0] == type) res = result[1]
         })
@@ -187,7 +187,7 @@ const ds = el => {
 const dataClean = data => {
     let arr = [];
     if (Array.isArray(data)) {
-        data.map((item) => {
+        data.forEach((item) => {
             if (item.text && !String(item.text).match(/^[ ]*$/)) {
                 arr.push(item)
             } else if (item.type && item.children.length > 0) {

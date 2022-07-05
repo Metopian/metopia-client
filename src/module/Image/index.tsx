@@ -79,7 +79,7 @@ const NftImage = (props: NftImageParam) => {
                     setUrl(src)
             }
         }
-    }, [cachedUrlData])
+    }, [cachedUrlData, contract, tokenId])
 
     return <WrappedLazyLoadImage alt={""} src={url} className={className} defaultSrc={defaultSrc} />
 }

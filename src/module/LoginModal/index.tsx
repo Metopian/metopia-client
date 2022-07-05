@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Triangle } from 'react-loader-spinner';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +8,7 @@ import { RootState, useChainId } from '../../config/store';
 import { type MoralisNft } from '../../config/type/moralisType';
 import { localRouter } from '../../config/urls';
 import FlexibleOrderedContainer from '../../module/FlexibleOrderedContainer';
-import { NftCollectionNameButton, NftOptionCard } from '../../module/nft';
+import { NftOptionCard } from '../../module/nft';
 import { getAccountData } from '../../third-party/ceramic';
 import { useNfts } from '../../third-party/moralis';
 import { getNFTReadableSrc, getSortedNfts, nftEqual } from '../../utils/NftUtils';
@@ -112,7 +111,7 @@ const LoginModal = (props: {
     // const user = useSelector((state: RootState) => state.user)
     const { isShow, stepRequired } = useSelector((state: RootState) => state.loginModal)
     const { hide } = useLoginModal()
-    const {chainId} = useChainId()
+    const { chainId } = useChainId()
     const { data: nfts, error: ethError } = useNfts(null, chainId)
     const [step, setStep] = useState<number>(0)
     const [unselectedContracts, setUnselectedContracts] = useState([])
@@ -183,7 +182,7 @@ const LoginModal = (props: {
                 return Object.assign({}, item, { chainId: chainId })
             })))
         return getSortedNfts(nftList)
-    }, [nfts])
+    }, [nfts, chainId])
 
     const NftOptionCards = useMemo(() => {
         return sortedNfts.map(nftGroup => {
@@ -206,7 +205,7 @@ const LoginModal = (props: {
                     }} />
             })
         })
-    }, [sortedNfts, selectedNft])
+    }, [sortedNfts, selectedNft, unselectedContracts])
 
     const selectWallet = async () => {
         if ((window as any).ethereum && !(window as any).ethereum._state.initialized) {
@@ -221,6 +220,8 @@ const LoginModal = (props: {
                 // dispatch(setWallet({ account, chainId }))
                 if (stepRequired === 2) {
                     // TODO // TODO // TODO // TODO // TODO
+
+
                     let doc = await getAccountData()
                     console.log(doc.content)
                     if (doc.content && doc.content['username']) {

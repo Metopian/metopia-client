@@ -54,7 +54,7 @@ const NftTransactionSubpage = (props) => {
         })
 
         return tmp.map((t, i) => <div key={i}>{t.name} : {t.tokenId}</div>)
-    }, [nfts, nftTransactions, blocknumber])
+    }, [nfts, nftTransactions, blocknumber, slug])
 
     return <div className='NftTransactionSubpage' style={{ padding: '40px' }}>
         <input {...register('blocknumber', { required: true })} placeholder="blocknumber" type="number" className="r-input" />

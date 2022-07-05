@@ -67,7 +67,7 @@ const analysis = (cluster) => {
     let res = {}
     Object.keys(cluster).forEach(key => {
         let totalDuration = 0, clearanceCount = 0, maxDuration = 0, minDuration = Number.MAX_VALUE
-        cluster[key].filter((tx, i) => {
+        cluster[key].forEach((tx, i) => {
             if (tx.duration) {
                 totalDuration += tx.duration
                 if (i !== cluster[key].length)

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BulletList } from 'react-content-loader';
 import Modal from 'react-modal';
 import { usePoapData } from '../../../third-party/rss3';
@@ -73,7 +73,17 @@ const PoapContentModal = (props) => {
 
 const PoapSubpage = (props) => {
     const { slug } = props
+    // const [poapData, setPoapData] = useState(null)
     const { data: poapData } = usePoapData(slug)
+    // useEffect(() => {
+    //     if (slug?.length) {
+    //         import('../../../third-party/rss3').then(({ getPoapData }) => {
+    //             getPoapData(slug).then(d => setPoapData(d))
+    //         })
+    //     }
+    // }, [slug])
+
+
     const [selectedPoapData, setSelectedPoapData] = useState({})
     const [showModal, setShowModal] = useState(false)
     const poapTable = useMemo(() => {
@@ -85,9 +95,9 @@ const PoapSubpage = (props) => {
         }} />
     }, [poapData])
     return poapData ? <div className='poap-subpage' style={{}}>
-        {poapData.length > 0 ? poapTable : <div className="no-content-container" style={{boxShadow:'unset' }}>You have not collected any POAPs.</div>}
+        {poapData.length > 0 ? poapTable : <div className="no-content-container" style={{ boxShadow: 'unset' }}>You have not collected any POAPs.</div>}
         <PoapContentModal isShow={showModal} hide={() => { setShowModal(false) }} data={selectedPoapData} />
-    </div> : <div style={{ boxShadow:'unset' }} className="no-content-container" >
+    </div> : <div style={{ boxShadow: 'unset' }} className="no-content-container" >
         <BulletList style={{ height: '200px' }} color="#ffffff" />
     </div>
 }

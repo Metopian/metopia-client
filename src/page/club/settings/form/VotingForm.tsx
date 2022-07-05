@@ -4,7 +4,7 @@ import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
 import { DurationInput, Input, Label } from '../../../../module/form';
 
-const useData = (defaultData?) => {
+const useData = ( ) => {
     const formId = "voting"
     const { form: formData } = useSelector((state: RootState) => state.form)
     const data = formData && formData[formId] ? formData[formId] : { delay: 0, period: 3600, quorum: 0, hideAbstain: false }
@@ -16,12 +16,6 @@ const useData = (defaultData?) => {
             value: Object.assign({}, data, newValue)
         }))
     }
-
-    useEffect(() => {
-        if (defaultData) {
-            update(defaultData)
-        }
-    }, [defaultData])
 
     return { formId, data, update }
 }

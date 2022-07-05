@@ -1,26 +1,25 @@
-import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect'
+
 import { getResolver as get3IDResolver } from '@ceramicnetwork/3id-did-resolver'
 import { CeramicClient } from '@ceramicnetwork/http-client'
 import { TileDocument } from '@ceramicnetwork/stream-tile'
 import { ModelManager } from '@glazed/devtools'
 import { DID } from 'dids'
+import { utils } from 'ethers'
 import { Ed25519Provider } from 'key-did-provider-ed25519'
 import { getResolver as getKeyResolver, getResolver } from 'key-did-resolver'
-import { sign } from '../../utils/web3Utils'
-import { utils } from 'ethers'
 import { ceramicNode } from '../../config/urls'
+import { sign } from '../../utils/web3Utils'
 
-const addr = "0xF026fce6679e8C3BeA39098799F1aaaAEc534bF3"
-
-// 0xd29fA6E2F7A3ad5De13d32CE2D502c4664B909ab
-const threeID = new ThreeIdConnect()
 const ceramic = new CeramicClient(ceramicNode)
+const addr = "0xF026fce6679e8C3BeA39098799F1aaaAEc534bF3"
 
 async function authenticateWithEthereum(ethereumProvider) {
     // Request accounts from the Ethereum provider
     const accounts = await ethereumProvider.request({
         method: 'eth_requestAccounts',
     })
+    const { EthereumAuthProvider, ThreeIdConnect } = await import('@3id/connect')
+    const threeID = new ThreeIdConnect()
     // Create an EthereumAuthProvider using the Ethereum provider and requested account
     const authProvider = new EthereumAuthProvider(ethereumProvider, accounts[0])
     // Connect the created EthereumAuthProvider to the 3ID Connect instance so it can be used to
@@ -75,8 +74,10 @@ async function updateDocument(id, content) {
 }
 
 const getAccountContract = (funcName) => {
-    let Contract = require('web3-eth-contract');
-    let accountContract = require('../../config/abi/Registration.json');
+    // TODO
+    // let Contract = require('web3-eth-contract');
+    let Contract = null
+    const accountContract = require('../../config/abi/Registration.json');
 
     Contract.setProvider((window as any).ethereum);
     var contract = new Contract(accountContract.abi, addr);
@@ -147,5 +148,6 @@ const getAccountData = async () => {
     }
 }
 
+// initAccountData,
+export { getAccountData }
 
-export { initAccountData, getAccountData }

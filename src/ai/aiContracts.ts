@@ -4,7 +4,8 @@ import { hashWithPrefix } from '../utils/web3Utils';
 const addr = "0xf91a8c71A5b73b1cB09f43972a5B79Eb0D7B32AD"
 
 const getCoreContract = (funcName) => {
-    let Contract = require('web3-eth-contract');
+    // let Contract = require('web3-eth-contract');
+    let Contract = null
     let coreContract = require('../config/abi/RedeemCodeFactory.json');
 
     Contract.setProvider((window as any).ethereum);

@@ -42,20 +42,21 @@ const ClubSettingPage = (props) => {
 
     useEffect(() => {
         // let { basicFormData, consensusForm, votingFormData } = defaultForm()
-        if (defaultSpaceSettings?.code === 200) {
-            let { basicFormData, consensusForm, votingFormData, network } = settingsToForm(defaultSpaceSettings.content.settings)
-            updateBasicForm(basicFormData)
-            updateConsensusForm(consensusForm)
-            updateVotingForm(votingFormData)
-            setNetwork(network)
-
-        } else {
-            let { basicFormData, consensusForm, votingFormData } = defaultForm()
-            updateBasicForm(basicFormData)
-            updateConsensusForm(consensusForm)
-            updateVotingForm(votingFormData)
+        if (updateBasicForm && updateConsensusForm && updateVotingForm) {
+            if (defaultSpaceSettings?.code === 200) {
+                let { basicFormData, consensusForm, votingFormData, network } = settingsToForm(defaultSpaceSettings.content.settings)
+                updateBasicForm(basicFormData)
+                updateConsensusForm(consensusForm)
+                updateVotingForm(votingFormData)
+                setNetwork(network)
+            } else {
+                let { basicFormData, consensusForm, votingFormData } = defaultForm()
+                updateBasicForm(basicFormData)
+                updateConsensusForm(consensusForm)
+                updateVotingForm(votingFormData)
+            }
         }
-    }, [defaultSpaceSettings])
+    }, [defaultSpaceSettings, updateBasicForm, updateConsensusForm, updateVotingForm])
 
     const createClub = () => {
         let errorKeys = validateData()
@@ -94,7 +95,7 @@ const ClubSettingPage = (props) => {
         }
         setErrors(errtmp)
         return Object.keys(errtmp)
-    }, [basicFormData, consensusForm])
+    }, [basicFormData, consensusForm, proposalForm])
 
     const syncSnapshotData = (id) => {
         fetch(thirdpartyApi.snapshot_api_graph, {

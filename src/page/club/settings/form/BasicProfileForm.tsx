@@ -26,10 +26,6 @@ const useData = () => {
         }))
     }
 
-    useEffect(() => {
-        update({ name: '', introduction: '', website: '', discord: '', opensea: '', twitter: '', avatar: '', banner: '', admins: [] })
-    }, [])
-
     return { formId, data, update }
 }
 
@@ -48,7 +44,7 @@ const Form = props => {
             setSelf(addr)
             updateForm({ admins: [{ address: addr, id: 1 }] })
         })
-    }, [])
+    })
 
     return <div className={"create-club-form"}>
         <div className="left-container">
@@ -58,7 +54,7 @@ const Form = props => {
                     value={data.name}
                     onChange={e => { updateForm({ name: e.target.value }) }} className={errors?.name ? 'error' : ''} />
             </div>
-                {errors.name && <div className="ErrorHint">{errors.name}</div>}
+            {errors.name && <div className="ErrorHint">{errors.name}</div>}
             <div className="form-group">
                 <Label>Introduction</Label>
                 <Textarea placeholder={""} maxLength={200} onChange={(e) => updateForm({ introduction: e.target.value })}

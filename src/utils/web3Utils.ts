@@ -1,9 +1,9 @@
 
 import { ethers, utils } from "ethers";
-import { Web3Provider } from "ethers/node_modules/@ethersproject/providers";
+// import { Web3Provider } from "ethers/node_modules/@ethersproject/providers";
 import { defaultChainId } from "../config/constant";
 
-let provider: Web3Provider = null
+let provider = null
 export const getProvider = () => {
     if (!provider) {
         if ((window as any).ethereum) {

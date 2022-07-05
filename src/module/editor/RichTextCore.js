@@ -19,14 +19,12 @@ import { extractContent } from '../../utils/DomUtil'
 import { deserialize } from '../../utils/serializeUtil'
 import './RichTextCore.css'
 
-
-
 function EmojiPicker(props) {
     const ref = useRef()
 
     useEffect(() => {
         new Picker({ ...props, data, ref })
-    }, [])
+    }, [props])
 
     return <div ref={ref} />
 }
@@ -322,6 +320,7 @@ const ImageElement = ({ attributes, children, element }) => {
                 max-height: 20em;
                 box-shadow: ${selected && focused ? '0 0 0 2px #03b2cb;' : 'none'};
                 `}
+                alt=""
             />
             {children}
         </div>
@@ -847,7 +846,7 @@ const FontSizeEditor = (props) => {
                 setValue(fontSize)
             }
         }
-    })
+    }, [editor, defaultfontsize, value, enabled])
 
     const fakeKeydown = (e) => {
         let tmp = document.getElementById('FontSizeEditor').innerText
@@ -901,7 +900,7 @@ const FontSizeEditor = (props) => {
 
     return (
         <div className={"FontSizeEditorWrapper"}>
-            <img src="https://oss.happyblocklabs.com/platform/web/imgs/fontsize.svg" title={'Font Size(pt)'} />
+            <img src="https://oss.happyblocklabs.com/platform/web/imgs/fontsize.svg" title={'Font Size(pt)'} alt="" />
             <div id="FontSizeEditor" className={"FontSizeEditor" + (enabled ? ' enabled' : '')} title={'Font Size(pt)'}
                 onClick={e => e.preventDefault()}
                 onMouseDown={e => {
@@ -973,10 +972,10 @@ const RichTextBySlate = (props) => {
     const [value, setValue] = useState(initialValue || defaultInit)
     const [clearTriggerFlag, setClearTriggerFlag] = useState(false)
     // const [clearTrigger, setClearTrigger] = useState(false)
-    useEffect(() => { setRawValue(value) }, [value])
+    useEffect(() => { setRawValue(value) }, [value, setRawValue])
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
-    const editor = useMemo(() => withHtml(withImage(withLinks(withHistory(withImageNormalize(withReact(createEditor()))))), plain), [])
+    const editor = useMemo(() => withHtml(withImage(withLinks(withHistory(withImageNormalize(withReact(createEditor()))))), plain), [plain])
     // useEffect(()=>{setValue(initialValue)},[initialValue])
 
     useEffect(() => {
@@ -986,11 +985,7 @@ const RichTextBySlate = (props) => {
             })
             setClearTriggerFlag(true)
         }
-    }, [clearButtonId])
-
-    const clearEditor = useCallback(() => {
-        setValue(initialValue || defaultInit)
-    }, [])
+    }, [clearButtonId, clearTriggerFlag, initialValue])
 
     return (
         <Slate editor={editor} value={value} onChange={value => {
@@ -1027,7 +1022,7 @@ const RichTextBySlate = (props) => {
                 renderLeaf={renderLeaf}
                 spellCheck
                 // autoFocus
-                style={Object.assign({ ...props.editorStyle, overflowY: "auto", }, (defaultfontsize ? { fontSize: defaultfontsize + 'px', lineHeight: defaultfontsize * 2 + "px" } : {minHeight:'320px'}))}
+                style={Object.assign({ ...props.editorStyle, overflowY: "auto", }, (defaultfontsize ? { fontSize: defaultfontsize + 'px', lineHeight: defaultfontsize * 2 + "px" } : { minHeight: '320px' }))}
                 className={'editorarea'}
                 onDrop={event => { }}
                 onKeyDown={event => {

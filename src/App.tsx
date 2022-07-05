@@ -18,28 +18,28 @@ const App = () => {
       if (routeParams.page === 'space') {
         if (routeParams.event === 'create') {
           return <ClubSettingPage />
-        }else if (routeParams.event === 'update'){
-          return <ClubSettingPage slug={routeParams.event2}/>
-        }else {
-          if (routeParams.event2==='propose') {
-            return <ProposalCreatePage space={routeParams.event}/>
-          }else{
+        } else if (routeParams.event === 'update') {
+          return <ClubSettingPage slug={routeParams.event2} />
+        } else {
+          if (routeParams.event2 === 'propose') {
+            return <ProposalCreatePage space={routeParams.event} />
+          } else {
             return <ClubHomePage slug={routeParams.event} />
           }
         }
-      } else if(routeParams.page === 'proposal'){
-          return <ProposalHomePage id={routeParams.event} />
+      } else if (routeParams.page === 'proposal') {
+        return <ProposalHomePage id={routeParams.event} />
       }
       else if (routeParams.page === 'profile') {
         return <ProfilePage slug={routeParams.event} subpage={searchParams.get('subpage')} state={searchParams.get('state')} code={searchParams.get('code')} />
-      } else if(routeParams.page==='test'){
-        return <TestMintPage/>
+      } else if (routeParams.page === 'test') {
+        return <TestMintPage />
       }
     }
     return <HomePage />
-  }, [routeParams])
+  }, [routeParams, searchParams])
   return (
-    <div className="MainContainer">
+    <div className="MainContainer" >
       {page}
     </div>
   );
