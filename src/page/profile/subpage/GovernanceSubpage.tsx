@@ -3,10 +3,8 @@ import useSWR from 'swr'
 import { nftDataApi } from '../../../config/urls'
 import './GovernanceSubpage.scss'
 import { BulletList } from 'react-content-loader'
-import Metable from '../module/ProfileTable'
+import ProfileTable from '../module/ProfileTable'
 import { customFormat } from '../../../utils/TimeUtil'
-import Markdown from 'markdown-to-jsx';
-import { WrappedLazyLoadImage } from '../../../module/image'
 
 const nftServiceFetcher = (owner) => fetch(nftDataApi.goverance_selectByOwner + "?owner=" + owner).then((res) => res.json())
 
@@ -21,9 +19,9 @@ const useGovernanceData = (address) => {
 const snapshotFetcher = (address) => {
     let param = {
         operationName: "Votes",
-        query: 'query Votes { votes ( first: 1000 where: { voter: "' +
+        query: 'query Votes {   votes (     first: 1000     where: {       voter: "' +
             address +
-            '" } ) { id voter created choice proposal { id title body choices } space { id name avatar } } }',
+            '"     }   ) {     id     voter     created     choice     proposal {     id  title       choices     }     space {       id       name            	avatar     }   } }',
         variables: null
     }
     return fetch("https://hub.snapshot.org/graphql?", {
@@ -43,64 +41,37 @@ const useSnapshotData = (address, flag) => {
     })
     return { data, error }
 }
-
-const GovernanceCardLayout = (props) => {
-    return <div className='governance-card-layout'>
-        <div className='left-container'>
-            {
-                props.children.map((item, i) => {
-                    if (i % 2 === 0)
-                        return item
-                })
-            }
-        </div>
-        <div className='right-container'>
-            {
-                props.children.map((item, i) => {
-                    if (i % 2 === 1)
-                        return item
-                })
-            }
-        </div>
-    </div>
-}
-
 const GovernanceSubpage = (props) => {
     const { slug } = props
+    const { data: governanceData } = useGovernanceData(slug)
     const { data: snapshotData } = useSnapshotData(slug, true)
+
+    const snapshotTable = useMemo(() => {
+        if (snapshotData?.data?.votes?.length)
+            return <ProfileTable data={snapshotData.data.votes.map(d => {
+                return [d.space.name, d.proposal.title, customFormat(new Date(d.created * 1000), '#YYYY#-#MM#-#DD#')]
+            })} heads={['Space', 'Title', 'Date']} onSelect={(i) => {
+                window.open('https://snapshot.org/#/' + snapshotData.data.votes[i].space.id + "/proposal/" + snapshotData.data.votes[i].proposal.id)
+            }} />
+    }, [snapshotData])
 
     return <div className="GovernanceSubpage">
         {
-            snapshotData?.data ? (snapshotData.data.votes?.length ? <div>
-                <div>
-                    <GovernanceCardLayout >
-                        {
-                            snapshotData.data.votes.map((d, i) => {
-                                return <div className="snapshot-card" key={'snapshot-card-' + i}>
-                                    <div className="head">
-                                        <a href={'https://snapshot.org/#/' + snapshotData.data.votes[i].space.id}>
-                                            <WrappedLazyLoadImage src={d.space.avatar} />
-                                            <div className="name">{d.space.name}</div>
-                                        </a >
-                                    </div>
-                                    <div className='container'>
-                                        <div className="time-wrapper">
-                                            <img src="/imgs/clock.svg" alt="" />
-                                            <div className="time">{customFormat(new Date(d.created * 1000), '#YYYY#-#MM#-#DD#')}</div>
-                                        </div>
-                                        <div className="title"><a href={'https://snapshot.org/#/' + snapshotData.data.votes[i].space.id + "/proposal/" + snapshotData.data.votes[i].proposal.id}>{d.proposal.title}</a></div>
-                                        <Markdown className="body">{d.proposal.body}</Markdown>
-                                        <div className='voted-wrapper'>Voted: {d.proposal.choices[d.choice - 1]}</div>
-                                    </div>
-                                </div>
-                            })
-                        }
-                    </GovernanceCardLayout>
+            snapshotData?.data && governanceData?.data ? <div>
+                <div className="GovernanceSubpageGroup">
+                    <div className="label">Multisig Signers:</div>
+                    <div>{governanceData.data.multisig_transactions_count > 0 ? "True" : "False"}</div>
                 </div>
-            </div> : <div style={{ marginTop: '20px' }} className='no-content-container'>
-                You have not attended any Snapshot activities.
-            </div>) : <div style={{ marginTop: '20px' }} className='no-content-container'>
+                <div className="GovernanceSubpageGroup" style={{ display: 'block' }}>
+                    <div className="label" style={{ marginBottom: '12px', marginTop: '32px', }}>Snapshot vote hitory:</div>
+                    {
+                        snapshotTable
+                    }
+                    {/* <div>{data.data.multisig_transactions_count > 0 ? "True" : "False"}</div> */}
+                </div>
+            </div> : <div style={{ marginTop: '20px' }}>
                 <BulletList style={{ height: '200px' }} />
+                {/* <ReactLoading height={21} width={40} color='#333' /> */}
             </div>
         }
     </div>

@@ -57,8 +57,8 @@ const Form = props => {
                 <Input placeholder={""}
                     value={data.name}
                     onChange={e => { updateForm({ name: e.target.value }) }} className={errors?.name ? 'error' : ''} />
-                {errors.name && <p className="ErrorHint">{errors.name}</p>}
             </div>
+                {errors.name && <div className="ErrorHint">{errors.name}</div>}
             <div className="form-group">
                 <Label>Introduction</Label>
                 <Textarea placeholder={""} maxLength={200} onChange={(e) => updateForm({ introduction: e.target.value })}

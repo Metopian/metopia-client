@@ -186,7 +186,9 @@ code {
 .ErrorHint {
     color: $error-color;
     font-size: 12px;
-}
+  height: 20px;
+  margin-top: -20px;
+  }
 
 
 .Hidden {

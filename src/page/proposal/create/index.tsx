@@ -28,6 +28,8 @@ const CreateProposalPage = props => {
     const container = useRef(null)
     const [now, setNow] = useState(null)
 
+    const [errors, setErrors] = useState(null)
+
     useEffect(() => {
         $('.MainContainer').css({ 'overflow-y': 'hidden' })
         return () => {
@@ -85,6 +87,7 @@ const CreateProposalPage = props => {
     const period = parseInt(spaceSettings?.voting?.period || 0)
 
     const createProposal = async (cb) => {
+        setErrors(null)
         const provider = getProvider()
         const account = await getAddress()
         let blocknumber = await provider.getBlockNumber()
@@ -94,10 +97,19 @@ const CreateProposalPage = props => {
         spaceSettings.strategies.forEach(s => {
             fetch(encodeQueryData(nftDataApi.nft_transfer_cacheAll, { chain_id: `0x${s.params.network}`, address: s.params.address }))
         })
+        let title = (document.getElementById("proposaltitleinput") as HTMLInputElement).value
+        if (!title?.length)
+            setErrors({ title: 'Title cannot be empty' })
+
+        if (errors&&Object.keys(errors).length) {
+            alert(errors[Object.keys(errors)[0]])
+            return
+        }
+
         signTypedData({
             "space": space,
             "type": "single-choice",
-            "title": (document.getElementById("proposaltitleinput") as HTMLInputElement).value,
+            "title": title,
             "body": body,
             "choices": options.map(o => o.text),
             "start": startUnix,
@@ -147,6 +159,7 @@ const CreateProposalPage = props => {
         }}>
             <div className="scrollbar" id="createClubScrollbar"></div>
             <div className="form">
+                {errors?.title && <div className="ErrorHint">{errors.title}</div>}
                 <Label >{"Title & Description"}</Label>
                 <div className="editor-wrapper">
                     <RichTextEditor html className="BlogEditor" onChange={setBody} placeholder="Please enter the description of your proposal">

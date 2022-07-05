@@ -103,7 +103,7 @@
         height: 100%;
 
         &.empty {
-            border: 1px dotted $border-color;
+            border: 1px solid $border-color;
         }
     }
 
@@ -163,6 +163,10 @@
 .r-select-v2 {
     position: relative;
     overflow: visible;
+
+    .r-input {
+        background-color: #ffffff;
+    }
 
     .drop-down-pane {
         display: none;

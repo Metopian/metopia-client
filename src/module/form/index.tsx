@@ -10,7 +10,7 @@ const Label = (props) => {
 }
 
 const Input = (props) => {
-    return <input  {...props} className={'r-input ' + (props.className ? props.className : "")}  />
+    return <input  {...props} className={'r-input ' + (props.className ? props.className : "")} />
 }
 
 const Textarea = (props) => {
@@ -54,7 +54,7 @@ const ImageSelector = (props) => {
     </div >
 }
 
-const Select = (props: { options: { value: any, text: string }[], onChange?, defaultValue?}) => {
+const Select = (props: { options: { value: any, text: any }[], onChange?, defaultValue?}) => {
     const { options, onChange, defaultValue } = props
     if (!options || options.length === 0)
         return null
@@ -67,8 +67,8 @@ const Select = (props: { options: { value: any, text: string }[], onChange?, def
     </select>
 }
 const SelectV2 = (props: {
-    options: { value: any, text: string }[],
-    onChange: ({ value: any, text: string }) => any,
+    options: { value: any, text: any, ele?}[],
+    onChange: ({ value, text }) => any,
     defaultValue?
 }) => {
     const { options, onChange } = props
@@ -79,12 +79,12 @@ const SelectV2 = (props: {
     return <div className="r-select-v2" >
         <Input onFocus={e => setDisplay(true)}
             value={keyword}
-            onChange={e => { setKeyword(e.target.value) }} 
-            onBlur={e=>{
+            onChange={e => { setKeyword(e.target.value) }}
+            onBlur={e => {
                 setTimeout(() => {
                     setDisplay(false)
                 }, 100);
-            }}/>
+            }} />
         <div className={'drop-down-pane' + (display ? ' display' : '')}>
             {
                 options.filter(op => op.text.indexOf(keyword) > -1 || op.value === keyword).map((op, i) => {
@@ -92,7 +92,7 @@ const SelectV2 = (props: {
                         onChange(op)
                         setKeyword(op.text)
                         return false
-                    }}>{op.text}</div>
+                    }}>{op.ele || op.text}</div>
                 })
             }
         </div>

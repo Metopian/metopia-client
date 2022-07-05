@@ -23,6 +23,7 @@ const ClubSettingPage = (props) => {
     const { data: basicFormData, update: updateBasicForm } = useBasicFormData()
     const { data: consensusForm, update: updateConsensusForm } = useConsensusForm()
     const { data: votingFormData, update: updateVotingForm } = useVotingForm()
+    const { data: proposalForm, update: updateProposalForm } = useProposalForm()
     const [errors, setErrors] = useState({})
     const [creating, setCreating] = useState(false)
     const consensusFormRef = useRef<any>()
@@ -31,7 +32,7 @@ const ClubSettingPage = (props) => {
     const { chainId } = useChainId()
     const container = useRef(null)
     const [expandImportDiv, setExpandImportDiv] = useState(false)
-
+    console.log(proposalForm)
     useEffect(() => {
         $('.MainContainer').css({ 'overflow-y': 'hidden' })
         return () => {
@@ -86,6 +87,11 @@ const ClubSettingPage = (props) => {
         if (!consensusForm.membership?.filter(m => m.tokenAddress)?.length) {
             errtmp.consensus = 'The membership cannot be empty'
         }
+        if (proposalForm.validation.name === 'discord') {
+            if (!proposalForm.validation.params?.guildId?.length || !proposalForm.validation.params?.roles?.length) {
+                errtmp.proposal = 'You should select roles to check the authorities.'
+            }
+        }
         setErrors(errtmp)
         return Object.keys(errtmp)
     }, [basicFormData, consensusForm])
@@ -98,7 +104,7 @@ const ClubSettingPage = (props) => {
                 "variables": {
                     "id_in": [
                         id,
-                        null    
+                        null
                     ]
                 },
                 "query": "query Spaces($id_in: [String]) {\n  spaces(where: {id_in: $id_in}) {\n    id\n    name\n    about\n    network\n    symbol\n    network\n    terms\n    skin\n    avatar\n    twitter\n    website\n    github\n    private\n    domain\n    members\n    admins\n    categories\n    plugins\n    followersCount\n    voting {\n      delay\n      period\n      type\n      quorum\n      hideAbstain\n    }\n    strategies {\n      name\n      network\n      params\n    }\n    validation {\n      name\n      params\n    }\n    filters {\n      minScore\n      onlyMembers\n    }\n  }\n}"
@@ -158,10 +164,10 @@ const ClubSettingPage = (props) => {
                     </div>
                 </div>
             }
-            <BasicProfileForm  errors={errors} />
-            <ConsensusForm  errors={errors} ref={consensusFormRef} />
-            <ProposalForm />
-            <VotingForm  />
+            <BasicProfileForm errors={errors} />
+            <ConsensusForm errors={errors} ref={consensusFormRef} />
+            <ProposalForm errors={errors} />
+            <VotingForm errors={errors} />
             <div className="scrollbar" id="createClubScrollbar"></div>
         </div>
     </div >

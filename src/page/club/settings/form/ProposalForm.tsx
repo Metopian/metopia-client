@@ -25,16 +25,55 @@ const useData = () => {
     return { formId, data, update }
 }
 
+const DaoMemberForm = props => {
+    const { value, onChange } = props
+    return <div className="typed-form-content" >
+        <div className='form-group'>
+            <Label>Minimum voting power</Label>
+            <Input type='number' value={value} onChange={onChange} />
+        </div>
+    </div>
+}
+
+const AssignedAuthorForm = props => {
+    const { members, updateForm } = props
+    return <div className="typed-form-content">
+        <div className="form-group">
+            <Label>Authors</Label>
+            {
+                members.map(admin => {
+                    return <AdminInputCard key={'AdminInputCard' + admin.id} data={admin} onChange={(val) => {
+                        updateForm({ members: members.map(tmp => tmp.id === admin.id ? Object.assign({}, admin, { address: val }) : tmp) })
+                    }}
+                        onDelete={e => updateForm({ members: members.filter(tmp => tmp.id !== admin.id || tmp.id === 1) })}
+                    />
+                })
+            }
+            <div className='add-admin-button-wrapper'>
+                <img src="/imgs/addbuttonround.png" alt="add" className='add-admin-button' onClick={e => {
+                    if (!members.find(ad => ad.address.trim().length === 0)) {
+                        let maxId = max(members, 'id')
+                        updateForm({ members: [...(members || []), { address: '', id: maxId + 1 }] })
+                    }
+                }} />
+            </div>
+        </div>
+    </div>
+}
+
 
 const modeNames = ["DAO members", "Assigned authors", "Specified guild members"]
 const ProposalForm = props => {
+    const { errors } = props
     const [mode, setMode] = useState(-1)
     const { data: formData, update: updateForm } = useData()
     const { data: guildsData } = useGuildsData()
     const [selectedGuild, setSelectedGuild] = useState(null)
     const { data: roleData } = useRolesData(selectedGuild?.guildId)
+
     return <div className={"create-club-form"}>
         <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Proposal validation</Label>
+
         <div className="Tip" style={{ marginTop: '-10px', marginBottom: '30px' }}>Who have the power to raise proposal?</div>
         {
             mode === -1 ?
@@ -75,42 +114,22 @@ const ProposalForm = props => {
                     </div>
                     {
                         mode === 0 ?
-                            <div className="typed-form-content" >
-                                <div className='form-group'>
-                                    <Label>Minimum voting power</Label>
-                                    <Input type='number' value={formData.filters.minScore} />
-                                </div>
-                            </div> : null
+                            <DaoMemberForm value={formData.filters.minScore} onChange={e => updateForm({ filters: { onlyMembers: false, minScore: e.target.value } })} /> : null
                     }{
-                        mode === 1 ? <div className="typed-form-content">
-                            <div className="form-group">
-                                <Label>Authors</Label>
-                                {
-                                    formData.members.map(admin => {
-                                        return <AdminInputCard key={'AdminInputCard' + admin.id} data={admin} onChange={(val) => {
-                                            updateForm({ members: formData.members.map(tmp => tmp.id === admin.id ? Object.assign({}, admin, { address: val }) : tmp) })
-                                        }}
-                                            onDelete={e => updateForm({ members: formData.members.filter(tmp => tmp.id !== admin.id || tmp.id === 1) })}
-                                        />
-                                    })
-                                }
-                                <div className='add-admin-button-wrapper'>
-                                    <img src="/imgs/addbuttonround.png" alt="add" className='add-admin-button' onClick={e => {
-                                        if (!formData.members.find(ad => ad.address.trim().length === 0)) {
-                                            let maxId = max(formData.members, 'id')
-                                            updateForm({ members: [...formData.members, { address: '', id: maxId + 1 }] })
-                                        }
-                                    }} />
-                                </div>
-                            </div>
-                        </div> : null
+                        mode === 1 ? <AssignedAuthorForm members={formData.members} updateForm={updateForm} /> : null
                     }{
                         mode === 2 ?
+
                             <div className="typed-form-content">
+
+                                {errors.proposal ? <div className="ErrorHint" >{errors.proposal}</div> : null}
                                 <div className='form-group'>
                                     <Label>Select your guild</Label>
                                     <SelectV2 options={guildsData?.data?.guilds.map(g => {
-                                        return { value: g.guildId, text: g.name }
+                                        return {
+                                            value: g.guildId, text: g.name,
+                                            ele: <div className="guild-option"><img src={`https://cdn.discordapp.com/icons/${g.guildId}/${g.icon}.png`} />{g.name}</div>
+                                        }
                                     })} onChange={({ value }) => {
                                         updateForm({ validation: { name: "discord", params: { guildId: value, roles: [] } } })
                                         setSelectedGuild(guildsData?.data?.guilds.find(g => g.guildId === value))
@@ -123,12 +142,12 @@ const ProposalForm = props => {
                                 </div>
                                 <div className='form-group' style={{ width: '100%' }}>
                                     <Label>Specify the roles</Label>
-                                    <MultiSelect options={[{ value: 'none', text: 'Click to select roles' }, ...roleData?.data?.roles.filter(r => r.position > 0).map(r => {
+                                    <MultiSelect options={[{ value: 'none', text: 'Click to select roles' }, ...(roleData?.data?.roles.filter(r => r.position > 0).map(r => {
                                         return {
                                             value: r.roleId,
                                             text: r.name
                                         }
-                                    })]} value={roleData?.data?.roles.filter(r1 => formData.validation.params.roles?.find(r2 => r1.roleId === r2)).map(r => {
+                                    }) || [])]} value={roleData?.data?.roles.filter(r1 => formData.validation.params.roles?.find(r2 => r1.roleId === r2)).map(r => {
                                         return {
                                             value: r.roleId,
                                             text: r.name
