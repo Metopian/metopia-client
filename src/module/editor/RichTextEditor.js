@@ -2,7 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { serialize } from "../../utils/serializeUtil"
 import RichTextBySlate from './RichTextCore'
 import './RichTextEditor.css'
-const emoji = RichTextBySlate.Emoji
+
+export const { Emoji,
+    Bold, Italic, Underline, StrikeThrough,
+    Code,
+    Link, RemoveLink, Image,
+    Left, Center, Right,
+    H1, H2, H3, H4, H5,
+    Quote,
+    List,
+    UList,
+    FontSize } = RichTextBySlate
+
 let SimpleTextEditor = (props) => {
     const { html, editorHeight, initialValue, onChange } = props
     const [rawValue, setRawValue] = useState([])
@@ -15,7 +26,7 @@ let SimpleTextEditor = (props) => {
         <div className={"SimpleTextEditor " + props.className} style={props.style}>
             <RichTextBySlate editorStyle={{ height: editorHeight }} preventPopup disableLineBreak plain
                 setRawValue={setRawValue} initialValue={initialValue}
-                toolbar={[[emoji]]} {...props} />
+                toolbar={[[Emoji]]} {...props} />
         </div>
     )
 }
@@ -23,6 +34,7 @@ let SimpleTextEditor = (props) => {
 function RichTextEditor(props) {
     const { html, editorHeight, initialValue, disabled, selectimage, onChange } = props
     const [rawValue, setRawValue] = useState([])
+
     useEffect(() => {
         onChange && onChange(html ? serialize({ children: rawValue }) : rawValue)
     }, [rawValue, html, onChange])

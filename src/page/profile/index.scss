@@ -10,39 +10,59 @@
             height: max(15vw, 216px);
             background-size: 100% 100%;
             background-repeat: no-repeat;
-            padding: max(60px, 4.2vw) max(2.8vw, 40px);
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
             position: relative;
             border-radius: 24px;
             box-shadow: 0 0 10px #e5e5e5;
 
             >.container {
-                height: max(6.6vw, 96px);
+                height: 120px;
+                width: 100%;
                 display: flex;
                 align-items: center;
 
                 >.avatar-wrapper {
-                    height: max(6.6vw, 96px);
-                    width: max(6.6vw, 96px);
-                    border-radius: max(3.3vw, 48px);
+                    height: 120px;
+                    width: 120px;
+                    // border-radius: max(3.3vw, 48px);
                     overflow: hidden;
                     display: flex;
                     align-items: center;
                     justify-content: center;
 
                     >.avatar {
-                        height: max(4.4vw, 64px);
-                        width: max(4.4vw, 64px);
+                        height: 120px;
+                        width: 120px;
                     }
                 }
 
-                >.name {
-                    font-size: max(1.37vw, 20px);
-                    font-weight: bold;
-                    color: $title-color;
-                    margin-left: 12px;
+                >.basic-profile {
                     display: flex;
-                    align-items: center;
-                    font-family: montserrat;
+                    flex-direction: column;
+                    gap: 20px;
+                    align-items: flex-start;
+
+                    >.name-wrapper {
+                        margin-left: 12px;
+                        display: flex;
+                        gap:12px;
+                        >.name {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: $title-color;
+                            font-family: montserrat;
+                        }
+                    }
+
+
+                    .main-button {
+                        margin-left: 12px;
+                        border-radius: 99px;
+                        font-size: 18px;
+                    }
+
                 }
 
                 .stats-wrapper {

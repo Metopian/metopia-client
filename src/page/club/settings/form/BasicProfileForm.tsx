@@ -9,6 +9,10 @@ import { max } from '../../../../utils/numberUtils';
 import { getAddress } from '../../../../utils/web3Utils';
 import AdminInputCard from '../module/AdminInputCard';
 import CoverEditorModal from '../module/CoverEditorModal';
+import {
+    DefaultTextEditor, Emoji,
+    Bold, Italic, Underline, Image, Link, RemoveLink
+} from '../../../../module/editor/RichTextEditor';
 import './BasicProfileForm.scss';
 
 const useData = () => {
@@ -43,23 +47,31 @@ const Form = props => {
     useEffect(() => {
         getAddress().then(addr => {
             setSelf(addr)
+            // if (!data.admins?.length) {
             updateForm({ admins: [{ address: addr, id: 1 }] })
+            // } else {
+            //     updateForm({ admins: data.admins.sort((r1, r2) => { if (r1.toLowerCase() === addr.toLowerCase()) return -1; else return 0 }) })
+            // }
         })
     }, [updateForm])
 
-    return <div className={"create-club-form"}>
+    return <div className={"create-club-form basic-profile"}>
         <div className="left-container">
             <div className="form-group">
                 <Label>Name</Label>
                 <Input placeholder={""}
                     value={data.name}
                     onChange={e => { updateForm({ name: e.target.value }) }} className={errors?.name ? 'error' : ''} />
+                {errors.name && <div className="ErrorHint" style={{ marginTop: '8px', marginBottom: '-28px' }}>{errors.name}</div>}
             </div>
-            {errors.name && <div className="ErrorHint">{errors.name}</div>}
             <div className="form-group">
                 <Label>Introduction</Label>
-                <Textarea placeholder={""} maxLength={200} onChange={(e) => updateForm({ introduction: e.target.value })}
-                    value={data.introduction} />
+                <DefaultTextEditor className="introduction-input-wrapper" html brief initialValue={null} onChange={(e) => {
+                    console.log(e)
+                }} toolbar={[[
+                    Bold, Italic, Underline, Emoji], [Link, RemoveLink]]} />
+                {/* <Textarea placeholder={""} maxLength={200} onChange={(e) => updateForm({ introduction: e.target.value })}
+                    value={data.introduction} /> */}
             </div>
             <div className="form-group">
                 <Label>Admins</Label>
@@ -85,7 +97,7 @@ const Form = props => {
         </div>
         <div className="right-container">
             <div className="form-group">
-                <Label>Profile Image</Label>
+                <Label>Cover Image</Label>
                 <ImageSelector trigger={() => { imageInput.current.click() }}
                     imgUrl={(logoImg && window.URL.createObjectURL(logoImg)) || data.avatar} onChange={async (e) => {
                         let result = await uploadFileToIfps(e.target.files[0])
@@ -98,7 +110,7 @@ const Form = props => {
                     }} />
             </div>
             <div className="form-group">
-                <Label>Cover Image</Label>
+                <Label>Banner</Label>
                 <ImageSelector wide trigger={() => { setSelectingCover(true) }} imgUrl={croppedBanner && window.URL.createObjectURL(croppedBanner)}
                     onChange={async (e) => {
                         let result = await uploadFileToIfps(e.target.files[0])

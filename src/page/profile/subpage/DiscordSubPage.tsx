@@ -12,13 +12,14 @@ const DiscordSubPage = props => {
             data?.data?.redirect_uri ? <MainButton onClick={e => {
                 window.open(data?.data?.redirect_uri)
             }}>Connect to Discord</MainButton> : null
-        }
-        {
+        }{
             data?.data?.discordId ? <div>
                 <div className="container">
                     <div className="title">Profile</div>
                     <div style={{ display: "flex", alignItems: 'center', gap: '20px' }}>
-                        <div className="avatar-wrapper"><img src={"https://cdn.discordapp.com/avatars/" + data.data.discordId + "/" + data.data.discordAvatar + ".webp"} alt="avatar" /></div>
+                        <div className="avatar-wrapper">
+                            <img src={"https://cdn.discordapp.com/avatars/" + data.data.discordId + "/" + data.data.discordAvatar + ".webp"} alt="avatar" />
+                        </div>
                         <div>
                             <div className="name">{data.data.discordName}</div>
                             <div>#{data.data.discordDiscrim}</div>

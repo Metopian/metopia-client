@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as reduxUpdateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
@@ -60,79 +60,76 @@ const AssignedAuthorForm = props => {
     </div>
 }
 
-
 const modeNames = ["DAO members", "Assigned authors", "Specified guild members"]
 const ProposalForm = props => {
     const { errors } = props
-    const [mode, setMode] = useState(-1)
     const { data: formData, update: updateForm } = useData()
     const { data: guildsData } = useGuildsData()
-    const [selectedGuild, setSelectedGuild] = useState(null)
-    const { data: roleData } = useRolesData(selectedGuild?.guildId)
-
+    // const [selectedGuild, setSelectedGuild] = useState(null)
+    // const { data: roleData } = useRolesData(selectedGuild?.guildId)
+    const { data: roleData } = useRolesData(formData.validation?.params?.guildId)
+    
     return <div className={"create-club-form"}>
         <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Proposal validation</Label>
 
         <div className="Tip" style={{ marginTop: '-10px', marginBottom: '30px' }}>Who have the power to raise proposal?</div>
         {
-            mode === -1 ?
+            formData.mode == undefined || formData.mode === -1 ?
                 <div className='type-selector'>
                     <div className='option'>
                         <img src="/imgs/teamwork-illu.jpg" alt="" />
                         <MainButton onClick={e => {
-                            updateForm({ validation: { name: "basic", params: {} }, filters: { onlyMembers: false, minScore: 0 }, members: [] })
-                            setMode(0)
+                            updateForm({ validation: { name: "basic", params: {} }, filters: { onlyMembers: false, minScore: 0 }, members: [], mode: 0 })
                         }}>{modeNames[0]}</MainButton>
                     </div>
                     <div className='option'>
                         <img src="/imgs/expert.jpg" alt="" />
                         <MainButton onClick={e => {
-                            updateForm({ validation: { name: "basic", params: {} }, filters: { onlyMembers: true, minScore: 0 }, members: [] })
-                            setMode(1)
+                            updateForm({ validation: { name: "basic", params: {} }, filters: { onlyMembers: true, minScore: 0 }, members: [], mode: 1 })
                         }}>{modeNames[1]}</MainButton>
                     </div>
                     <div className='option'>
                         <img src='/imgs/guild.png' alt="" />
                         <MainButton onClick={e => {
-                            updateForm({ validation: { name: "discord", params: { guildId: '', roles: [] } }, filters: { onlyMembers: false, minScore: 0 }, members: [] })
-                            setMode(2)
+                            updateForm({ validation: { name: "discord", params: { guildId: '', roles: [] } }, filters: { onlyMembers: false, minScore: 0 }, members: [], mode: 2 })
                         }}>{modeNames[2]}</MainButton>
                     </div>
                 </div> : null
         }
         {
-            mode > -1 ?
+            formData.mode > -1 ?
                 <div className='form-container'>
                     <div className='form-group mode' style={{ marginBottom: '30px' }}>
                         <Label>Mode</Label>
-                        <div className='value'>{modeNames[mode]}</div>
+                        <div className='value'>{modeNames[formData.mode]}</div>
                         <img src="/imgs/switch.svg" alt="switch" onClick={e => {
-                            updateForm({ validation: { name: "basic", params: {} }, filters: { onlyMembers: false, minScore: 0 }, members: [] })
-                            setMode(-1)
+                            updateForm({ validation: { name: "basic", params: {} }, filters: { onlyMembers: false, minScore: 0 }, members: [], mode: -1 })
                         }} />
                     </div>
                     {
-                        mode === 0 ?
+                        formData.mode === 0 ?
                             <DaoMemberForm value={formData.filters.minScore} onChange={e => updateForm({ filters: { onlyMembers: false, minScore: e.target.value } })} /> : null
                     }{
-                        mode === 1 ? <AssignedAuthorForm members={formData.members} updateForm={updateForm} /> : null
+                        formData.mode === 1 ? <AssignedAuthorForm members={formData.members} updateForm={updateForm} /> : null
                     }{
-                        mode === 2 ?
+                        formData.mode === 2 ?
 
                             <div className="typed-form-content">
 
                                 {errors.proposal ? <div className="ErrorHint" >{errors.proposal}</div> : null}
                                 <div className='form-group'>
                                     <Label>Select your guild</Label>
-                                    <SelectV2 options={guildsData?.data?.guilds.map(g => {
-                                        return {
-                                            value: g.guildId, text: g.name,
-                                            ele: <div className="guild-option"><img src={`https://cdn.discordapp.com/icons/${g.guildId}/${g.icon}.png`} alt="" />{g.name}</div>
-                                        }
-                                    })} onChange={({ value }) => {
-                                        updateForm({ validation: { name: "discord", params: { guildId: value, roles: [] } } })
-                                        setSelectedGuild(guildsData?.data?.guilds.find(g => g.guildId === value))
-                                    }} />
+                                    <SelectV2
+                                        keyword={guildsData?.data?.guilds.find(g => g.guildId === formData.validation?.params?.guildId)?.name}
+                                        options={guildsData?.data?.guilds.map(g => {
+                                            return {
+                                                value: g.guildId, text: g.name,
+                                                ele: <div className="guild-option"><img src={`https://cdn.discordapp.com/icons/${g.guildId}/${g.icon}.png`} alt="" />{g.name}</div>
+                                            }
+                                        })} onChange={({ value }) => {
+                                            updateForm({ validation: { name: "discord", params: { guildId: value, roles: [] } } })
+                                            // setSelectedGuild(guildsData?.data?.guilds.find(g => g.guildId === value))
+                                        }} />
                                     <div className='link'>
                                         <a href="https://discord.com/oauth2/authorize?client_id=971716386877480960&scope=bot&permissions=268436480" target="_blank" rel="noreferrer">
                                             Cannot find your guild? Add Metopia bot to your guild.
@@ -152,11 +149,10 @@ const ProposalForm = props => {
                                             text: r.name
                                         }
                                     }) || []} onChange={selected => {
-                                        console.log(selected)
                                         updateForm({
                                             validation: {
                                                 name: "discord", params: {
-                                                    guildId: selectedGuild.guildId,
+                                                    guildId: formData.validation?.params?.guildId,
                                                     roles: selected.map(s => s.value)
                                                 }
                                             }

@@ -10,8 +10,8 @@ import { Input, Label } from '../../../module/form'
 import { encodeQueryData } from '../../../utils/RestUtils'
 import { BasicProfileForm, useData as useBasicFormData } from './form/BasicProfileForm'
 import { ConsensusForm, useData as useConsensusForm } from './form/ConsensusForm'
+import { ProposalForm, useData as useProposalForm } from './form/ProposalForm'
 import { useData as useVotingForm, VotingForm } from './form/VotingForm'
-import { useData as useProposalForm, ProposalForm } from './form/ProposalForm'
 import { defaultForm, doCreateDao, doUpdateDao, formToSettings, settingsToForm, snapshotDataToForm } from './function'
 import './index.scss'
 
@@ -22,7 +22,7 @@ const ClubSettingPage = (props) => {
     const { slug } = props
     const { data: basicFormData, update: updateBasicForm } = useBasicFormData()
     const { data: consensusForm, update: updateConsensusForm } = useConsensusForm()
-    const { data: votingFormData, update: updateVotingForm } = useVotingForm()
+    const { data: votingForm, update: updateVotingForm } = useVotingForm()
     const { data: proposalForm, update: updateProposalForm } = useProposalForm()
     const [errors, setErrors] = useState({})
     const [creating, setCreating] = useState(false)
@@ -43,35 +43,38 @@ const ClubSettingPage = (props) => {
     useEffect(() => {
         if (updateBasicForm && updateConsensusForm && updateVotingForm) {
             if (defaultSpaceSettings?.code === 200) {
-                let { basicFormData, consensusForm, votingFormData, network } = settingsToForm(defaultSpaceSettings.content.settings) || defaultForm()
+                let { basicFormData, consensusForm, votingForm, proposalForm, network } = settingsToForm(defaultSpaceSettings.content.settings) || defaultForm()
                 updateBasicForm(basicFormData)
                 updateConsensusForm(consensusForm)
-                updateVotingForm(votingFormData)
+                updateVotingForm(votingForm)
+                updateProposalForm(proposalForm)
                 setNetwork(network)
             } else {
-                let { basicFormData, consensusForm, votingFormData } = defaultForm()
+                let { basicFormData, consensusForm, votingForm, proposalForm } = defaultForm()
                 updateBasicForm(basicFormData)
                 updateConsensusForm(consensusForm)
-                updateVotingForm(votingFormData)
+                updateVotingForm(votingForm)
+                updateProposalForm(proposalForm)
             }
         }
-    }, [defaultSpaceSettings, updateBasicForm, updateConsensusForm, updateVotingForm])
+    }, [defaultSpaceSettings, updateBasicForm, updateConsensusForm, updateVotingForm, updateProposalForm])
 
     const createClub = () => {
-        let errorKeys = validateData()
-        if (errorKeys.length) {
-            window.alert(errors[errorKeys[0]])
+        let errors = validateData()
+        if (Object.keys(errors).length) {
+            window.alert(errors[Object.keys(errors)[0]])
             return
         }
-        let settings = formToSettings(network || chainId, basicFormData, consensusForm, proposalForm, votingFormData)
+        let settings = formToSettings(network || chainId, basicFormData, consensusForm, proposalForm, votingForm)
 
-        if (!window.confirm("Do you want to continue?"))
-            return
+        // if (!window.confirm("Do you want to continue?"))
+        //     return
 
         setCreating(true)
         settings.strategies.forEach(s => {
             fetch(encodeQueryData(nftDataApi.nft_transfer_cacheAll, { chain_id: network || chainId, address: s.params.address }))
         })
+
         if (slug) {
             doUpdateDao(slug, settings, () => setCreating(false))
         } else {
@@ -93,7 +96,7 @@ const ClubSettingPage = (props) => {
             }
         }
         setErrors(errtmp)
-        return Object.keys(errtmp)
+        return errtmp
     }, [basicFormData, consensusForm, proposalForm])
 
     const syncSnapshotData = (id) => {
@@ -117,10 +120,10 @@ const ClubSettingPage = (props) => {
                 return
             }
 
-            let { basicFormData, consensusForm, votingFormData } = snapshotDataToForm(r.data.spaces[0])
+            let { basicFormData, consensusForm, votingForm } = snapshotDataToForm(r.data.spaces[0])
             updateBasicForm(basicFormData)
             updateConsensusForm(consensusForm)
-            updateVotingForm(votingFormData)
+            updateVotingForm(votingForm)
         })
     }
 
@@ -131,7 +134,7 @@ const ClubSettingPage = (props) => {
                     window.location.href = localRouter("club.prefix") + slug
                 }} />{slug ? 'Update settings' : 'Create new DAO'}</div>
             <div style={{ display: 'flex', gap: '24px', marginLeft: 'auto' }}>
-                <MainButton onClick={createClub} disabled={creating}>Confirm</MainButton>
+                <MainButton onClick={createClub} disabled={creating} loading={creating}>Confirm</MainButton>
             </div>
         </div>
         <div className='body' ref={container} onScroll={e => {

@@ -1,3 +1,5 @@
+@import '../../../../global.scss';
+
 .add-admin-button-wrapper {
     margin-top: 20px;
 
@@ -6,5 +8,12 @@
     }
 
 
-    
+}
+
+.create-club-form.basic-profile {
+
+    .introduction-input-wrapper {
+        border: $default-border;
+        border-radius: 12px;
+    }
 }

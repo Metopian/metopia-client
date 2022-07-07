@@ -67,13 +67,14 @@ const Select = (props: { options: { value: any, text: any }[], onChange?, defaul
     </select>
 }
 const SelectV2 = (props: {
+    keyword?,
     options: { value: any, text: any, ele?}[],
     onChange: ({ value, text }) => any,
-    defaultValue?
 }) => {
     const { options, onChange } = props
     const [display, setDisplay] = useState(false)
-    const [keyword, setKeyword] = useState('')
+    // const [keyword, setKeyword] = useState('')
+    const [keyword, setKeyword] = useState(props.keyword || '')
     if (!options || options.length === 0)
         return null
     return <div className="r-select-v2" >

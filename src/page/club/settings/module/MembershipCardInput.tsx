@@ -187,7 +187,7 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                                     }))
                                     // queryNft(e.target.value)
                                 }} />
-                            {contractError && <p className="ErrorHint">{"Contract not found"}</p>}
+                            {contractError && <div className="ErrorHint" style={{ marginTop: '8px', marginBottom: '-24px' }}>{"Contract not found"}</div>}
                         </div>
                     </div>
                 </div>
@@ -263,11 +263,11 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
             </div>
             <div className="bonus-container">
                 {
-                    false&&bonus?.filter(b => b.value?.length)?.length ? <div className="title">Bonus</div> : null
+                    false && bonus?.filter(b => b.value?.length)?.length ? <div className="title">Bonus</div> : null
                 }
-                <div className="body" style={{display:'none'}}>
+                <div className="body" style={{ display: 'none' }}>
                     {
-                        false&&bonus?.filter(b => b.value?.length).map((b, i) => {
+                        false && bonus?.filter(b => b.value?.length).map((b, i) => {
                             return <div className="bonus-display-card" key={'bonusDisplayCard' + i}>
                                 <div>
                                     <div className='title'>Trait</div>

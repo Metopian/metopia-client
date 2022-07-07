@@ -5,6 +5,7 @@ import { localRouter, snapshotApi } from '../../../config/urls'
 import { GhostButtonGroup, MainButton } from '../../../module/button'
 import { DefaultAvatarWithRoundBackground, WrappedLazyLoadImage } from '../../../module/image'
 import { addrShorten, capitalizeFirstLetter } from '../../../utils/stringUtils'
+import { getAddress } from '../../../utils/web3Utils'
 import './index.scss'
 import './ProposalCard.scss'
 
@@ -12,7 +13,7 @@ const ProposalCard = (props) => {
     return <div className="proposal-card">
         <div className="head">
             <div className="user-info">
-                <DefaultAvatarWithRoundBackground wallet={props.author} className="avatar"/>
+                <DefaultAvatarWithRoundBackground wallet={props.author} className="avatar" />
                 {/* <img src={props.avatar || "/imgs/face.svg"} alt={props.username} className="ProposalCardUserAvatar" /> */}
                 <div className="username">{props.username}</div>
                 <div className="address">{addrShorten(props.author)}</div>
@@ -34,7 +35,16 @@ const ClubHomePage = (props) => {
     const [proposals, setProposals] = useState<any>([])
     const [spaceSettings, setSpaceSetting] = useState<any>({})
     const [proposalCount, setProposalCount] = useState(0)
+    const [self, setSelf] = useState(null)
 
+    useEffect(() => {
+        if (!self) {
+            getAddress(true).then(addr => {
+                if (addr?.length)
+                    setSelf(addr)
+            })
+        }
+    }, [self])
     useEffect(() => {
         if (!slug)
             return
@@ -67,7 +77,9 @@ const ClubHomePage = (props) => {
                 setProposalCount(d.content.proposalCount)
             }
         })
+
     }, [slug])
+    console.log(spaceSettings?.admins?.includes(self), spaceSettings?.admins, self)
     return <div className="club-home-page">
         <div className="container">
             <div className="head">
@@ -84,9 +96,15 @@ const ClubHomePage = (props) => {
                 <div className='symbol-wrapper'>
                     <WrappedLazyLoadImage src={spaceSettings.avatar || '/imgs/defaultavatar.png'} className="symbol" />
                 </div>
-                <div className="name">{spaceSettings.name} <img src="/imgs/write2.svg" alt="Edit" title="Edit settings" onClick={() => {
-                    window.location.href = localRouter('club.update', { space: slug })
-                }} /></div>
+
+
+                <div className="name">
+                    {spaceSettings.name}
+                    {
+                        spaceSettings?.admins?.includes(self) ? <img src="/imgs/write2.svg" alt="Edit" title="Edit settings" onClick={() => {
+                            window.location.href = localRouter('club.update', { space: slug })
+                        }} /> : null
+                    }</div>
                 <div className="introduction">{spaceSettings.about}</div>
             </div>
             <div className="function-container">

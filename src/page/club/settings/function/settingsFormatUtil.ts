@@ -100,13 +100,13 @@ export const formToSettings = (chainId, basicFormData, consensusForm, proposalFo
                 }
             }
         }),
-        filters: { minScore: 0 },
         about: basicFormData.introduction,
-        admins: unique(basicFormData.admins.map(admin => admin.addres)),
+        admins: unique(basicFormData.admins.map(admin => admin.address)),
         plugins: [],
         categories: [],
         network: chainId.indexOf("0x") === 0 ? chainId.substring(2) : chainId,
         symbol: 'Vote',
+        voting: votingFormData
     }
     return res
 }
@@ -124,7 +124,13 @@ export const settingsToForm = (settings: string) => {
         twitter: obj.twitter,
         opensea: obj.opensea,
         avatar: obj.avatar,
-        banner: obj.banner
+        banner: obj.banner,
+        admins: obj.admins.map((admin, i) => {
+            return {
+                id: i + 1,
+                address: admin
+            }
+        })
     }
     let consensusForm = {
         membership: obj.strategies.map((s, i) => {
@@ -138,8 +144,14 @@ export const settingsToForm = (settings: string) => {
             }
         })
     }
-    let votingFormData = obj.voting
-    return { basicFormData, consensusForm, votingFormData, network: obj.network }
+    let votingForm = obj.voting
+    let proposalForm = {
+        mode: obj.validation?.name === 'discord' ? 2 : (obj.filters?.onlyMembers ? 1 : 0),
+        filters: obj.filters,
+        validation: obj.validation,
+        members: obj.members
+    }
+    return { basicFormData, consensusForm, votingForm, proposalForm, network: obj.network }
 }
 
 export const snapshotDataToForm = (data) => {
@@ -152,9 +164,15 @@ export const snapshotDataToForm = (data) => {
         opensea: '',
         avatar: data.avatar,
         banner: '',
+        admins: data.admins.map((admin, i) => {
+            return {
+                id: i + 1,
+                address: admin
+            }
+        })
     }
 
-    let votingFormData = Object.assign({}, data.voting, { quorum: 0 })
+    let votingForm = Object.assign({}, data.voting, { quorum: 0 })
     let d = data.strategies?.filter(s => s.name === 'erc721' && s.network === '1')
     let consensusForm = {
         admins: data.admins,
@@ -169,6 +187,12 @@ export const snapshotDataToForm = (data) => {
             }
         }) : []
     }
+    let proposalForm = {
+        mode: (data.filters?.onlyMembers ? 1 : 0),
+        filters: data.filters,
+        validation: data.validation,
+        members: data.members
+    }
 
-    return { basicFormData, consensusForm, votingFormData, network: data.network }
+    return { basicFormData, consensusForm, votingForm, proposalForm, network: data.network }
 }

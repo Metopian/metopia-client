@@ -8,7 +8,19 @@ import { domain, proposalTypes } from '../../../config/snapshotConfig';
 import { useChainId } from '../../../config/store';
 import { localRouter, snapshotApi, nftDataApi } from '../../../config/urls';
 import { MainButton } from '../../../module/button';
-import { DefaultTextEditor as RichTextEditor } from '../../../module/editor/RichTextEditor';
+import {
+    DefaultTextEditor as RichTextEditor,
+    Emoji,
+    Bold, Italic, Underline, StrikeThrough,
+    Code,
+    Link, RemoveLink,
+    Left, Center, Right,
+    H1, H2, H3, H4, H5,
+    Quote,
+    List,
+    UList,
+    FontSize
+} from '../../../module/editor/RichTextEditor';
 import { Input, Label } from '../../../module/form';
 import { encodeQueryData } from '../../../utils/RestUtils';
 import { getAddress, getProvider, signTypedData } from '../../../utils/web3Utils';
@@ -101,7 +113,7 @@ const CreateProposalPage = props => {
         if (!title?.length)
             setErrors({ title: 'Title cannot be empty' })
 
-        if (errors&&Object.keys(errors).length) {
+        if (errors && Object.keys(errors).length) {
             alert(errors[Object.keys(errors)[0]])
             return
         }
@@ -145,7 +157,10 @@ const CreateProposalPage = props => {
                         window.alert("Succeed")
                         window.location.href = localRouter("club.prefix") + space
                     } else {
-                        window.alert("Failed")
+                        if (d.error_description === 'failed to check validation')
+                            alert('You are not authorized to create the proposal')
+                        else
+                            window.alert("Failed")
                     }
 
                 })
@@ -162,7 +177,14 @@ const CreateProposalPage = props => {
                 {errors?.title && <div className="ErrorHint">{errors.title}</div>}
                 <Label >{"Title & Description"}</Label>
                 <div className="editor-wrapper">
-                    <RichTextEditor html className="BlogEditor" onChange={setBody} placeholder="Please enter the description of your proposal">
+                    <RichTextEditor html className="BlogEditor" onChange={setBody} placeholder="Please enter the description of your proposal" toolbar={
+                        [[H1, H2, H3, H4, H5],
+                        [Bold, Italic, Underline, StrikeThrough, Code],
+                        [Link, RemoveLink],
+                        [Left, Center, Right],
+                        [Quote, List, UList],
+                        [Emoji]]
+                    }>
                         <Input placeholder={"Please enter the title of your proposal"} id="proposaltitleinput" autoComplete="off" />
                     </RichTextEditor>
                 </div>

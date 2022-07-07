@@ -32,6 +32,7 @@ const snapshotApi = {
     score: snapshotScoreApiRoot + "scores",
     graphql: snapshotCoreRoot + "graphql",
     msg: snapshotCoreRoot + "api/msg",
+    loadSpaces:snapshotCoreRoot + "api/loadspaces"
 }
 
 const thirdpartyApi = {

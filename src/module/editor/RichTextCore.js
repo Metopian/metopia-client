@@ -46,18 +46,6 @@ const defaultInit = [
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
-// export default function RichTextEditor(props){
-//     defalutHeight="300px"
-
-//     return(
-//         <div style={{ padding: "20px" ,backgroundColor:"#fff"}}>
-//             <RichTextBySlate height={defalutHeight || props.height} />
-//         </div>
-//     )
-// }
-
-
-
 const withLinks = editor => {
     const { insertData, insertText, isInline } = editor
     editor.isInline = element => {
@@ -89,7 +77,6 @@ const withImageNormalize = editor => {
     const { normalizeNode } = editor
     editor.normalizeNode = entry => {
         const [node, path] = entry
-        // if (SlateElement.isElement(node) && node.type === "image") {Transforms.insertNodes(editor,[{type:'paragraph',children:[{text:""}]}])}
         if (SlateElement.isElement(node) && node.type === 'paragraph') {
             for (const [child, childPath] of Node.children(editor, path)) {
                 if (SlateElement.isElement(child) && child.type === 'image') {
@@ -104,7 +91,7 @@ const withImageNormalize = editor => {
     return editor
 }
 
-const withImage = editor => {
+const withImage = (editor, imageEnabled) => {
     const { insertData, isVoid } = editor
     editor.isVoid = element => {
         return element.type === 'image' ? true : isVoid(element)
@@ -118,16 +105,15 @@ const withImage = editor => {
                 const reader = new FileReader()
                 const [mime] = file.type.split('/')
 
-                if (mime === 'image') {
+                if (mime === 'image' && imageEnabled) {
                     reader.addEventListener('load', () => {
                         const url = reader.result
                         insertImage(editor, url)
                     })
-
                     reader.readAsDataURL(file)
                 }
             }
-        } else if (isImageUrl(text)) {
+        } else if (isImageUrl(text) && imageEnabled) {
             insertImage(editor, text)
         } else {
             insertData(data)
@@ -135,7 +121,7 @@ const withImage = editor => {
     }
     return editor
 }
-const insertImage = (editor, url) => {
+const insertImage = (editor, url, imageEnabled) => {
     const image = { type: 'image', url, children: [{ text: '' }] }
     Transforms.insertNodes(editor, image)
     Transforms.insertNodes(editor, { type: 'paragraph', children: [{ text: '' }] })
@@ -161,10 +147,10 @@ const withHtml = (editor, plain) => {
     editor.insertData = data => {
 
         const html = data.getData('text/html')
-
         if (html) {
             if (!plain) {
                 let fragment = deserialize(html)
+                console.log(fragment)
                 if (Array.isArray(fragment)) {
                     fragment = wrapTopLevelInlineNodesInParagraphs(
                         editor,
@@ -975,7 +961,7 @@ const RichTextBySlate = (props) => {
     useEffect(() => { setRawValue(value) }, [value, setRawValue])
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
-    const editor = useMemo(() => withHtml(withImage(withLinks(withHistory(withImageNormalize(withReact(createEditor()))))), plain), [plain])
+    const editor = useMemo(() => withHtml(withImage(withLinks(withHistory(withImageNormalize(withReact(createEditor())))), false), plain), [plain])
     // useEffect(()=>{setValue(initialValue)},[initialValue])
 
     useEffect(() => {
@@ -1024,7 +1010,9 @@ const RichTextBySlate = (props) => {
                 // autoFocus
                 style={Object.assign({ ...props.editorStyle, overflowY: "auto", }, (defaultfontsize ? { fontSize: defaultfontsize + 'px', lineHeight: defaultfontsize * 2 + "px" } : { minHeight: '320px' }))}
                 className={'editorarea'}
-                onDrop={event => { }}
+                onDrop={event => { 
+                    console.log(event)
+                }}
                 onKeyDown={event => {
                     for (const hotkey in HOTKEYS) {
                         if (isHotkey(hotkey, event)) {

@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useChainId } from '../../config/store';
 import { localRouter } from "../../config/urls";
+import { MainButton } from "../../module/button";
 import { DefaultAvatar } from '../../module/image';
+import { usePersonalDiscordData } from "../../third-party/discord";
 import { useNfts } from '../../third-party/moralis';
 import { encodeQueryData } from '../../utils/RestUtils';
 import { getAddress, getEns } from '../../utils/web3Utils';
@@ -13,12 +15,16 @@ import GovernanceSubpage from './subpage/GovernanceSubpage';
 import NFTSubpage from './subpage/NFTSubpage';
 import NftTransactionSubpage from "./subpage/NftTransactionSubpage";
 import PoapSubpage from "./subpage/PoapSubpage";
+import { GhostButton, GhostButtonGroup } from "../../module/button";
 
 const ProfilePage = (props) => {
     const { slug, subpage, state, code } = props
     const { chainId } = useChainId()
     const { data: nfts } = useNfts(slug, chainId)
     const [ens, setEns] = useState(null)
+    const { data, error } = usePersonalDiscordData(slug, code)
+    console.log(data)
+
     const nftCount = useMemo(() => {
         if (!nfts)
             return 'NaN'
@@ -62,12 +68,13 @@ const ProfilePage = (props) => {
         } else if (subpage === 'governance') {
             tmpJsx = <GovernanceSubpage slug={slug} />
             tmpIndex = 5
-        } else if (subpage === 'discord') {
-            tmpJsx = <DiscordSubPage slug={slug} state={state} code={code} />
-            tmpIndex = 6
         }
+        // else if (subpage === 'discord') {
+        //     tmpJsx = <DiscordSubPage slug={slug} state={state} code={code} />
+        //     tmpIndex = 6
+        // }
         return { subpageJsx: tmpJsx, subpageIndex: tmpIndex }
-    }, [slug, subpage, code, state])
+    }, [slug, subpage])
 
     return <div className="profile-page">
         <div className="container">
@@ -76,8 +83,23 @@ const ProfilePage = (props) => {
                     <div className='avatar-wrapper'>
                         <DefaultAvatar wallet={slug} className="avatar" />
                     </div>
-                    <div className="name">
-                        {ens || slug}
+                    <div className="basic-profile">
+                        <div className="name-wrapper">
+                            <div className="name">{ens || slug}</div>
+                            <img src="/imgs/discord-verified.svg" alt="Verified" title={'Verified'} />
+                            {/* <GhostButtonGroup items={
+                                ['twitter'].map(key => {
+                                    return {
+                                        content: <img src={`/imgs/${key}_purple.svg`} alt="Proposal" />,
+                                        onClick: () => window.location.href = spaceSettings[key]
+                                    }
+                                })} /> */}
+                        </div>
+                        {
+                            data?.data?.redirect_uri ? <MainButton onClick={e => {
+                                window.open(data?.data?.redirect_uri)
+                            }}>Connect to Discord</MainButton> : null
+                        }
                     </div>
                     <div className="stats-wrapper">
                         <div className="group">

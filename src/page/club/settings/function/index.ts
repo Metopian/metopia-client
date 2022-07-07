@@ -2,6 +2,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
 import { domain } from '../../../../config/snapshotConfig'
 import { localRouter, snapshotApi } from '../../../../config/urls'
+import { sign } from '../../../../utils/web3Utils'
 
 // export const sign = async (web3: Web3Provider | Wallet, address: string, message, types) => {
 //     // @ts-ignore
@@ -28,27 +29,31 @@ export const defaultForm = () => {
             banner: '',
         },
         consensusForm: { membership: [] },
-        votingFormData: {
+        votingForm: {
             delay: 0,
             period: 3600,
             quorum: 0
-        }, proposalForm: {
+        },
+        proposalForm: {
             validation: {
                 name: "basic",
                 params: {}
-            }, filters: { onlyMembers: false, minScore: 0 }
+            },
+            filters: { onlyMembers: false, minScore: 0 }
         },
         network: null
     }
 }
 
 export const doCreateDao = (settings, cb) => {
-    fetch(snapshotApi.dao_create, {
-        method: 'post',
-        body: JSON.stringify({ id: settings.name, settings: JSON.stringify(settings) })
+    sign(JSON.stringify(settings)).then(signature => {
+        return fetch(snapshotApi.dao_create, {
+            body: JSON.stringify({ id: settings.name, settings: JSON.stringify(settings), signature: signature }),
+            method: 'post',
+        })
     }).then(r => r.json()).then((r) => {
         if (r.code === 200) {
-            fetch("https://ai.metopia.xyz/gov-api/api/loadspaces").then(r2 => {
+            fetch(snapshotApi.loadSpaces).then(r2 => {
                 return r2.json()
             }).then(r3 => {
                 window.location.href = localRouter('club.prefix') + r.content
@@ -58,15 +63,18 @@ export const doCreateDao = (settings, cb) => {
             cb()
         }
     }).catch(cb)
+
 }
 
 export const doUpdateDao = (id, settings, cb) => {
-    fetch(snapshotApi.dao_update, {
-        method: 'post',
-        body: JSON.stringify({ id: id, settings: JSON.stringify(settings) })
+    sign(JSON.stringify(settings)).then(signature => {
+        return fetch(snapshotApi.dao_update, {
+            method: 'post',
+            body: JSON.stringify({ id: id, settings: JSON.stringify(settings), signature: signature })
+        })
     }).then(r => r.json()).then((r) => {
         if (r.code === 200) {
-            fetch("https://ai.metopia.xyz/gov-api/api/loadspaces").then(r2 => {
+            fetch(snapshotApi.loadSpaces).then(r2 => {
                 return r2.json()
             }).then(r3 => {
                 window.location.href = localRouter('club.prefix') + r.content
