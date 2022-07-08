@@ -120,7 +120,6 @@ const FungiblesSubpage = (props) => {
             });
             tmp = tmp.filter(t => {
                 if (t.clearanceCount == 0 && analysedPriceData[t.address] && analysedPriceData[t.address].value < 100) {
-                    console.log("??")
                     return false
                 } else return true
             }).sort((t1, t2) => {

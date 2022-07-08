@@ -74,7 +74,7 @@ const ClubSettingPage = (props) => {
         settings.strategies.forEach(s => {
             fetch(encodeQueryData(nftDataApi.nft_transfer_cacheAll, { chain_id: network || chainId, address: s.params.address }))
         })
-
+console.log(slug)
         if (slug) {
             doUpdateDao(slug, settings, () => setCreating(false))
         } else {

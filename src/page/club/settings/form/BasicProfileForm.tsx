@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { update as updateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
@@ -54,6 +54,13 @@ const Form = props => {
         })
     }, [updateForm])
 
+    const introductionForm = useMemo(() => {
+        return <DefaultTextEditor className="introduction-input-wrapper" html plain initialValue={null} onChange={(val) => {
+            updateForm({ introduction: val })
+        }} toolbar={[[
+            Bold, Italic, Underline, Emoji], [Link, RemoveLink]]} />
+    }, [])
+
     return <div className={"create-club-form basic-profile"}>
         <div className="left-container">
             <div className="form-group">
@@ -65,10 +72,7 @@ const Form = props => {
             </div>
             <div className="form-group">
                 <Label>Introduction</Label>
-                <DefaultTextEditor className="introduction-input-wrapper" html plain initialValue={null} onChange={(e) => {
-                    console.log(e)
-                }} toolbar={[[
-                    Bold, Italic, Underline, Emoji], [Link, RemoveLink]]} />
+                {introductionForm}
                 {/* <Textarea placeholder={""} maxLength={200} onChange={(e) => updateForm({ introduction: e.target.value })}
                     value={data.introduction} /> */}
             </div>

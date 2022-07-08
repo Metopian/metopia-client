@@ -81,31 +81,32 @@ export const serialize = (node, onClickImage?) => {
         // }
     }
     const children = node.children.map(n => serialize(n)).join('')
+    const spacedStyleString = styleString?.length ? ` ${styleString}` : ''
     switch (node.type) {
         case 'block-quote':
-            return `<blockquote ${styleString}><p>${children}</p></blockquote>`
+            return `<blockquote ${spacedStyleString}><p>${children}</p></blockquote>`
         case 'paragraph':
-            return `<p ${styleString}>${children}</p>`
+            return `<p${spacedStyleString}>${children}</p>`
         case 'link':
             return `<a href="${escapeHtml(node.url)}" >${children}</a>`
         case 'bulleted-list':
-            return `<ul ${styleString}>${children}</ul>`
+            return `<ul${spacedStyleString}>${children}</ul>`
         case 'heading-one':
-            return `<h1 ${styleString}>${children}</h1>`
+            return `<h1${spacedStyleString}>${children}</h1>`
         case 'heading-two':
-            return `<h2 ${styleString}>${children}</h2>`
+            return `<h2${spacedStyleString}>${children}</h2>`
         case 'heading-three':
-            return `<h3 ${styleString}>${children}</h3>`
+            return `<h3${spacedStyleString}>${children}</h3>`
         case 'heading-four':
-            return `<h4 ${styleString}>${children}</h4>`
+            return `<h4${spacedStyleString}>${children}</h4>`
         case 'heading-five':
-            return `<h5 ${styleString}>${children}</h5>`
+            return `<h5${spacedStyleString}>${children}</h5>`
         case 'heading-six':
-            return `<h6 ${styleString}>${children}</h6>`
+            return `<h6${spacedStyleString}>${children}</h6>`
         case 'list-item':
-            return `<li ${styleString}>${children}</li>`
+            return `<li${spacedStyleString}>${children}</li>`
         case 'numbered-list':
-            return `<ol ${styleString}>${children}</ol>`
+            return `<ol${spacedStyleString}>${children}</ol>`
         default:
             return children
     }
