@@ -10,7 +10,6 @@ import TestMintPage from './test/TestMintPage';
 const App = () => {
   const routeParams = useParams()
   const [searchParams] = useSearchParams();
-  // const [routeParams, setRouteParams] = useState(useParams())
   const page = useMemo(() => {
     if (!routeParams.page) {
       return <HomePage />
@@ -24,7 +23,11 @@ const App = () => {
           if (routeParams.event2 === 'propose') {
             return <ProposalCreatePage space={routeParams.event} />
           } else {
-            return <ClubHomePage slug={routeParams.event} />
+            if (!routeParams.event?.length) {
+              return <HomePage />
+            } else {
+              return <ClubHomePage slug={routeParams.event} />
+            }
           }
         }
       } else if (routeParams.page === 'proposal') {

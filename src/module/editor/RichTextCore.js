@@ -91,7 +91,7 @@ const withImageNormalize = editor => {
     return editor
 }
 
-const withImage = (editor, imageEnabled) => {
+const withImage = (editor) => {
     const { insertData, isVoid } = editor
     editor.isVoid = element => {
         return element.type === 'image' ? true : isVoid(element)
@@ -105,7 +105,7 @@ const withImage = (editor, imageEnabled) => {
                 const reader = new FileReader()
                 const [mime] = file.type.split('/')
 
-                if (mime === 'image' && imageEnabled) {
+                if (mime === 'image') {
                     reader.addEventListener('load', () => {
                         const url = reader.result
                         insertImage(editor, url)
@@ -113,7 +113,7 @@ const withImage = (editor, imageEnabled) => {
                     reader.readAsDataURL(file)
                 }
             }
-        } else if (isImageUrl(text) && imageEnabled) {
+        } else if (isImageUrl(text)) {
             insertImage(editor, text)
         } else {
             insertData(data)
@@ -121,7 +121,7 @@ const withImage = (editor, imageEnabled) => {
     }
     return editor
 }
-const insertImage = (editor, url, imageEnabled) => {
+const insertImage = (editor, url) => {
     const image = { type: 'image', url, children: [{ text: '' }] }
     Transforms.insertNodes(editor, image)
     Transforms.insertNodes(editor, { type: 'paragraph', children: [{ text: '' }] })
@@ -150,7 +150,6 @@ const withHtml = (editor, plain) => {
         if (html) {
             if (!plain) {
                 let fragment = deserialize(html)
-                console.log(fragment)
                 if (Array.isArray(fragment)) {
                     fragment = wrapTopLevelInlineNodesInParagraphs(
                         editor,
@@ -383,7 +382,6 @@ const ImageSelectModal = forwardRef((props, ref) => {
         // <div>
         <SlatePortal>
             <input className="ImgSelect" ref={ref} onChange={(e) => {
-                console.log(ref.current, props.debug)
                 if (props.selectimage) {
                     props.selectimage(ref.current.files[0])
                 } else {
@@ -961,7 +959,7 @@ const RichTextBySlate = (props) => {
     useEffect(() => { setRawValue(value) }, [value, setRawValue])
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
-    const editor = useMemo(() => withHtml(withImage(withLinks(withHistory(withImageNormalize(withReact(createEditor())))), false), plain), [plain])
+    const editor = useMemo(() => withHtml(withImage(withLinks(withHistory(withImageNormalize(withReact(createEditor()))))), plain), [plain])
     // useEffect(()=>{setValue(initialValue)},[initialValue])
 
     useEffect(() => {
@@ -1007,11 +1005,9 @@ const RichTextBySlate = (props) => {
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 spellCheck
-                // autoFocus
                 style={Object.assign({ ...props.editorStyle, overflowY: "auto", }, (defaultfontsize ? { fontSize: defaultfontsize + 'px', lineHeight: defaultfontsize * 2 + "px" } : { minHeight: '320px' }))}
                 className={'editorarea'}
-                onDrop={event => { 
-                    console.log(event)
+                onPaste={e => {
                 }}
                 onKeyDown={event => {
                     for (const hotkey in HOTKEYS) {

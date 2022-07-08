@@ -3,16 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { update as updateForm } from '../../../../config/redux/formSlice';
 import { RootState } from '../../../../config/store';
 import { GhostButtonGroup } from '../../../../module/button';
-import { ImageSelector, Input, Label, Textarea } from '../../../../module/form';
+import {
+    Bold, DefaultTextEditor, Emoji, Italic, Link, RemoveLink, Underline
+} from '../../../../module/editor/RichTextEditor';
+import { ImageSelector, Input, Label } from '../../../../module/form';
 import { uploadFileToIfps } from '../../../../utils/ipfsUtils';
 import { max } from '../../../../utils/numberUtils';
 import { getAddress } from '../../../../utils/web3Utils';
 import AdminInputCard from '../module/AdminInputCard';
 import CoverEditorModal from '../module/CoverEditorModal';
-import {
-    DefaultTextEditor, Emoji,
-    Bold, Italic, Underline, Image, Link, RemoveLink
-} from '../../../../module/editor/RichTextEditor';
 import './BasicProfileForm.scss';
 
 const useData = () => {
@@ -66,7 +65,7 @@ const Form = props => {
             </div>
             <div className="form-group">
                 <Label>Introduction</Label>
-                <DefaultTextEditor className="introduction-input-wrapper" html brief initialValue={null} onChange={(e) => {
+                <DefaultTextEditor className="introduction-input-wrapper" html   plain initialValue={null} onChange={(e) => {
                     console.log(e)
                 }} toolbar={[[
                     Bold, Italic, Underline, Emoji], [Link, RemoveLink]]} />
