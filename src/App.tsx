@@ -23,7 +23,7 @@ const App = () => {
           if (routeParams.event2 === 'propose') {
             return <ProposalCreatePage space={routeParams.event} />
           } else {
-            if (!routeParams.event?.length) {
+            if (!routeParams.event?.length || routeParams.event === 'undefined') {
               return <HomePage />
             } else {
               return <ClubHomePage slug={routeParams.event} />

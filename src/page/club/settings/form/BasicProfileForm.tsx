@@ -65,7 +65,7 @@ const Form = props => {
             </div>
             <div className="form-group">
                 <Label>Introduction</Label>
-                <DefaultTextEditor className="introduction-input-wrapper" html   plain initialValue={null} onChange={(e) => {
+                <DefaultTextEditor className="introduction-input-wrapper" html plain initialValue={null} onChange={(e) => {
                     console.log(e)
                 }} toolbar={[[
                     Bold, Italic, Underline, Emoji], [Link, RemoveLink]]} />
@@ -138,21 +138,25 @@ const Form = props => {
                     {
                         content: <img src={'/imgs/website.svg'} alt="website" style={{ width: '24px', height: '24px' }} />,
                         onClick: () => setEditingLinkLabel('website'),
-                        active: editingLinkLabel === 'website'
+                        active: editingLinkLabel === 'website',
+                        selected: data.website?.trim().length
                     }, {
                         content: <img src={'/imgs/opensea.svg'} alt="website" style={{ width: '24px', height: '24px' }} />,
                         onClick: () => setEditingLinkLabel('opensea'),
-                        active: editingLinkLabel === 'opensea'
+                        active: editingLinkLabel === 'opensea',
+                        selected: data.opensea?.trim().length
                     },
                     {
                         content: <img src={'/imgs/discord_purple.svg'} alt="discord" style={{ width: '24px', height: '24px' }} />,
                         onClick: () => setEditingLinkLabel('discord'),
-                        active: editingLinkLabel === 'discord'
+                        active: editingLinkLabel === 'discord',
+                        selected: data.discord?.trim().length
                     },
                     {
                         content: <img src={'/imgs/twitter_purple.svg'} alt="twitter" style={{ width: '24px', height: '24px' }} />,
                         onClick: () => setEditingLinkLabel('twitter'),
-                        active: editingLinkLabel === 'twitter'
+                        active: editingLinkLabel === 'twitter',
+                        selected: data.twitter?.trim().length
                     }
                 ]} />
 

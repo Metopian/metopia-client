@@ -35,9 +35,15 @@
             border-left: 0;
 
             &:hover,
-            &.active {
+            &.active,
+            &.selected {
                 margin-left: -1px;
             }
+        }
+        &.selected {
+            border: 1px solid #{$theme-color}#{'aa'};
+            filter: brightness(150%);
+            // filter: grayscale(50%);
         }
 
         &:hover,
@@ -45,5 +51,7 @@
             border: 1px solid $theme-color;
             filter: none;
         }
+
+
     }
 }

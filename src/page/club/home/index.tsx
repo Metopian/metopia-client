@@ -45,6 +45,7 @@ const ClubHomePage = (props) => {
             })
         }
     }, [self])
+    
     useEffect(() => {
         if (!slug)
             return
@@ -79,7 +80,7 @@ const ClubHomePage = (props) => {
         })
 
     }, [slug])
-    console.log(spaceSettings?.admins?.includes(self), spaceSettings?.admins, self)
+
     return <div className="club-home-page">
         <div className="container">
             <div className="head">
