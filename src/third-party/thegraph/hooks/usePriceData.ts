@@ -3,7 +3,6 @@ const uniswap_v3_url = "https://api.thegraph.com/subgraphs/name/ianlapham/uniswa
 
 const fetcher = (url, holdings) => {
     
-    console.log("2")
     let symbols = "[", names = "["
     holdings.forEach(h => {
         symbols += '"' + h.symbol + '",'

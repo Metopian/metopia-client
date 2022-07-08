@@ -89,7 +89,7 @@ const CoverEditorModal = (props) => {
                     objectFit="auto-cover"
                     onZoomChange={setScale}
                 />
-                <input className='Hidden' type={'file'} ref={imageInput} onBlur={() => { console.log("blur") }} onChange={(e) => {
+                <input className='Hidden' type={'file'} ref={imageInput} onBlur={() => { }} onChange={(e) => {
                     if (e.target.files[0]) {
                         setCrop({ x: 0, y: 0 })
                         setCroppedAreaPixels(null)

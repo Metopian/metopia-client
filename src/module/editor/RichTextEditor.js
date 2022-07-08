@@ -38,7 +38,7 @@ function RichTextEditor(props) {
     useEffect(() => {
         onChange && onChange(html ? serialize({ children: rawValue }) : rawValue)
     }, [rawValue, html, onChange])
-
+    
     return (
         <div className={"DefaultRichTextEditorWrapper " + props.className + (disabled ? " disabled " : '')}>
             <RichTextBySlate editorStyle={{ height: editorHeight }}

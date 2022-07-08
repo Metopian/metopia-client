@@ -180,7 +180,6 @@ const FungiblesSubpage = (props) => {
                     <tbody>
                         {
                             analysedPriceData.price.map(d => {
-                                console.log(d.symbol, transactions && transactions[d.address])
                                 return <tr className='ProfileHoldingsWrapper' key={d.symbol + d.name} >
                                     <td>{d.symbol} ({d.name})</td>
                                     <td>{d.balance}</td>

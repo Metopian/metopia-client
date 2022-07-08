@@ -114,12 +114,9 @@ export const serialize = (node, onClickImage?) => {
 
 export const deserialize = data => {
     const parsed = new DOMParser().parseFromString(data, 'text/html')
-    // console.log(parsed.body)
     let fragment = ds(parsed.body)
     fragment = dataClean(fragment)
-    // console.log("fragment",fragment[fragment.length-1])    
-    // if (fragment[fragment.length-1].type && fragment[fragment.length-1].type!='image')fragment.unshift({ type: "paragraph", children: [{ text: "" }] })
-    if (fragment[fragment.length - 1].type && fragment[fragment.length - 1].type == 'image') fragment.push({ type: "paragraph", children: [{ text: "" }] })
+    if (!fragment.length || (fragment[fragment.length - 1].type && fragment[fragment.length - 1].type == 'image')) fragment.push({ type: "paragraph", children: [{ text: "" }] })
     return fragment
 }
 

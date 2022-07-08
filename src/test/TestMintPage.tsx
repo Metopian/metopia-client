@@ -48,7 +48,6 @@ const TestMintPage = props => {
                     attrGroup.map((attr, i) => {
                         return <div className='group' key={'group' + i}>
                             <img src="/imgs/close.svg" alt="del" className='closebutton' onClick={e => {
-                                console.log(attrGroup)
                                 setAttrGroup(attrGroup.filter(a => a.id !== attr.id))
                             }} />
                             <Label>Field</Label>

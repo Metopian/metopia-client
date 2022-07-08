@@ -223,7 +223,7 @@ const LoginModal = (props: {
 
 
                     let doc = await getAccountData()
-                    console.log(doc.content)
+                    // console.log(doc.content)
                     if (doc.content && doc.content['username']) {
                         dispatch(setAccount(doc.content))
                         hide()

@@ -13,6 +13,7 @@ import { getAddress } from '../../../../utils/web3Utils';
 import AdminInputCard from '../module/AdminInputCard';
 import CoverEditorModal from '../module/CoverEditorModal';
 import './BasicProfileForm.scss';
+import { deserialize } from '../../../../utils/serializeUtil';
 
 const useData = () => {
     const formId = "basicinfo"
@@ -34,7 +35,7 @@ const useData = () => {
 }
 
 const Form = props => {
-    const { errors } = props
+    const { errors, slug } = props
     const imageInput = useRef<HTMLInputElement | null>()
     const [logoImg, setLogoImg] = useState<File | null>()
     const [selectingCover, setSelectingCover] = useState<boolean>(false)
@@ -54,12 +55,26 @@ const Form = props => {
         })
     }, [updateForm])
 
+    /**
+     * TODO
+     * rerender every time
+     */
     const introductionForm = useMemo(() => {
-        return <DefaultTextEditor className="introduction-input-wrapper" html plain initialValue={null} onChange={(val) => {
-            updateForm({ introduction: val })
-        }} toolbar={[[
-            Bold, Italic, Underline, Emoji], [Link, RemoveLink]]} />
-    }, [])
+        if (slug) {
+            return data.name?.length ? <DefaultTextEditor className="introduction-input-wrapper" html plain initialValue={deserialize(data.introduction||'')} onChange={(val) => {
+                if (val !== data.introduction)
+                    updateForm({ introduction: val })
+            }} toolbar={[[
+                Bold, Italic, Underline, Emoji], [Link, RemoveLink]]} /> : null
+        } else {
+            return <DefaultTextEditor className="introduction-input-wrapper" html plain onChange={(val) => {
+                if (val !== data.introduction)
+                    updateForm({ introduction: val })
+            }} toolbar={[[
+                Bold, Italic, Underline, Emoji], [Link, RemoveLink]]} />
+        }
+
+    }, [updateForm, data, slug])
 
     return <div className={"create-club-form basic-profile"}>
         <div className="left-container">

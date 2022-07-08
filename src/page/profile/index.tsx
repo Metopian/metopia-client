@@ -23,7 +23,6 @@ const ProfilePage = (props) => {
     const { data: nfts } = useNfts(slug, chainId)
     const [ens, setEns] = useState(null)
     const { data, error } = usePersonalDiscordData(slug, code)
-    console.log(data)
 
     const nftCount = useMemo(() => {
         if (!nfts)

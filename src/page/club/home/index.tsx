@@ -106,7 +106,7 @@ const ClubHomePage = (props) => {
                             window.location.href = localRouter('club.update', { space: slug })
                         }} /> : null
                     }</div>
-                <div className="introduction">{spaceSettings.about}</div>
+                <div className="introduction">{parse(spaceSettings.about)}</div>
             </div>
             <div className="function-container">
                 <MainButton solid style={{ width: '140px', height: '48px', margin: 0 }} onClick={() => {

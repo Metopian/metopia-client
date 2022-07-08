@@ -1009,6 +1009,7 @@ const RichTextBySlate = (props) => {
                 className={'editorarea'}
                 onPaste={e => {
                 }}
+                onBlur={props.onBlur}
                 onKeyDown={event => {
                     for (const hotkey in HOTKEYS) {
                         if (isHotkey(hotkey, event)) {

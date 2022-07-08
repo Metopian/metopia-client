@@ -7,7 +7,6 @@ import { toFixedIfNecessary } from '../../../../utils/numberUtils';
 import './BonusInputCard.scss';
 
 const bonusArrayToString = (values) => {
-    console.log(values)
     if (!values?.length)
         return ''
     let res = ''

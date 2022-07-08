@@ -15,7 +15,6 @@ const fetcher = (address) => {
             }
             let datas = await Promise.all(ps)
             datas.forEach(d => {
-                console.log(d)
                 data.result = [...data.result, ...d.result]
             })
             return new Promise<any>((resolve, reject) => {

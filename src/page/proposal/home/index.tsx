@@ -172,7 +172,6 @@ const ProposalHomePage = props => {
     if (self) {
         if (votes && self) {
             votes.forEach((v) => {
-                console.log(v, self.toLowerCase(), v.voter.toLowerCase())
                 if (self.toLowerCase() === v.voter.toLowerCase()) {
                     mychoice = v.choice - 1
                 }

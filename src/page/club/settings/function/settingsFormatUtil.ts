@@ -68,7 +68,6 @@ const bonusStrategyToForm = (traitValues) => {
         });
     })
     traitValues.filter(t => t.name === 'attributes-mul').forEach(traitValue => {
-        console.log(traitValue)
         traitValue.traitTypeValueWeight.forEach(t => {
             res.push({
                 id: idCounter++,
@@ -87,7 +86,6 @@ export const formToSettings = (chainId, basicFormData, consensusForm, proposalFo
         ...basicFormData,
         ...proposalForm,
         strategies: consensusForm.membership.map(c => {
-            console.log(bonusFormToStrategy(c.bonus))
             return {
                 "name": "collect",
                 "params": {

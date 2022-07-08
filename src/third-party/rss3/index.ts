@@ -29,7 +29,6 @@ const initRss3 = async () => {
 const testAccountInfo = async () => {
     const provider = new ethers.providers.Web3Provider((window as any).ethereum);
     const signer = provider.getSigner();
-    console.log(signer, await signer.getAddress())
     const RSS3 = await importRSS3()
     const rss3 = new RSS3({
         endpoint: 'https://prenode.rss3.dev',
@@ -68,11 +67,9 @@ const getGitcoinData = async (persona) => {
         limit: 100,
         fieldLike: 'Gitcoin'
     });
-    // console.log(data)
     if (data.length > 0) {
         const assets = data.map((item) => item.target.field.replace(/^assets-/, ''));
         let details = await rss3.assets.getDetails({ assets: assets, full: true })
-        console.log(details)
         return details
     }
     return data
