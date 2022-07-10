@@ -12,12 +12,16 @@
     vertical-align: top;
     display: inline-block;
 
-    > .container {
+    >.container {
         text-align: center;
         display: flex;
         justify-content: center;
         align-items: center;
         position: relative;
+
+        .content {
+            display: flex;
+        }
     }
 
     &.solid {
@@ -40,6 +44,7 @@
     &.loading {
         .content {
             opacity: 0;
+
         }
 
         .loadingicon {
@@ -56,7 +61,3 @@
     }
 
 }
-
-
-
-

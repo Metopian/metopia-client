@@ -9,7 +9,7 @@ import { unique } from '../../../../utils/stringUtils'
 
 const bonusFormToStrategy = (bonus) => {
     if (!bonus?.length)
-        return []
+        bonus = []
     let strategyParams = []
     let holdingPeriodBonus = bonus.filter(b => {
         return b.type === 1 && b.weight > 1 && b.value > 0 && toFixedIfNecessary(b.value / b.field, 2) !== 0
@@ -17,20 +17,18 @@ const bonusFormToStrategy = (bonus) => {
     let attributesBonus = bonus.filter(b => {
         return b.type === 2 && b.weight > 1 && b.value.length > 0
     })
-    if (holdingPeriodBonus.length) {
-        strategyParams.push({
-            "name": "holding-time",
-            "defaultWeight": 100,
-            "traitTypeValueWeight": holdingPeriodBonus.map(b => {
-                let unitText = unitNumToText(b.field)
-                return {
-                    "trait_type": unitText.substring(0, unitText.length - 1),
-                    "trait_value": toFixedIfNecessary(b.value / b.field, 2),
-                    "weight": 1 + b.weight * 0.01
-                }
-            })
+    strategyParams.push({
+        "name": "holding-time",
+        "defaultWeight": 100,
+        "traitTypeValueWeight": holdingPeriodBonus.map(b => {
+            let unitText = unitNumToText(b.field)
+            return {
+                "trait_type": unitText.substring(0, unitText.length - 1),
+                "trait_value": toFixedIfNecessary(b.value / b.field, 2),
+                "weight": 1 + b.weight * 0.01
+            }
         })
-    }
+    })
     if (attributesBonus.length) {
         strategyParams.push({
             "name": "attributes-mul",
@@ -48,6 +46,7 @@ const bonusFormToStrategy = (bonus) => {
             })
         })
     }
+    console.log(strategyParams)
     return strategyParams
 }
 

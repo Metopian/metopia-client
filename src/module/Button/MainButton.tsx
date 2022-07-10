@@ -4,10 +4,10 @@ import ReactLoading from 'react-loading';
 
 const MainButton = (props) => {
     const [loading, setLoading] = useState(false)
-    return <div className={"main-button" + (props.solid ? ' solid' : '') + (props.disabled ? ' disabled' : '') + (loading ? " loading" : '')
+    return <div className={"main-button" + (props.solid ? ' solid' : '') + (props.disabled ? ' disabled' : '') + (props.loading || loading ? " loading" : '')
         + (props.className ? ' ' + props.className : '')} style={props.style}
         onClick={async (e) => {
-            if (!props.disabled && !loading) {
+            if (!props.disabled && !(props.loading || loading)) {
                 setLoading(true)
                 try {
                     await props.onClick(e)
@@ -18,7 +18,7 @@ const MainButton = (props) => {
         }} >
         <div className={'container'}>
             <div className="content">{props.children}</div>
-            {loading ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" /> : ""}
+            {props.loading || loading ? <ReactLoading height={'20px'} width={'20px'} className="loadingicon" /> : ""}
         </div>
     </div>
 }

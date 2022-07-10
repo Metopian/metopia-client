@@ -5,11 +5,14 @@ import { uploadFileToIfps } from '../utils/ipfsUtils'
 import { max } from '../utils/numberUtils'
 import { getAddress, getChainId, getContract, getProvider, switchChain } from '../utils/web3Utils'
 import './TestMintPage.css'
+import { utils } from 'ethers'
+import { nftDataApi } from '../config/urls'
 const TestMintPage = props => {
     const [image, setImage] = useState<any>()
     const [uploadedImagePath, setUploadedImagePath] = useState<any>()
     const [attrGroup, setAttrGroup] = useState([])
     const [name, setName] = useState('')
+    const [txConfirming, setTxConfirming] = useState(false)
 
     const getForm = () => {
         return {
@@ -80,7 +83,7 @@ const TestMintPage = props => {
             </div>
 
             <div style={{ marginTop: '40px' }}>
-                <MainButton onClick={async (e) => {
+                <MainButton loading={txConfirming} onClick={async (e) => {
                     let contract = getContract("0x196bD8CC976aAbcFd72fbD53F5d3a3aC5f3831F2",
                         require('../config/abi/MetopiaTestMembership.json').abi, getProvider().getSigner())
                     let address = await getAddress()
@@ -96,7 +99,23 @@ const TestMintPage = props => {
                         return
                     }
                     let ipfsLink = "ipfs://" + result.IpfsHash
+
+                    const filter = {
+                        address: "0x196bD8CC976aAbcFd72fbD53F5d3a3aC5f3831F2",
+                        topics: [
+                            utils.id("Transfer(address,address,uint256)")
+                        ]
+                    }
+
+                    getProvider().on(filter, (d) => {
+                        fetch(nftDataApi.nft_cacheAll + "?chain_id=0x4&address=0x196bD8CC976aAbcFd72fbD53F5d3a3aC5f3831F2").then(r => r.json()).then(d => {
+                            setTxConfirming(false)
+                        })
+                    })
+
                     await contract.mint(ipfsLink)
+
+                    setTxConfirming(true)
                 }}>Mint</MainButton>
             </div>
         </div>

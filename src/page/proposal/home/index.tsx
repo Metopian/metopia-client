@@ -15,10 +15,9 @@ import { getAddress, getProvider, getEns } from '../../../utils/web3Utils';
 import './index.scss';
 import { toFixedIfNecessary } from '../../../utils/numberUtils';
 
-const Tmp = props=><ReactLoading type='spokes' height={20} width={20} className="loading" /> 
-
 const getRealVoteCount = (vote: number) => {
-    return vote / 100
+    let base = 100
+    return toFixedIfNecessary(vote / base, 1)
 }
 
 const signTypedData = async (web3: Web3Provider | Wallet, address: string, message, types) => {
@@ -35,7 +34,6 @@ const signTypedData = async (web3: Web3Provider | Wallet, address: string, messa
 const vote = async (web3: Web3Provider | Wallet, address: string, message: Vote) => {
     return await signTypedData(web3, address, message, vote2Types);
 }
-
 
 const ProposalHomePage = props => {
     const { id } = props
@@ -63,7 +61,11 @@ const ProposalHomePage = props => {
     const getAddressToCalcScore = () => {
         let res = []
         self && res.push(self)
-        votes?.forEach(v => res.push(v.voter))
+        votes?.forEach(v => {
+            if (!res.includes(v.voter)) {
+                res.push(v.voter)
+            }
+        })
         return res
     }
 
@@ -138,7 +140,7 @@ const ProposalHomePage = props => {
         initVotes()
     }, [id])
 
-    const { data: scores } = useScoreData(id, "1", proposal?.snapshot, proposal?.strategies, getAddressToCalcScore())
+    const { data: scores } = useScoreData(id, proposal?.network, proposal?.snapshot, proposal?.strategies, getAddressToCalcScore())
 
     const scoresObj = useMemo(() => {
         if (scores?.result?.scores) {
@@ -179,6 +181,7 @@ const ProposalHomePage = props => {
         }
     }
 
+    console.log(proposal, scoresObj[self])
     return <div className="proposal-index-page">
         <div className="title"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
             window.location.href = localRouter("club.prefix") + (proposal.space?.id)
@@ -218,9 +221,9 @@ const ProposalHomePage = props => {
                         {
                             proposal?.choices.map((c, i) => {
                                 return <div key={`choice-option-${i}`}
-                                    className={'choice-option ' + (selectedOptionId === i + 1 || mychoice === i ? 'selected' : '') + (mychoice > -1 ? ' disabled' : '')}
+                                    className={'choice-option ' + (selectedOptionId === i + 1 || mychoice === i ? 'selected' : '') + (mychoice > -1 || proposal?.state === 'closed' ? ' disabled' : '')}
                                     onClick={() => {
-                                        if (mychoice > -1)
+                                        if (mychoice > -1 || proposal?.state === 'closed')
                                             return
                                         if (selectedOptionId === i + 1)
                                             setSelectedOptionId(-1)
@@ -241,15 +244,14 @@ const ProposalHomePage = props => {
                             className={'choice-option-button ' + (scoresObj[self] ? "" : " disabled")}
                             onClick={doVote}>
                             {scoresObj[self] ? "Cast " + getRealVoteCount(scoresObj[self]) + " Vote" : "You can't vote"}
-                            {voting ?  <ReactLoading type='spokes' height={20} width={20} className="loading" /> : null}
+                            {voting ? <ReactLoading type='spokes' height={20} width={20} className="loading" /> : null}
                         </MainButton> : null
                     }
-
                 </div>
 
                 <div className="result-container" >
                     <div className='head'>
-                        <div className="title">Current results</div>
+                        <div className="title">{proposal?.state === 'closed' ? "Result" : "Current result"}</div>
                         <div className='number-wrapper'>Total: <span className="number">{getRealVoteCount(sum(voteSum))}</span></div>
                     </div>
                     <div className='main-container'>

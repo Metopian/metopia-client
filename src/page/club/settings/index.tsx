@@ -66,7 +66,8 @@ const ClubSettingPage = (props) => {
             return
         }
         let settings = formToSettings(network || chainId, basicFormData, consensusForm, proposalForm, votingForm)
-
+        console.log(settings)
+        return
         // if (!window.confirm("Do you want to continue?"))
         //     return
 
