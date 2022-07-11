@@ -22,7 +22,7 @@ declare interface Role {
 
 const usePersonalDiscordData = (wallet: string, code?: string) => {
     const { data, error } = useSWR([discordApi.personal_auth, {
-        redirect_uri: "http://localhost:3000/alpha/profile?subpage=discord",
+        redirect_uri: process.env.REACT_APP_HOST + "alpha/profile?subpage=discord",
         state: wallet, code: code
     }], getFetcher, defaultSWRConfig)
     return { data, error }

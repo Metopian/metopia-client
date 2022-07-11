@@ -1,12 +1,15 @@
 
 const cdnPrefix = process.env.REACT_APP_CDN_PREFIX
 
-const metopiaServer = process.env.REACT_APP_METOPIA_SERVER
 const dataCenterRoot = process.env.REACT_APP_DATA_CENTER_API_PREFIX
 const snapshotScoreApiRoot = process.env.REACT_APP_SNAPSHOT_SCORE_API_PREFIX
 const snapshotCoreRoot = process.env.REACT_APP_SNAPSHOT_CORE_API_PREFIX
 const metopiaApiRoot = process.env.REACT_APP_METOPIA_SERVICE_API_PREFIX
 
+const userApi = {
+    user_update: dataCenterRoot + "owners/",
+    user_selectByOwner: dataCenterRoot + "owners/"
+}
 const discordApi = {
     guild_selectAll: dataCenterRoot + 'discord/bot/guilds',
     role_select: dataCenterRoot + 'discord/guilds/roles',
@@ -32,7 +35,7 @@ const snapshotApi = {
     score: snapshotScoreApiRoot + "scores",
     graphql: snapshotCoreRoot + "graphql",
     msg: snapshotCoreRoot + "api/msg",
-    loadSpaces:snapshotCoreRoot + "api/loadspaces"
+    loadSpaces: snapshotCoreRoot + "api/loadspaces"
 }
 
 const thirdpartyApi = {
@@ -67,4 +70,4 @@ const testApi = {
 const ceramicNode = process.env.REACT_APP_CERAMIC_API
 
 
-export { cdnPrefix, localRouter, nftDataApi, snapshotApi, ipfsApi, ceramicNode, thirdpartyApi, testApi, metopiaServer, discordApi }
+export { cdnPrefix, localRouter, nftDataApi, snapshotApi, ipfsApi, ceramicNode, thirdpartyApi, testApi, discordApi, userApi }

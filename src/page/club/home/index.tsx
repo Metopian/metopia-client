@@ -21,7 +21,7 @@ const ProposalCard = (props) => {
             </div>
             <div className="state">
                 <div className={"left-part " + (props.state.toLowerCase())}>{capitalizeFirstLetter(props.state)}</div>
-                <div className="right-part">{props.scores_total} Votes</div>
+                <div className="right-part">{props.scores_total/100} Votes</div>
             </div>
         </div>
         <div className="body">

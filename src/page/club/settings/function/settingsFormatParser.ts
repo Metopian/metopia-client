@@ -50,7 +50,6 @@ const bonusFormToStrategy = (bonus) => {
             })
         })
     }
-    console.log(strategyParams)
     return strategyParams
 }
 

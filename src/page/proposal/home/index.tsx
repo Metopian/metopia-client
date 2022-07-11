@@ -101,7 +101,7 @@ const ProposalHomePage = props => {
                     if (r.error === 'unauthorized') {
 
                     }
-                    console.log(r.error)
+                    console.error(r.error)
                     alert("Failed")
                 }
             }).catch(e => {
@@ -173,7 +173,6 @@ const ProposalHomePage = props => {
         }
     }
 
-    console.log(proposal, scoresObj[self])
     return <div className="proposal-index-page">
         <div className="title"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
             window.location.href = localRouter("club.prefix") + (proposal.space?.id)

@@ -58,7 +58,7 @@ const ClubSettingPage = (props) => {
                 setChainId(walletChainId)
             }
         }).catch(e => {
-            console.log(e)
+            console.error(e)
             window.location.href = localRouter('home')
         })
     }, [])
