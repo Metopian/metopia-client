@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react'
-import useSWR from 'swr'
-import { nftDataApi } from '../../../config/urls'
-import './GovernanceSubpage.scss'
 import { BulletList } from 'react-content-loader'
-import ProfileTable from '../module/ProfileTable'
+import useSWR from 'swr'
+import { loadSnapshotHistory } from '../../../config/graphql'
+import { nftDataApi } from '../../../config/urls'
 import { customFormat } from '../../../utils/TimeUtil'
+import ProfileTable from '../module/ProfileTable'
+import './GovernanceSubpage.scss'
 
 const nftServiceFetcher = (owner) => fetch(nftDataApi.goverance_selectByOwner + "?owner=" + owner).then((res) => res.json())
 
@@ -17,15 +18,8 @@ const useGovernanceData = (address) => {
 }
 
 const snapshotFetcher = (address) => {
-    let param = {
-        operationName: "Votes",
-        query: 'query Votes {   votes (     first: 1000     where: {       voter: "' +
-            address +
-            '"     }   ) {     id     voter     created     choice     proposal {     id  title       choices     }     space {       id       name            	avatar     }   } }',
-        variables: null
-    }
     return fetch("https://hub.snapshot.org/graphql?", {
-        body: JSON.stringify(param),
+        body: JSON.stringify(loadSnapshotHistory(address)),
         method: 'POST',
         headers: {
             'Accept': 'application/json',

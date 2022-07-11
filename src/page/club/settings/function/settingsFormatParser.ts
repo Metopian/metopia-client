@@ -7,6 +7,10 @@ import { toFixedIfNecessary } from '../../../../utils/numberUtils'
 import { getAddress } from '../../../../utils/web3Utils'
 import { unique } from '../../../../utils/stringUtils'
 
+/**
+ * TODO 
+ * 100->[1]
+ */
 const bonusFormToStrategy = (bonus) => {
     if (!bonus?.length)
         bonus = []
@@ -79,7 +83,9 @@ const bonusStrategyToForm = (traitValues) => {
     })
     return res
 }
-
+/**
+ * Form object to settings json stored in database
+ */
 export const formToSettings = (chainId, basicFormData, consensusForm, proposalForm, votingFormData) => {
     let res = {
         ...basicFormData,
@@ -90,7 +96,6 @@ export const formToSettings = (chainId, basicFormData, consensusForm, proposalFo
                 "params": {
                     "symbol": c.name,
                     "address": c.tokenAddress,
-                    // "defaultWeight": c.defaultWeight * 100,
                     "network": chainId.indexOf("0x") === 0 ? chainId.substring(2) : chainId,
                     "method": 'MUL',
                     "traitValues": bonusFormToStrategy(c.bonus)
@@ -108,6 +113,10 @@ export const formToSettings = (chainId, basicFormData, consensusForm, proposalFo
     return res
 }
 
+/**
+ * @param settings Settings json stored in database
+ * @returns Form object
+ */
 export const settingsToForm = (settings: string) => {
     if (!settings?.length) {
         return null
@@ -151,6 +160,9 @@ export const settingsToForm = (settings: string) => {
     return { basicFormData, consensusForm, votingForm, proposalForm, network: obj.network }
 }
 
+/**
+ * Import data from Snapshot.org database
+ */
 export const snapshotDataToForm = (data) => {
     let basicFormData = {
         name: data.name,

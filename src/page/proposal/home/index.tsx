@@ -3,17 +3,17 @@ import { Wallet } from '@ethersproject/wallet';
 import parse from 'html-react-parser';
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactLoading from 'react-loading';
+import { loadSnapshotVotesByProposal } from '../../../config/graphql';
 import { domain, Vote, vote2Types } from '../../../config/snapshotConfig';
 import { localRouter, snapshotApi } from '../../../config/urls';
 import { useProposal, useScoreData } from '../../../governance';
 import { MainButton } from '../../../module/button';
 import { DefaultAvatarWithRoundBackground } from '../../../module/image';
-import { sum } from '../../../utils/numberUtils';
+import { sum, toFixedIfNecessary } from '../../../utils/numberUtils';
 import { addrShorten } from '../../../utils/stringUtils';
 import { customFormat, getDateDiff } from '../../../utils/TimeUtil';
-import { getAddress, getProvider, getEns } from '../../../utils/web3Utils';
+import { getAddress, getEns, getProvider } from '../../../utils/web3Utils';
 import './index.scss';
-import { toFixedIfNecessary } from '../../../utils/numberUtils';
 
 const getRealVoteCount = (vote: number) => {
     let base = 100
@@ -116,19 +116,9 @@ const ProposalHomePage = props => {
 
     useEffect(() => {
         const initVotes = () => {
-            let votesParam = {
-                "operationName": "Votes",
-                "variables": {
-                    "id": id,
-                    "orderBy": "vp",
-                    "orderDirection": "desc",
-                    "first": 10
-                },
-                "query": "query Votes($id: String!, $first: Int, $skip: Int, $orderBy: String, $orderDirection: OrderDirection, $voter: String) {\n  votes(\n    first: $first\n    skip: $skip\n    where: {proposal: $id, vp_gt: 0, voter: $voter}\n    orderBy: $orderBy\n    orderDirection: $orderDirection\n  ) {\n    ipfs\n    voter\n    choice\n    vp\n    vp_by_strategy\n  }\n}"
-            }
             return fetch(snapshotApi.graphql, {
                 method: 'POST',
-                body: JSON.stringify(votesParam),
+                body: JSON.stringify(loadSnapshotVotesByProposal(id)),
                 headers: {
                     'content-type': "application/json"
                 }

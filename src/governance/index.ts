@@ -1,8 +1,8 @@
 
 import useSWR from "swr";
+import { loadSnapshotProposalsById } from "../config/graphql";
 import { snapshotApi } from '../config/urls';
 import { defaultSWRConfig, getFetcher, postFetcher, ResponsePack } from "../utils/RestUtils";
-
 export interface Dao {
     id: string,
     settings: string,
@@ -28,14 +28,7 @@ const useScoreData = (dao: string, network: string, snapshot: number, strategies
 }
 
 const useProposal = (id) => {
-    let proposalParam = {
-        "operationName": "Proposal",
-        "variables": {
-            "id": id
-        },
-        "query": "query Proposal($id: String!) {\n  proposal(id: $id) {\n    id\n    ipfs\n    title\n    body\n    choices\n    start\n    end\n    snapshot\n    state\n    author\n    created\n    plugins\n    network\n    type\n    strategies {\n      name\n      params\n    }\n    space {\n      id\n      name\n    }\n    scores_state\n    scores\n    scores_by_strategy\n    scores_total\n    votes\n  }\n}"
-    }
-    const { data, error } = useSWR(id && [snapshotApi.graphql, proposalParam], postFetcher, defaultSWRConfig)
+    const { data, error } = useSWR(id && [snapshotApi.graphql, loadSnapshotProposalsById(id)], postFetcher, defaultSWRConfig)
     return { data: data?.data?.proposal, error }
 }
 
@@ -46,3 +39,4 @@ const useLatestProposalData = (): { data: ResponsePack<Dao[]>, error: any } => {
 
 
 export { defaultSWRConfig, getFetcher, useDaoListData as useSpaceListData, useDaoData as useSpaceData, useScoreData, useProposal, useLatestProposalData };
+

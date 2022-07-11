@@ -86,4 +86,4 @@ export const doUpdateDao = (id, settings, cb) => {
     }).catch(cb)
 }
 
-export * from './settingsFormatUtil'
+export * from './settingsFormatParser'

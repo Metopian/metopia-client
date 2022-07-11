@@ -36,7 +36,7 @@ const snapshotApi = {
 }
 
 const thirdpartyApi = {
-    snapshot_api_graph: "https://hub.snapshot.org/graphql",
+    snapshot_api_graphql: "https://hub.snapshot.org/graphql",
 }
 
 const localRouter = (name?: string | null, param?: any) => {

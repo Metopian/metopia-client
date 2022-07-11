@@ -1,6 +1,5 @@
 
 import { ethers, utils } from "ethers";
-// import { Web3Provider } from "ethers/node_modules/@ethersproject/providers";
 import { defaultChainId } from "../config/constant";
 
 let provider = null
@@ -22,7 +21,6 @@ export const getProvider = () => {
         }
     }
     return provider
-    // const provider = new ethers.providers.Web3Provider(window.ethereum)
 }
 
 export const getAddress = async (light?: boolean) => {
@@ -48,9 +46,6 @@ export const switchChain = async (chainId?) => {
     )
 }
 
-export const getContract = (contractAddress, abi, providerOrSigner?) => {
-    return new ethers.Contract(contractAddress, abi, providerOrSigner || getProvider());
-}
 export const hashWithPrefix = (msg) => {
     return utils.keccak256("\u0019Ethereum Signed Message:\n" + msg.length + msg)
 }
@@ -115,4 +110,8 @@ export const fromEns = async (ens): Promise<string> => {
         console.error(e)
         return ''
     })
+}
+
+export const getContract = (contractAddress, abi, providerOrSigner?) => {
+    return new ethers.Contract(contractAddress, abi, providerOrSigner || getProvider());
 }
