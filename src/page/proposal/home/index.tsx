@@ -45,7 +45,9 @@ const ProposalHomePage = props => {
     const [authorEns, setAuthorEns] = useState(null)
 
     useEffect(() => {
-        getAddress().then(addr => setSelf(addr))
+        getAddress().then(addr => {
+            setSelf(addr)
+        })
     }, [])
 
     useEffect(() => {

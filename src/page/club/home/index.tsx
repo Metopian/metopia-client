@@ -58,9 +58,7 @@ const ClubHomePage = (props) => {
             }
         }).then(d => d.json()).then(d => setProposals(d.data && d.data.proposals))
 
-        fetch(snapshotApi.dao_selectById + "/?id=" + encodeURIComponent(slug), {
-
-        }).then(d => {
+        fetch(snapshotApi.dao_selectById + "/?id=" + encodeURIComponent(slug)).then(d => {
             return d.json()
         }).then(d => {
             if (d.content && d.content.settings) {

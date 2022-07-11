@@ -42,11 +42,9 @@ const Form = props => {
     const [croppedBanner, setCroppedBanner] = useState()
     const { data, update: updateForm } = useData()
     const [editingLinkLabel, setEditingLinkLabel] = useState<any>(null)
-    const [self, setSelf] = useState(null)
 
     useEffect(() => {
-        getAddress().then(addr => {
-            setSelf(addr)
+        getAddress(true).then(addr => {
             // if (!data.admins?.length) {
             updateForm({ admins: [{ address: addr, id: 1 }] })
             // } else {

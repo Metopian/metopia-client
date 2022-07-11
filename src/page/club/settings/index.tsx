@@ -15,6 +15,7 @@ import { ProposalForm, useData as useProposalForm } from './form/ProposalForm'
 import { useData as useVotingForm, VotingForm } from './form/VotingForm'
 import { defaultForm, doCreateDao, doUpdateDao, formToSettings, settingsToForm, snapshotDataToForm } from './function'
 import './index.scss'
+import { getAddress, getChainId, switchChain } from '../../../utils/web3Utils'
 
 const ClubSettingPage = (props) => {
     const { slug } = props
@@ -26,7 +27,7 @@ const ClubSettingPage = (props) => {
      * Load space settings
      */
     const { data: defaultSettings } = useSpaceData(slug)
-    const { chainId } = useChainId()
+    const { chainId, setChainId } = useChainId()
 
     const [errors, setErrors] = useState({})
     const [creating, setCreating] = useState(false)
@@ -36,6 +37,8 @@ const ClubSettingPage = (props) => {
     const consensusFormRef = useRef<any>()
     const container = useRef(null)
 
+    const [self, setSelf] = useState(null)
+
     /**
      * TODO
      */
@@ -44,6 +47,20 @@ const ClubSettingPage = (props) => {
         return () => {
             $('.MainContainer').css({ 'overflow-y': 'auto' })
         }
+    }, [])
+
+    useEffect(() => {
+        getAddress().then(addr => {
+            setSelf(addr)
+            return getChainId()
+        }).then(walletChainId => {
+            if (parseInt(walletChainId) !== parseInt(chainId)) {
+                setChainId(walletChainId)
+            }
+        }).catch(e => {
+            console.log(e)
+            window.location.href = localRouter('home')
+        })
     }, [])
 
     useEffect(() => {
