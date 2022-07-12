@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { BulletList } from 'react-content-loader'
 import FlexibleOrderedContainer from '../../module/FlexibleOrderedContainer'
-import { useSpaceListData, useLatestProposalData } from '../../governance'
-import ClubCard from './ClubCard'
+import { useDaoListData, useLatestProposalData } from '../../governance'
+import DaoCard from './DaoCard'
 import './index.scss'
 import SearchInput from './SearchInput'
 import { localRouter } from '../../config/urls'
@@ -19,7 +19,7 @@ const ProposalBoard = (props) => {
     return <div className="proposal-board">
         <div className="head">
             <div className="title">Latest Proposals</div>
-            <div className="space-info">
+            <div className="dao-info">
                 <WrappedLazyLoadImage src={data?.content[index - 1]?.spaceAvatar} className="avatar-wrapper" />
                 <div className='name'>{data?.content[index - 1]?.spaceName}</div>
                 <div>&gt;</div>
@@ -37,17 +37,17 @@ const ProposalBoard = (props) => {
 }
 
 const HomePage = () => {
-    const { data: spaceData } = useSpaceListData()
+    const { data: daoData } = useDaoListData()
     const { data: latestProposalData } = useLatestProposalData()
     const [keyword, setKeyword] = useState('')
     const { chainId } = useChainId()
 
-    const spaceContainer = useMemo(() => {
-        if (!spaceData?.content) {
+    const daoContainer = useMemo(() => {
+        if (!daoData?.content) {
             return <BulletList />
         }
 
-        let spaceObjs = spaceData.content.map(s => {
+        let daoObjs = daoData.content.map(s => {
             return {
                 id: s.id,
                 settings: JSON.parse(s.settings)
@@ -56,21 +56,21 @@ const HomePage = () => {
             return parseInt(s.settings.network) === parseInt(chainId)
         }).filter(c => c.settings.name.toLowerCase().indexOf(keyword.toLowerCase()) > -1)
         return <FlexibleOrderedContainer elementMinWidth={240} elementMaxWidth={330} gap={20} style={{ marginTop: '40px' }}>{
-            spaceObjs.map(c =>
-                <ClubCard key={"clubcard" + c.id} id={c.id} name={c.settings.name} coverUrl={c.settings.banner || c.settings.avatar || "/imgs/example_cover_large.png"}
+            daoObjs.map(c =>
+                <DaoCard key={"dao-card" + c.id} id={c.id} name={c.settings.name} coverUrl={c.settings.banner || c.settings.avatar || "/imgs/example_cover_large.png"}
                     avatar={c.settings.avatar}
                     slug={c.id}
                     joined={false} memberCount={0} />
             )
         }</FlexibleOrderedContainer>
-    }, [spaceData, keyword, chainId])
+    }, [daoData, keyword, chainId])
 
     return <div className='home-page'>
         <div className="head" style={{ backgroundImage: "url(/imgs/index_head_bg.png)" }}>
             <div className='container'>
                 <div className="left-container">
                     <div className="stats">
-                        <span className="number">{spaceData?.content && Object.keys(spaceData.content).length}</span>
+                        <span className="number">{daoData?.content && Object.keys(daoData.content).length}</span>
                         DAOs
                     </div>
                     <div className="introduction">
@@ -87,7 +87,7 @@ const HomePage = () => {
                 <span className='title'>DAOs</span>
                 <SearchInput onChange={setKeyword} />
             </div>
-            {spaceContainer}
+            {daoContainer}
         </div>
     </div>
 }

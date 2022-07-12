@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useParams, useSearchParams } from "react-router-dom";
 import './App.css';
-import { ClubHomePage, ClubSettingPage } from './page/club';
+import {  DaoHomePage,   DaoSettingPage } from './page/dao';
 import HomePage from './page/home';
 import ProfilePage from './page/profile';
 import { ProposalCreatePage, ProposalHomePage } from './page/proposal';
@@ -14,19 +14,19 @@ const App = () => {
     if (!routeParams.page) {
       return <HomePage />
     } else {
-      if (routeParams.page === 'space') {
+      if (routeParams.page === 'dao') {
         if (routeParams.event === 'create') {
-          return <ClubSettingPage />
+          return <DaoSettingPage />
         } else if (routeParams.event === 'update') {
-          return <ClubSettingPage slug={routeParams.event2} />
+          return <DaoSettingPage slug={routeParams.event2} />
         } else {
           if (routeParams.event2 === 'propose') {
-            return <ProposalCreatePage space={routeParams.event} />
+            return <ProposalCreatePage dao={routeParams.event} />
           } else {
             if (!routeParams.event?.length || routeParams.event === 'undefined') {
               return <HomePage />
             } else {
-              return <ClubHomePage slug={routeParams.event} />
+              return <DaoHomePage slug={routeParams.event} />
             }
           }
         }

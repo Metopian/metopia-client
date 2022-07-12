@@ -20,5 +20,10 @@ const unique = (arr: string[]) => {
     return Object.keys(tmp)
 }
 
+export const compareIgnoringCase = (str1: string, str2: string) => {
+    return str1 && str2 && str1.toLowerCase() === str2.toLowerCase()
+}
+
 export const fillZero = (x) => ('00' + x).slice(-2);
-export { addrShorten, capitalizeFirstLetter, pad ,unique}
+
+export { addrShorten, capitalizeFirstLetter, pad, unique }

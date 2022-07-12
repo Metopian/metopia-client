@@ -74,7 +74,7 @@ const Form = props => {
 
     }, [updateForm, data, slug])
 
-    return <div className={"create-club-form basic-profile"}>
+    return <div className={"create-dao-form basic-profile"}>
         <div className="left-container">
             <div className="form-group">
                 <Label>Name</Label>

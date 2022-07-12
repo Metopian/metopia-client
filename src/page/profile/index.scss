@@ -35,6 +35,15 @@
                     >.avatar {
                         height: 120px;
                         width: 120px;
+                        border-radius: 60px;
+
+                        &.default {
+                            border-radius: 0;
+                        }
+                    }
+
+                    &.editable {
+                        cursor: pointer;
                     }
                 }
 
@@ -47,7 +56,8 @@
                     >.name-wrapper {
                         margin-left: 12px;
                         display: flex;
-                        gap:12px;
+                        gap: 12px;
+
                         >.name {
                             font-size: 28px;
                             font-weight: bold;

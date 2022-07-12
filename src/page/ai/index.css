@@ -374,7 +374,7 @@
     width: 5px;
 }
 
-.AIActContentContainer .UserNftCardContainer .CreateClubPageFormContainerLeft::-webkit-scrollbar-thumb {
+.AIActContentContainer .UserNftCardContainer .CreateDaoPageFormContainerLeft::-webkit-scrollbar-thumb {
     background-color: #b7a7ff;
     width: 5px;
     border-radius: 3px;

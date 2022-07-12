@@ -29,10 +29,6 @@ const MenuItem = (props: { icon: string, name: string, link?: string, isIcon?: b
     </div >
 }
 
-const FollowedClubItem = (props) => {
-    return <div className="followed-club-item"></div>
-}
-
 const menuItems = [
     {
         id: 'user',
@@ -49,12 +45,12 @@ const menuItems = [
     }, {
         icon: cdnPrefix + 'add.svg',
         name: 'Add',
-        link: localRouter('club.create'), isIcon: true
+        link: localRouter('dao.create'), isIcon: true
     }
 ]
 
 const Menu = (props) => {
-    const { logoUrl, followedClubs } = props
+    const { logoUrl } = props
     const { user } = useSelector((state: RootState) => {
         return { user: state.user }
     })
@@ -100,12 +96,6 @@ const Menu = (props) => {
                         }
                     }} />
                 })
-            }
-        </div>
-        {/* <div style={{ width: '20px', height: '1px', backgroundColor: '#BEC3CC', marginTop: '24px ' }}></div> */}
-        <div className="followed-club-wrapper">
-            {
-                followedClubs && followedClubs.map(i => <FollowedClubItem {...i} />)
             }
         </div>
         <button className="switch-net-button" onClick={async () => {

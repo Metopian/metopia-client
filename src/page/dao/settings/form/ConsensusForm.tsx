@@ -80,7 +80,7 @@ const Form = React.forwardRef<any, any>((props, collectDataRef) => {
         }
     }
 
-    return <div className={"create-club-form"} style={{ padding: '40px 60px' }}>
+    return <div className={"create-dao-form"} style={{ padding: '40px 60px' }}>
         {errors.consensus && <div className="ErrorHint" >{errors.consensus}</div>}
         <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Voting power</Label>
         <div className="Tip" style={{ marginTop: '-10px', marginBottom: '30px' }}>How to calculate voting power?</div>

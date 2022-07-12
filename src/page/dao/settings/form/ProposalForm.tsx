@@ -69,7 +69,7 @@ const ProposalForm = props => {
     // const { data: roleData } = useRolesData(selectedGuild?.guildId)
     const { data: roleData } = useRolesData(formData.validation?.params?.guildId)
     
-    return <div className={"create-club-form"}>
+    return <div className={"create-dao-form"}>
         <Label style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '30px' }}>Proposal validation</Label>
 
         <div className="Tip" style={{ marginTop: '-10px', marginBottom: '30px' }}>Who have the power to raise proposal?</div>

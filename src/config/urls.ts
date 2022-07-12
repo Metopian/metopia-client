@@ -47,12 +47,12 @@ const localRouter = (name?: string | null, param?: any) => {
     if (name === 'profile') return '/alpha/profile/'
     if (name === 'ai') return '/ai'
     if (name === 'home') return '/alpha'
-    if (name === 'club') return '/alpha/space'
-    if (name === 'club.prefix') return '/alpha/space/'
-    if (name === 'club.create') return '/alpha/space/create'
-    if (name === 'club.update') return `/alpha/space/update/${param.space}`
+    if (name === 'dao') return '/alpha/dao'
+    if (name === 'dao.prefix') return '/alpha/dao/'
+    if (name === 'dao.create') return '/alpha/dao/create'
+    if (name === 'dao.update') return `/alpha/dao/update/${param.dao}`
     if (name === 'proposal.prefix') return '/alpha/proposal/'
-    if (name === 'proposal.create') return '/alpha/space/' + param.space + "/propose"
+    if (name === 'proposal.create') return '/alpha/dao/' + param.dao + "/propose"
     return "/"
 }
 const pinataApiPrefix = "https://api.pinata.cloud/"

@@ -38,5 +38,5 @@ const useLatestProposalData = (): { data: ResponsePack<Dao[]>, error: any } => {
 }
 
 
-export { defaultSWRConfig, getFetcher, useDaoListData as useSpaceListData, useDaoData as useSpaceData, useScoreData, useProposal, useLatestProposalData };
+export { useDaoListData  , useDaoData  , useScoreData, useProposal, useLatestProposalData };
 

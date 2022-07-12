@@ -172,13 +172,13 @@ const MembershipCardInput = React.forwardRef<any, any>((props, ref) => {
                     <div className="membership-form-group">
                         <div className="form-group">
                             <Label>Voting power per token</Label>
-                            <Input id="createclubcontractinput" value={defaultWeight || 1} disabled type="number" onChange={(e) => {
+                            <Input value={defaultWeight || 1} disabled type="number" onChange={(e) => {
                                 onChange(getFormData({ defaultWeight: e.target.value }))
                             }} />
                         </div>
                         <div className="form-group">
                             <Label>NFT Contract Address</Label>
-                            <Input id="createclubcontractinput" value={tokenAddress || ""} className={contractError ? " error" : ''} placeholder={""}
+                            <Input value={tokenAddress || ""} className={contractError ? " error" : ''} placeholder={""}
                                 onChange={(e) => {
                                     onChange(getFormData({
                                         name: '',

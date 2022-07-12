@@ -27,12 +27,12 @@ import { getAddress, getProvider, signTypedData } from '../../../utils/web3Utils
 import './index.scss';
 
 const CreateProposalPage = props => {
-    const { space } = props
+    const {   dao } = props
     const [body, setBody] = useState("")
     const defaultOptions = [{ id: 0, text: "For" }, { id: 1, text: "Against" }, { id: 2, text: "Abstain" }]
     const [options, setOptions] = useState(defaultOptions)
 
-    const [spaceSettings, setSpaceSetting] = useState<any>()
+    const [daoSettings, setDaoSettings] = useState<any>()
 
     const [start, setStart] = useState(moment())
     const [end, setEnd] = useState(moment())
@@ -77,14 +77,14 @@ const CreateProposalPage = props => {
     }, [options, removeOption])
 
     useEffect(() => {
-        if (!space)
+        if (!dao)
             return
-        fetch(snapshotApi.dao_selectById + "/?id=" + encodeURIComponent(space), {
+        fetch(snapshotApi.dao_selectById + "/?id=" + encodeURIComponent(dao), {
         }).then(d => {
             return d.json()
         }).then(d => {
             if (d.content && d.content.settings) {
-                setSpaceSetting(JSON.parse(d.content.settings))
+                setDaoSettings(JSON.parse(d.content.settings))
                 let delay = parseInt(JSON.parse(d.content.settings).voting?.delay || 0)
                 let period = parseInt(JSON.parse(d.content.settings).voting?.period || 0)
                 let tmp = moment()
@@ -93,10 +93,10 @@ const CreateProposalPage = props => {
                 setEnd(moment(tmp).add(delay + period, 'seconds'))
             }
         })
-    }, [space])
+    }, [dao])
 
-    const delay = parseInt(spaceSettings?.voting?.delay || 0)
-    const period = parseInt(spaceSettings?.voting?.period || 0)
+    const delay = parseInt(daoSettings?.voting?.delay || 0)
+    const period = parseInt(daoSettings?.voting?.period || 0)
 
     const createProposal = async (cb) => {
         setErrors(null)
@@ -106,7 +106,7 @@ const CreateProposalPage = props => {
         let timestamp = now.unix(),
             startUnix = start.unix(),
             endUnix = end.unix()
-        spaceSettings.strategies.forEach(s => {
+        daoSettings.strategies.forEach(s => {
             fetch(encodeQueryData(nftDataApi.nft_transfer_cacheAll, { chain_id: `0x${s.params.network}`, address: s.params.address }))
         })
         let title = (document.getElementById("proposaltitleinput") as HTMLInputElement).value
@@ -119,7 +119,7 @@ const CreateProposalPage = props => {
         }
 
         signTypedData({
-            "space": space,
+            "space": dao,
             "type": "single-choice",
             "title": title,
             "body": body,
@@ -128,7 +128,7 @@ const CreateProposalPage = props => {
             "end": endUnix,
             "snapshot": blocknumber,
             "network": parseInt(chainId).toString(),
-            "strategies": JSON.stringify(spaceSettings.strategies),
+            "strategies": JSON.stringify(daoSettings.strategies),
             "plugins": "{}",
             "metadata": "{}",
             "from": account,
@@ -148,14 +148,14 @@ const CreateProposalPage = props => {
     return <div className="create-proposal-page">
         <div className="head">
             <div className="title" ><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
-                window.location.href = localRouter("club.prefix") + space
+                window.location.href = localRouter("dao.prefix") + dao
             }} />Create new proposal
             </div>
             <MainButton style={{ width: '104px' }} onClick={() => {
                 createProposal((d) => {
                     if (d.id) {
                         window.alert("Succeed")
-                        window.location.href = localRouter("club.prefix") + space
+                        window.location.href = localRouter("dao.prefix") + dao
                     } else {
                         if (d.error_description === 'failed to check validation')
                             alert('You are not authorized to create the proposal')
@@ -167,12 +167,12 @@ const CreateProposalPage = props => {
             }}>Confirm</MainButton>
         </div>
         <div className="body" ref={container} onScroll={e => {
-            $('#createClubScrollbar').css({
+            $('#createDaoScrollbar').css({
                 "top": (container.current.scrollTop + 80 + ((container.current.clientHeight - 240) * container.current.scrollTop /
                     (container.current.scrollHeight - container.current.clientHeight))) + 'px'
             })
         }}>
-            <div className="scrollbar" id="createClubScrollbar"></div>
+            <div className="scrollbar" id="createDaoScrollbar"></div>
             <div className="form">
                 {errors?.title && <div className="ErrorHint">{errors.title}</div>}
                 <Label >{"Title & Description"}</Label>

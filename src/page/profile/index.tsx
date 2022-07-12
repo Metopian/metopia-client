@@ -1,28 +1,38 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useChainId } from '../../config/store';
 import { localRouter } from "../../config/urls";
 import { MainButton } from "../../module/button";
-import { DefaultAvatar } from '../../module/image';
+import { DefaultAvatar, WrappedLazyLoadImage } from '../../module/image';
 import { usePersonalDiscordData } from "../../third-party/discord";
 import { useNfts } from '../../third-party/moralis';
+import { uploadFileToIfps } from "../../utils/ipfsUtils";
 import { encodeQueryData } from '../../utils/RestUtils';
+import { compareIgnoringCase } from "../../utils/stringUtils";
 import { getAddress, getEns } from '../../utils/web3Utils';
+import { useAccountData, updateAccount } from "./function";
 import './index.scss';
-import DiscordSubPage from './subpage/DiscordSubPage';
 import DonationSubpage from "./subpage/DonationSubpage";
 import FungiblesSubpage from './subpage/FungiblesSubpage';
 import GovernanceSubpage from './subpage/GovernanceSubpage';
 import NFTSubpage from './subpage/NFTSubpage';
 import NftTransactionSubpage from "./subpage/NftTransactionSubpage";
 import PoapSubpage from "./subpage/PoapSubpage";
-import { GhostButton, GhostButtonGroup } from "../../module/button";
 
 const ProfilePage = (props) => {
     const { slug, subpage, state, code } = props
     const { chainId } = useChainId()
     const { data: nfts } = useNfts(slug, chainId)
+    const { data: discordData } = usePersonalDiscordData(slug, code)
+
+    const { data: accountData } = useAccountData(slug)
+
     const [ens, setEns] = useState(null)
-    const { data, error } = usePersonalDiscordData(slug, code)
+    const [self, setSelf] = useState(null)
+    const [avatar, setAvatar] = useState(null)
+
+    const avatarInputRef = useRef(null)
+
+    console.log(accountData)
 
     const nftCount = useMemo(() => {
         if (!nfts)
@@ -42,12 +52,25 @@ const ProfilePage = (props) => {
     }, [slug])
 
     useEffect(() => {
+        getAddress().then(addr => setSelf(addr)).catch(e => {
+            window.location.href = localRouter('home')
+        })
+    }, [])
+
+    useEffect(() => {
         if (!slug) {
             getAddress().then(addr => window.location.href = encodeQueryData(localRouter('profile') + addr, { subpage, state, code })).catch(e => {
                 window.location.href = localRouter('home')
             })
         }
     }, [slug, subpage, state, code])
+
+    const updateUser = useCallback(params => {
+        if (accountData?.data) {
+            const tmp = Object.assign({}, accountData.data, params)
+            updateAccount(tmp.owner, tmp.username, tmp.avatar, tmp.introduction)
+        }
+    }, [accountData])
 
     const { subpageJsx, subpageIndex } = useMemo(() => {
         let tmpJsx = <NFTSubpage slug={slug} />,
@@ -68,19 +91,33 @@ const ProfilePage = (props) => {
             tmpJsx = <GovernanceSubpage slug={slug} />
             tmpIndex = 5
         }
-        // else if (subpage === 'discord') {
-        //     tmpJsx = <DiscordSubPage slug={slug} state={state} code={code} />
-        //     tmpIndex = 6
-        // }
         return { subpageJsx: tmpJsx, subpageIndex: tmpIndex }
     }, [slug, subpage])
-
+    console.log((avatar && window.URL.createObjectURL(avatar)) || accountData?.data?.avatar)
     return <div className="profile-page">
         <div className="container">
             <div className="head" style={{ backgroundImage: 'url(/imgs/profile_page_head_bg.png)' }}>
                 <div className="container">
-                    <div className='avatar-wrapper'>
-                        <DefaultAvatar wallet={slug} className="avatar" />
+                    <div className={'avatar-wrapper' + (compareIgnoringCase(self, slug) ? " editable" : '')} onClick={e => {
+                        compareIgnoringCase(self, slug) &&
+                            avatarInputRef.current.click()
+                    }}>
+                        {
+                            (accountData?.data?.avatar || avatar) ?
+                                <WrappedLazyLoadImage src={(avatar && window.URL.createObjectURL(avatar)) || accountData?.data?.avatar} alt="" /> :
+                                <DefaultAvatar wallet={slug} className="avatar default" />
+                        }
+                        <input className="Hidden" type='file' ref={avatarInputRef} onChange={async (e) => {
+                            if (!e.target.files[0])
+                                return
+                            let result = await uploadFileToIfps(e.target.files[0])
+                            if (!result.IpfsHash) {
+                                window.alert("Image upload failed. Please check your network.")
+                                return
+                            }
+                            updateUser({ avatar: "ipfs://" + result.IpfsHash })
+                            setAvatar(e.target.files[0])
+                        }} />
                     </div>
                     <div className="basic-profile">
                         <div className="name-wrapper">
@@ -95,8 +132,8 @@ const ProfilePage = (props) => {
                                 })} /> */}
                         </div>
                         {
-                            data?.data?.redirect_uri ? <MainButton onClick={e => {
-                                window.open(data?.data?.redirect_uri)
+                            discordData?.data?.redirect_uri ? <MainButton onClick={e => {
+                                window.open(discordData?.data?.redirect_uri)
                             }}>Connect to Discord</MainButton> : null
                         }
                     </div>
@@ -117,21 +154,12 @@ const ProfilePage = (props) => {
                     <div className="sub-menu-bar">
                         <div className={"sub-menu-item" + (subpageIndex === 0 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'nft' })}>NFT</div>
-                        {/* <div className={"ProfilePageMainTitleMenuItem" + (selectedTabIndex === 1 ? ' selected' : '')} onClick={() => setSelectedTabIndex(1)}>Fungibles</div> */}
                         <div className={"sub-menu-item" + (subpageIndex === 2 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'donations' })}>Donation</div>
                         <div className={"sub-menu-item" + (subpageIndex === 3 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'poap' })}>Poap</div>
                         <div className={"sub-menu-item" + (subpageIndex === 5 ? ' selected' : '')}
                             onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'governance' })}>Governance</div>
-                        {/* <div className={"sub-menu-item" + (subpageIndex === 6 ? ' selected' : '')}
-                            onClick={() => window.location.href = encodeQueryData(localRouter('profile') + slug, { subpage: 'discord' })}>Discord</div> */}
-                        {/* <div className={"ProfilePageMainTitleMenuItem" + (selectedTabIndex === 4 ? ' selected' : '')} onClick={() => setSelectedTabIndex(4)}>Governance</div> */}
-                        {/* <div style={{ marginLeft: 'auto' }}><MainButton onClick={() => {
-                            window.localStorage?.removeItem('user')
-                            logout()
-                            window.location.href = localRouter('home')
-                        }}>Log out</MainButton></div> */}
                     </div>
                 </div>
                 <div className="content-container">

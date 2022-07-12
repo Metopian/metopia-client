@@ -56,7 +56,7 @@ export const doCreateDao = (settings, cb) => {
             fetch(snapshotApi.loadSpaces).then(r2 => {
                 return r2.json()
             }).then(r3 => {
-                window.location.href = localRouter('club.prefix') + r.content
+                window.location.href = localRouter('dao.prefix') + r.content
             }).finally(cb)
         } else {
             window.alert('Dao creation Failed')
@@ -77,7 +77,7 @@ export const doUpdateDao = (id, settings, cb) => {
             fetch(snapshotApi.loadSpaces).then(r2 => {
                 return r2.json()
             }).then(r3 => {
-                window.location.href = localRouter('club.prefix') + r.content
+                window.location.href = localRouter('dao.prefix') + r.content
             }).finally(cb)
         } else {
             window.alert('Dao creation Failed')

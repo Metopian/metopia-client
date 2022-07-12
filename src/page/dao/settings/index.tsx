@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { loadSnapshotSettingsById } from '../../../config/graphql'
 import { useChainId } from '../../../config/store'
 import { localRouter, nftDataApi, thirdpartyApi } from '../../../config/urls'
-import { useSpaceData } from '../../../governance'
+import { useDaoData } from '../../../governance'
 import { MainButton } from '../../../module/button'
 import { Input, Label } from '../../../module/form'
 import { encodeQueryData } from '../../../utils/RestUtils'
@@ -17,7 +17,7 @@ import { defaultForm, doCreateDao, doUpdateDao, formToSettings, settingsToForm, 
 import './index.scss'
 import { getAddress, getChainId, switchChain } from '../../../utils/web3Utils'
 
-const ClubSettingPage = (props) => {
+const DaoSettingPage = (props) => {
     const { slug } = props
     const { data: basicFormData, update: updateBasicForm } = useBasicFormData()
     const { data: consensusForm, update: updateConsensusForm } = useConsensusForm()
@@ -26,7 +26,7 @@ const ClubSettingPage = (props) => {
     /**
      * Load space settings
      */
-    const { data: defaultSettings } = useSpaceData(slug)
+    const { data: defaultSettings } = useDaoData(slug)
     const { chainId, setChainId } = useChainId()
 
     const [errors, setErrors] = useState({})
@@ -85,7 +85,7 @@ const ClubSettingPage = (props) => {
         }
     }, [defaultSettings, updateBasicForm, updateConsensusForm, updateVotingForm, updateProposalForm])
 
-    const createClub = () => {
+    const createDao = () => {
         let errors = validateData()
         if (Object.keys(errors).length) {
             window.alert(errors[Object.keys(errors)[0]])
@@ -148,24 +148,24 @@ const ClubSettingPage = (props) => {
         })
     }
 
-    return <div className='create-club-page'>
+    return <div className='create-dao-page'>
         <div className="head">
             <div className="title" style={{ margin: 0 }}>
                 <img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
-                    window.location.href = localRouter("club.prefix") + slug
+                    window.location.href = localRouter("dao.prefix") + slug
                 }} />{slug ? 'Update settings' : 'Create new DAO'}</div>
             <div style={{ display: 'flex', gap: '24px', marginLeft: 'auto' }}>
-                <MainButton onClick={createClub} disabled={creating} loading={creating}>Confirm</MainButton>
+                <MainButton onClick={createDao} disabled={creating} loading={creating}>Confirm</MainButton>
             </div>
         </div>
         <div className='body' ref={container} onScroll={e => {
-            $('#createClubScrollbar').css({
+            $('#createDaoScrollbar').css({
                 "top": (container.current.scrollTop + 80 + ((container.current.clientHeight - 250) * container.current.scrollTop /
                     (container.current.scrollHeight - container.current.clientHeight))) + 'px'
             })
         }}>
             {
-                slug ? null : <div className='create-club-form' >
+                slug ? null : <div className='create-dao-form' >
                     <div className={'import-snapshot-container' + (expandImportDiv ? ' expanded' : '')}>
                         <div className='head' onClick={() => { setExpandImportDiv(!expandImportDiv) }}>
                             <img src="/imgs/lil-triangle.svg" className='flag' alt="" />
@@ -192,9 +192,9 @@ const ClubSettingPage = (props) => {
             <ConsensusForm errors={errors} ref={consensusFormRef} />
             <ProposalForm errors={errors} />
             <VotingForm errors={errors} />
-            <div className="scrollbar" id="createClubScrollbar"></div>
+            <div className="scrollbar" id="createDaoScrollbar"></div>
         </div>
     </div >
 }
 
-export default ClubSettingPage
+export default DaoSettingPage

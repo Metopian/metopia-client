@@ -31,10 +31,10 @@ const ProposalCard = (props) => {
     </div>
 }
 
-const ClubHomePage = (props) => {
+const DaoHomePage = (props) => {
     const { slug } = props
     const [proposals, setProposals] = useState<any>([])
-    const [spaceSettings, setSpaceSetting] = useState<any>({})
+    const [daoSettings, setDaoSetting] = useState<any>({})
     const [proposalCount, setProposalCount] = useState(0)
     const [self, setSelf] = useState(null)
 
@@ -62,17 +62,17 @@ const ClubHomePage = (props) => {
             return d.json()
         }).then(d => {
             if (d.content && d.content.settings) {
-                setSpaceSetting(JSON.parse(d.content.settings))
+                setDaoSetting(JSON.parse(d.content.settings))
                 setProposalCount(d.content.proposalCount)
             }
         })
 
     }, [slug])
 
-    return <div className="club-home-page">
+    return <div className="dao-home-page">
         <div className="container">
             <div className="head">
-                <WrappedLazyLoadImage src={spaceSettings.banner || '/imgs/example_cover_large.png'} className="cover-image" />
+                <WrappedLazyLoadImage src={daoSettings.banner || '/imgs/example_cover_large.png'} className="cover-image" />
                 <div className="cover-shadow"></div>
                 <div className="stats left">
                 </div>
@@ -83,28 +83,28 @@ const ClubHomePage = (props) => {
             </div>
             <div className="introduction-container">
                 <div className='symbol-wrapper'>
-                    <WrappedLazyLoadImage src={spaceSettings.avatar || '/imgs/defaultavatar.png'} className="symbol" />
+                    <WrappedLazyLoadImage src={daoSettings.avatar || '/imgs/defaultavatar.png'} className="symbol" />
                 </div>
 
 
                 <div className="name">
-                    {spaceSettings.name}
+                    {daoSettings.name}
                     {
-                        spaceSettings?.admins?.includes(self) ? <img src="/imgs/write2.svg" alt="Edit" title="Edit settings" onClick={() => {
-                            window.location.href = localRouter('club.update', { space: slug })
+                        daoSettings?.admins?.includes(self) ? <img src="/imgs/write2.svg" alt="Edit" title="Edit settings" onClick={() => {
+                            window.location.href = localRouter('dao.update', { dao: slug })
                         }} /> : null
                     }</div>
-                <div className="introduction">{parse(spaceSettings.about||'')}</div>
+                <div className="introduction">{parse(daoSettings.about||'')}</div>
             </div>
             <div className="function-container">
                 <MainButton solid style={{ width: '140px', height: '48px', margin: 0 }} onClick={() => {
-                    window.location.href = localRouter('proposal.create', { space: slug })
+                    window.location.href = localRouter('proposal.create', { dao: slug })
                 }}>Propose</MainButton>
                 <GhostButtonGroup items={
-                    ['website', 'opensea', 'discord', 'twitter'].filter(key => spaceSettings[key]).map(key => {
+                    ['website', 'opensea', 'discord', 'twitter'].filter(key => daoSettings[key]).map(key => {
                         return {
                             content: <img src={`/imgs/${key}_purple.svg`} alt="Proposal" />,
-                            onClick: () => window.location.href = spaceSettings[key]
+                            onClick: () => window.location.href = daoSettings[key]
                         }
                     })} />
             </div>
@@ -117,7 +117,7 @@ const ClubHomePage = (props) => {
                     proposals ? (
                         proposals.length ?
                             proposals.map(p => <ProposalCard {...p} key={'ProposalCard' + p.id} />) :
-                            <div style={{ color: '#888', fontSize: '20px', marginTop: '30px', marginBottom: '30px' }}>This space is empty.</div>) :
+                            <div style={{ color: '#888', fontSize: '20px', marginTop: '30px', marginBottom: '30px' }}>This DAO is empty.</div>) :
                         <BulletList />
                 }
             </div>
@@ -126,4 +126,4 @@ const ClubHomePage = (props) => {
     </div>
 }
 
-export default ClubHomePage
+export default DaoHomePage

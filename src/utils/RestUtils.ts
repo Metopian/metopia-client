@@ -11,7 +11,10 @@ const encodeQueryData = (url, data) => {
     for (let d in data)
         if (data[d])
             ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-    return url + "?" + ret.join('&');
+    if (!url?.length) {
+        return ret.join('&')
+    }
+    else return url + "?" + ret.join('&')
 }
 
 const getFetcher = (url, params?) => fetch(encodeQueryData(url, params)).then((res) => res.json())

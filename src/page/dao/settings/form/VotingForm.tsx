@@ -21,8 +21,7 @@ const useData = () => {
 
 const VotingForm = props => {
     const { data, update: updateForm } = useData()
-    return <div className={"create-club-form"}  >
-        {/* <div className="CreateClubPageTitle">Proposal settings</div> */}
+    return <div className={"create-dao-form"}  >
         <div className="form-group second">
             <Label>Preparation period</Label>
             <div className="Tip" style={{ marginTop: '-10px', marginBottom: '20px' }}>How long will it take for a proposal from starting to public voting?</div>

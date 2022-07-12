@@ -175,7 +175,7 @@ const ProposalHomePage = props => {
 
     return <div className="proposal-index-page">
         <div className="title"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
-            window.location.href = localRouter("club.prefix") + (proposal.space?.id)
+            window.location.href = localRouter("dao.prefix") + (proposal.space?.id)
         }} />Voting</div>
         <div className='container'>
             <div className="left-container">
