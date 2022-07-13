@@ -40,14 +40,14 @@ const defaultLoginModalStyle = {
 const stepsConfig = [
     {
         title: 'Connect Wallet',
-        icon: 'https://metopia.oss-cn-hongkong.aliyuncs.com/connectwallet.svg'
+        icon: 'https://oss.metopia.xyz/connectwallet.svg'
     },
     // {
     //     title: 'Create Account',
-    //     icon: 'https://metopia.oss-cn-hongkong.aliyuncs.com/settingspurple.svg'
+    //     icon: 'https://oss.metopia.xyz/settingspurple.svg'
     // }, {
     //     title: 'Choose Avatar',
-    //     icon: 'https://metopia.oss-cn-hongkong.aliyuncs.com/accountpurple.svg'
+    //     icon: 'https://oss.metopia.xyz/accountpurple.svg'
     // }
 ]
 
@@ -57,7 +57,7 @@ const walletConfig = [
         icon: 'https://oss.happyblocklabs.com/platform/web/imgs/metamask.svg'
     }, {
         title: 'Phantom',
-        icon: 'https://metopia.oss-cn-hongkong.aliyuncs.com/phantom.svg',
+        icon: 'https://oss.metopia.xyz/phantom.svg',
         disabled: true
     }
 ]

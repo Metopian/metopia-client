@@ -39,7 +39,7 @@ const ImageSelector = (props) => {
             inputRef.current.click()
         }}>
             {props.imgUrl ? <WrappedLazyLoadImage className="selected-image" src={props.imgUrl} alt='' /> :
-                <img className={"to-upload-icon" + (loading ? ' hidden' : '')} src={"https://metopia.oss-cn-hongkong.aliyuncs.com/upload.svg"} alt='Upload' />}
+                <img className={"to-upload-icon" + (loading ? ' hidden' : '')} src={"https://oss.metopia.xyz/upload.svg"} alt='Upload' />}
         </div>
         {
             loading ? <ReactLoading type={'spin'} color={'#444'} height={'40%'} width={'40%'} className="loading" /> : null

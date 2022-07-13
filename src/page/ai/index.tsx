@@ -55,14 +55,14 @@ const whitelistModalStyle = {
 const aiMenuConfig = [
     // {
     //     id: 'user',
-    //     icon: 'https://metopia.oss-cn-hongkong.aliyuncs.com/profile.svg',
+    //     icon: 'https://oss.metopia.xyz/profile.svg',
     //     name: 'Profile',
     //     link: localRouter('ai'),
     //     isIcon: false
     // }, 
     {
         id: 'doc',
-        icon: 'https://metopia.oss-cn-hongkong.aliyuncs.com/books-fill.svg',
+        icon: 'https://oss.metopia.xyz/books-fill.svg',
         name: 'Doc',
         link: "https://metopia.gitbook.io/metopia-docs/metobot/metobot",
     },
@@ -272,7 +272,7 @@ const AIActPage = () => {
     return <div className='AIActPage' >
         <div className="AIActMainContainer">
             <div className="AIActMenu Menu">
-                <LogoIcon src='https://metopia.oss-cn-hongkong.aliyuncs.com/logo.svg' />
+                <LogoIcon src='https://oss.metopia.xyz/logo.svg' />
                 <div className="MenuItemWrapper">
                     {aiMenuConfig.map(i => {
                         return <MenuItem {...i} key={'menuitem' + i.name} />
@@ -281,7 +281,7 @@ const AIActPage = () => {
             </div>
             <div className="AIActContentContainer">
                 <div className="AIActIntroductionContainer">
-                    <img className="AIActIntroductionContainerBg" src="https://metopia.oss-cn-hongkong.aliyuncs.com/AIActIntroductionContainerBg.png" alt="" />
+                    <img className="AIActIntroductionContainerBg" src="https://oss.metopia.xyz/AIActIntroductionContainerBg.png" alt="" />
                     <div className="AIActIntroductionContainerText">
                         <div className="AIActIntroductionTitle">Metobot (Beta)</div>
                         <div className="AIActMainIntroduction" >
@@ -289,7 +289,7 @@ const AIActPage = () => {
                             <p>For the first time for NFTs, we are changing that and making creative expression to be possible on top of NFTs. On Metobot, NFT holders can upload their jpeg to add skins and customized wears to their NFT design!</p>
                         </div>
                     </div>
-                    <img className='AIActIntroductionContainerObj' src="https://metopia.oss-cn-hongkong.aliyuncs.com/AIActIntroductionContainerObj.png" alt="" />
+                    <img className='AIActIntroductionContainerObj' src="https://oss.metopia.xyz/AIActIntroductionContainerObj.png" alt="" />
                 </div>
                 <div className="AIActFunctionalContainer">
                     <div className="AIActPageFormContainerLeft">
@@ -298,7 +298,7 @@ const AIActPage = () => {
                             <div className="AIActMainIntroduction">We support NFT Assets on Ethereum and Polygon.</div>
                             <div>
                                 <div className="AIActMainIntroduction" >Please select one of your NFTs to create a new work.</div>
-                                <div className="DownTipWrapper"><img src="https://metopia.oss-cn-hongkong.aliyuncs.com/↓.svg" alt="" /></div>
+                                <div className="DownTipWrapper"><img src="https://oss.metopia.xyz/↓.svg" alt="" /></div>
                                 {
                                     <div className='NftCollectionNameButtonContainer'>
                                         {/* {
@@ -398,7 +398,7 @@ const AIActPage = () => {
                             <Label>Address</Label>
                             <div className="AIActInfoValue">
                                 {user.wallet && user.wallet.account ? addrShorten(user.wallet.account) : '...'}
-                                {user.wallet && user.wallet.account ? <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/logout.svg" onClick={() => dispatch(logout())} alt="Log out" title="Log out"
+                                {user.wallet && user.wallet.account ? <img src="https://oss.metopia.xyz/logout.svg" onClick={() => dispatch(logout())} alt="Log out" title="Log out"
                                     className="LogoutButton" /> : null}
                             </div>
                         </div>

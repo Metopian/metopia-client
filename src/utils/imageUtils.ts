@@ -1,6 +1,5 @@
 
-import { testApi } from '../config/urls'
-
+import { snapshotApi } from '../config/urls'
 
 const createImage = url =>
     new Promise((resolve, reject) => {
@@ -50,7 +49,6 @@ export async function getCroppedImg(imageSrc: string, pixelCrop: Area) {
     })
 }
 
-
 function getBase64Image(img: any) {
     var canvas = document.createElement("canvas");
     canvas.width = img.width;
@@ -61,11 +59,10 @@ function getBase64Image(img: any) {
     return dataURL
 }
 
-
 export const uploadImg = (image: File) => {
     let headers = new Headers();
     const formData = new FormData();
-    formData.append('file', image);
+    formData.append('image', image);
 
     const options = {
         method: 'POST',
@@ -73,5 +70,5 @@ export const uploadImg = (image: File) => {
         headers: headers
     };
 
-    return fetch(testApi.image_store, options).then(res => res.json());
+    return fetch(snapshotApi.uploadImage, options).then(res => res.json());
 }

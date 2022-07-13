@@ -33,8 +33,8 @@ const NftOptionCard = (props: ParamType) => {
             <div className="content">
                 <NftImage defaultSrc={props.src} chainId={chainId} tokenId={props.tokenId} contract={props.tokenAddress} width={size[1]}
                     className="image" />
-                {props.noTick ? null : <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/check_box_off.svg" className="unchecked-icon" alt="" />}
-                {props.noTick ? null : <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/check_box_on.svg" className="checked-icon" alt="" />}
+                {props.noTick ? null : <img src="https://oss.metopia.xyz/check_box_off.svg" className="unchecked-icon" alt="" />}
+                {props.noTick ? null : <img src="https://oss.metopia.xyz/check_box_on.svg" className="checked-icon" alt="" />}
             </div>
         </div>
     )

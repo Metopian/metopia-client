@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useChainId } from '../../config/store';
-import { localRouter } from "../../config/urls";
+import { localRouter, cdnPrefix } from "../../config/urls";
 import { MainButton } from "../../module/button";
 import { DefaultAvatar, WrappedLazyLoadImage } from '../../module/image';
 import { usePersonalDiscordData } from "../../third-party/discord";
 import { useNfts } from '../../third-party/moralis';
+import { uploadImg } from "../../utils/imageUtils";
 import { uploadFileToIfps } from "../../utils/ipfsUtils";
 import { encodeQueryData } from '../../utils/RestUtils';
 import { compareIgnoringCase } from "../../utils/stringUtils";
@@ -32,7 +33,7 @@ const ProfilePage = (props) => {
 
     const avatarInputRef = useRef(null)
 
-    console.log(accountData)
+    // console.log(accountData)
 
     const nftCount = useMemo(() => {
         if (!nfts)
@@ -65,10 +66,12 @@ const ProfilePage = (props) => {
         }
     }, [slug, subpage, state, code])
 
-    const updateUser = useCallback(params => {
+    const updateUser = useCallback(async (params) => {
         if (accountData?.data) {
             const tmp = Object.assign({}, accountData.data, params)
-            updateAccount(tmp.owner, tmp.username, tmp.avatar, tmp.introduction)
+            return await updateAccount(tmp.owner, tmp.username, tmp.avatar, tmp.introduction)
+        } else {
+            return null
         }
     }, [accountData])
 
@@ -93,7 +96,7 @@ const ProfilePage = (props) => {
         }
         return { subpageJsx: tmpJsx, subpageIndex: tmpIndex }
     }, [slug, subpage])
-    console.log((avatar && window.URL.createObjectURL(avatar)) || accountData?.data?.avatar)
+
     return <div className="profile-page">
         <div className="container">
             <div className="head" style={{ backgroundImage: 'url(/imgs/profile_page_head_bg.png)' }}>
@@ -110,12 +113,15 @@ const ProfilePage = (props) => {
                         <input className="Hidden" type='file' ref={avatarInputRef} onChange={async (e) => {
                             if (!e.target.files[0])
                                 return
-                            let result = await uploadFileToIfps(e.target.files[0])
-                            if (!result.IpfsHash) {
+                            // await uploadFileToIfps(e.target.files[0])
+                            let result = await uploadImg(e.target.files[0])
+                            console.log(result)
+                            if (!result?.content?.length) {
                                 window.alert("Image upload failed. Please check your network.")
                                 return
                             }
-                            updateUser({ avatar: "ipfs://" + result.IpfsHash })
+                            let tmp = await updateUser({ avatar: cdnPrefix + result.content })
+                            console.log("here", tmp)
                             setAvatar(e.target.files[0])
                         }} />
                     </div>

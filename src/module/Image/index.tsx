@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { nftDataApi } from '../../config/urls'
 import useSWR from "swr";
@@ -26,7 +26,25 @@ const WrappedLazyLoadImage = (image: LazyLoadImageParam) => {
     const [loadDefault, setLoadDefault] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    if (!image || !image.src || image.src.length === 0)
+    const imgComponent = useMemo(() => {
+        console.log(image.src)
+        return <LazyLoadImage
+            beforeLoad={() => setLoading(true)}
+            afterLoad={() => setLoading(false)}
+            alt={image.alt || ''}
+            src={loadDefault ? image.defaultSrc : image.src}
+            onError={(e) => {
+                if (loadDefault || !image.defaultSrc) {
+                    e.target.src = "/imgs/imgplaceholder.svg"
+                    e.target.title = "The image is not loaded correcly"
+                } else {
+                    setLoadDefault(true)
+                }
+            }}
+        />
+    }, [image.src, image.alt, image.defaultSrc, loadDefault])
+
+    if (!image.src?.length)
         return null
     let src = image.src
     if (image.src.indexOf("ipfs://") === 0) {
@@ -35,20 +53,7 @@ const WrappedLazyLoadImage = (image: LazyLoadImageParam) => {
 
     return (
         <div className={'wrapped-lazy-load-image ' + (image.className ? image.className : '')}>
-            <LazyLoadImage
-                beforeLoad={() => setLoading(true)}
-                afterLoad={() => setLoading(false)}
-                alt={image.alt || ''}
-                src={loadDefault ? image.defaultSrc : src}
-                onError={(e) => {
-                    if (loadDefault || !image.defaultSrc) {
-                        e.target.src = "/imgs/imgplaceholder.svg"
-                        e.target.title = "The image is not loaded correcly"
-                    } else {
-                        setLoadDefault(true)
-                    }
-                }}
-            />
+            {imgComponent}
             {
                 loading ? <ReactLoading type={'spin'} color={'#444'} height={'20%'} width={'20%'} className="loading" /> : null
             }

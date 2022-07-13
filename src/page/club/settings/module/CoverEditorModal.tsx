@@ -3,7 +3,6 @@ import 'rc-slider/assets/index.css';
 import React, { useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import Modal from 'react-modal';
-import { cdnPrefix } from '../../../../config/urls';
 import { HollowButton, MainButton } from '../../../../module/button';
 import { getCroppedImg, type Area } from '../../../../utils/imageUtils';
 import './CoverEditorModal.scss';
@@ -58,10 +57,10 @@ const CoverEditorModal = (props) => {
 
             <div className="ratio-selector-container">
                 <div className="ratio-option" onClick={() => setMode(1)}>
-                    <div className={"symbol" + (mode === 1 ? ' selected' : '')}>{mode === 1 ? <img src={cdnPrefix+ "/white_tick.svg"} alt="Selected" /> : null}</div>
+                    <div className={"symbol" + (mode === 1 ? ' selected' : '')}>{mode === 1 ? <img src="https://oss.metopia.xyz/white_tick.svg" alt="Selected" /> : null}</div>
                     <div className="text">
-                        <div className="title">Dao Information Page(4:1)</div>
-                        <div className="content">Users will see it at Dao's homepage</div>
+                        <div className="title">Club Information Page(4:1)</div>
+                        <div className="content">Users will see it in club details page</div>
                     </div>
                 </div>
             </div>

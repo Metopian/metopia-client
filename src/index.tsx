@@ -14,10 +14,10 @@ const Index = () => {
     <div >
       <CookiesProvider>
         <div className="MenuWrapper">
-          <Menu logoUrl={'https://metopia.oss-cn-hongkong.aliyuncs.com/logo.svg'} user={null} />
+          <Menu logoUrl={'https://oss.metopia.xyz/logo.svg'} user={null} />
         </div>
         <div className="AppContainer">
-          <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/bg_colored.png" className="AppBg" alt="" />
+          <img src="https://oss.metopia.xyz/bg_colored.png" className="AppBg" alt="" />
           <div className="AppMainContainer">
             <BrowserRouter basename="">
               <Routes>

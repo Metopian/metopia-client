@@ -29,9 +29,9 @@ const ProposalBoard = (props) => {
             <a href={data ? localRouter('proposal.prefix') + data.content[index - 1]?.id : '#'}>{data?.content[index - 1]?.title}</a>
         </div>
         <div className="pager">
-            <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/left_arrow.svg" alt="Last" onClick={last} />
+            <img src="https://oss.metopia.xyz/left_arrow.svg" alt="Last" onClick={last} />
             <div className="text">{index}<div className='slash'>/</div>5</div>
-            <img src="https://metopia.oss-cn-hongkong.aliyuncs.com/right_arrow.svg" alt="Next" onClick={next} />
+            <img src="https://oss.metopia.xyz/right_arrow.svg" alt="Next" onClick={next} />
         </div>
     </div>
 }
