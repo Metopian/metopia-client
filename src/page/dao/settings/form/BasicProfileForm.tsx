@@ -14,6 +14,8 @@ import AdminInputCard from '../module/AdminInputCard';
 import CoverEditorModal from '../module/CoverEditorModal';
 import './BasicProfileForm.scss';
 import { deserialize } from '../../../../utils/serializeUtil';
+import { uploadImg } from '../../../../utils/imageUtils';
+import { cdnPrefix } from '../../../../config/urls';
 
 const useData = () => {
     const formId = "basicinfo"
@@ -59,7 +61,7 @@ const Form = props => {
      */
     const introductionForm = useMemo(() => {
         if (slug) {
-            return data.name?.length ? <DefaultTextEditor className="introduction-input-wrapper" html plain initialValue={deserialize(data.introduction||'')} onChange={(val) => {
+            return data.name?.length ? <DefaultTextEditor className="introduction-input-wrapper" html plain initialValue={deserialize(data.introduction || '')} onChange={(val) => {
                 if (val !== data.introduction)
                     updateForm({ introduction: val })
             }} toolbar={[[
@@ -116,26 +118,39 @@ const Form = props => {
                 <Label>Cover Image</Label>
                 <ImageSelector trigger={() => { imageInput.current.click() }}
                     imgUrl={(logoImg && window.URL.createObjectURL(logoImg)) || data.avatar} onChange={async (e) => {
-                        let result = await uploadFileToIfps(e.target.files[0])
-                        if (!result.IpfsHash) {
+                        if (!e.target.files[0])
+                            return
+                        let result = await uploadImg(e.target.files[0])
+                        if (!result?.content?.length) {
                             window.alert("Image upload failed. Please check your network.")
                             return
                         }
                         setLogoImg(e.target.files[0])
-                        updateForm({ 'avatar': "ipfs://" + result.IpfsHash })
+                        updateForm({ 'avatar': cdnPrefix + result.content })
+
+                        // let result = await uploadFileToIfps(e.target.files[0])
+                        // if (!result.IpfsHash) {
+                        //     window.alert("Image upload failed. Please check your network.")
+                        //     return
+                        // }
+                        // setLogoImg(e.target.files[0])
+                        // updateForm({ 'avatar': "ipfs://" + result.IpfsHash })
                     }} />
             </div>
             <div className="form-group">
                 <Label>Banner</Label>
-                <ImageSelector wide trigger={() => { setSelectingCover(true) }} imgUrl={croppedBanner && window.URL.createObjectURL(croppedBanner)}
+                <ImageSelector wide trigger={() => { setSelectingCover(true) }} imgUrl={(croppedBanner && window.URL.createObjectURL(croppedBanner)) || data.banner}
                     onChange={async (e) => {
-                        let result = await uploadFileToIfps(e.target.files[0])
-                        if (!result.IpfsHash) {
+
+                        if (!e.target.files[0])
+                            return
+                        let result = await uploadImg(e.target.files[0])
+                        if (!result?.content?.length) {
                             window.alert("Image upload failed. Please check your network.")
                             return
                         }
                         setCroppedBanner(e.target.files[0])
-                        updateForm({ 'banner': "ipfs://" + result.IpfsHash })
+                        updateForm({ 'banner': cdnPrefix + result.content })
                     }} />
                 <CoverEditorModal onRequestClose={() => setSelectingCover(false)} show={selectingCover} onSubmit={async (croppedImage, blob) => {
                     let result = await uploadFileToIfps(blob)

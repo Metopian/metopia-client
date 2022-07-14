@@ -8,6 +8,7 @@ import store from './config/store';
 import './index.scss';
 import LoginModal from './module/LoginModal';
 import { Menu } from './module/Menu';
+import BasicProfileEditorModal from './page/profile/module/BasicProfileEditorModal';
 
 const Index = () => {
   return (
@@ -31,6 +32,7 @@ const Index = () => {
           </div>
         </div>
         <LoginModal />
+        {/* <BasicProfileEditorModal/> */}
       </CookiesProvider >
     </div >
   )

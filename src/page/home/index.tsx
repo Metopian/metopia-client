@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { BulletList } from 'react-content-loader'
 import FlexibleOrderedContainer from '../../module/FlexibleOrderedContainer'
-import { useDaoListData, useLatestProposalData } from '../../governance'
+import { useDaoListData, useLatestProposalData } from '../../core/governance'
 import DaoCard from './DaoCard'
 import './index.scss'
 import SearchInput from './SearchInput'

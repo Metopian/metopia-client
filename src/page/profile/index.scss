@@ -37,6 +37,12 @@
                         width: 120px;
                         border-radius: 60px;
 
+                        img {
+                            height: 120px;
+                            width: 120px;
+                            border-radius: 60px;
+                        }
+
                         &.default {
                             border-radius: 0;
                         }
@@ -52,11 +58,12 @@
                     flex-direction: column;
                     gap: 20px;
                     align-items: flex-start;
+                    margin-left: 32px;
 
                     >.name-wrapper {
-                        margin-left: 12px;
                         display: flex;
                         gap: 12px;
+                        align-items: center;
 
                         >.name {
                             font-size: 28px;
@@ -64,13 +71,26 @@
                             color: $title-color;
                             font-family: montserrat;
                         }
+                        img{
+                            height: 30px;
+                        }
+                        .ghost-button-group{
+                            margin-left: 16px;
+                            .ghost-button{
+                                padding:6px 13px;
+                            }
+                        }
                     }
 
+                    >.button-wrapper {
+                        display: flex;
+                        gap: 12px;
 
-                    .main-button {
-                        margin-left: 12px;
-                        border-radius: 99px;
-                        font-size: 18px;
+                        .main-button {
+                            // margin-left: 12px;
+                            border-radius: 99px;
+                            font-size: 16px;
+                        }
                     }
 
                 }

@@ -1,0 +1,36 @@
+@import '../../../global.scss';
+.user-basic-profile-editor-modal {
+    background-color: white;
+
+    >.container {
+        border-radius: 32px;
+        padding: 0 40px;
+
+        >.head {
+            margin-bottom: 30px;
+            padding:32px 0 32px 0;
+            border-bottom: 1px solid $border-color;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            >.title {
+                font-size: 24px;
+                font-weight: 700;
+            }
+
+            img {
+                height: 24px;
+                cursor: pointer;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .main-button {
+            width: 100%;
+        }
+    }
+}

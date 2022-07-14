@@ -12,37 +12,44 @@
         display: flex;
 
         >.user-info {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover>.username {
+                text-decoration: underline;
+            }
+
             >.avatar {
                 width: 40px;
                 height: 40px;
                 border-radius: 20px;
-                vertical-align: middle;
                 margin-right: 16px;
+
+                img {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 20px;
+                }
             }
 
             >.username {
-                display: inline-block;
                 font-weight: 500;
                 font-size: 16px;
                 line-height: 24px;
-                color: #222222;
-                vertical-align: middle;
+                color: #000000;
                 margin-right: 12px;
             }
 
             >.address {
-
-                display: inline-block;
                 font-size: 12px;
                 line-height: 18px;
-
                 text-align: center;
-
                 color: $text-color;
                 background: #F5F5F5;
                 border-radius: 8px;
-                vertical-align: middle;
-                padding: 0 3px
+                padding: 2px 6px;
+                transform: translateY(1px);
             }
         }
 
@@ -62,8 +69,16 @@
                 text-align: center;
                 color: #FFFFFF;
 
-                &.closed {
+                &.invalid {
                     background: linear-gradient(75.15deg, rgb(103, 126, 125) 10.31%, rgb(139, 139, 139) 126.49%);
+                }
+
+                &.against {
+                    background: linear-gradient(75.15deg, #FF6A7D 10.31%, #F5545F 126.49%);
+                }
+
+                &.undecided {
+                    background: linear-gradient(75.15deg, #ffad6a 10.31%, #e49352 126.49%);
                 }
             }
 
@@ -114,6 +129,7 @@
             -webkit-line-clamp: 2;
             overflow: hidden;
             text-overflow: ellipsis;
+
             * {
                 margin: 0
             }

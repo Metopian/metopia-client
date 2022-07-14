@@ -1,15 +1,13 @@
 import useSWR from "swr"
-import { userApi } from "../../../config/urls"
-import { getAddress, sign } from "../../../utils/web3Utils"
-import { compareIgnoringCase } from "../../../utils/stringUtils"
-import { defaultSWRConfig, getFetcher, encodeQueryData } from "../../../utils/RestUtils"
+import { userApi } from "../config/urls"
+import { getAddress, sign } from "../utils/web3Utils"
+import { compareIgnoringCase } from "../utils/stringUtils"
+import { defaultSWRConfig, getFetcher, encodeQueryData } from "../utils/RestUtils"
 
 export const updateAccount = (owner, username, avatar, introduction) => {
     return new Promise((accept, reject) => {
         let msg = { owner, username, avatar, introduction, timestamp: parseInt(new Date().getTime() / 1000 + '') }
-        console.log(msg)
         sign(JSON.stringify(msg)).then(signature => {
-            console.log(signature)
             return fetch(userApi.user_update + owner, {
                 method: 'PUT',
                 headers: {
@@ -39,10 +37,23 @@ export const updateAccount = (owner, username, avatar, introduction) => {
 }
 
 export const selectByOwner = (owner) => {
-    return fetch(userApi.user_update + owner).then(d => d.json())
+    return fetch(userApi.user_selectByOwner + owner).then(d => d.json())
+}
+
+export const selectByOwners = (owners) => {
+    if (!owners?.length)
+        return {}
+    let tmp = owners.map(o => 'owners=' + o)
+
+    return fetch(userApi.user_selectByOwners + "?" + tmp.join('&')).then(d => d.json())
 }
 
 export const useAccountData = (owner) => {
     const { data, error } = useSWR([userApi.user_update + owner, { owner }], getFetcher, defaultSWRConfig)
+    return { data, error }
+}
+
+export const useAccountListData = (owners) => {
+    const { data, error } = useSWR(owners?.length ? [userApi.user_selectByOwners + "?" + [...owners, ''].map(o => 'owners=' + o).join('&')] : null, getFetcher, defaultSWRConfig)
     return { data, error }
 }

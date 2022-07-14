@@ -109,7 +109,7 @@ const LoginModal = (props: {
     const [selectedNft, setSelectedNft] = useState(null)
     const dispatch = useDispatch()
     // const user = useSelector((state: RootState) => state.user)
-    const { isShow, stepRequired } = useSelector((state: RootState) => state.loginModal)
+    const { isShow, stepRequired } = useSelector((state: RootState) => state.modalController.loginModal)
     const { hide } = useLoginModal()
     const { chainId } = useChainId()
     const { data: nfts, error: ethError } = useNfts(null, chainId)
@@ -260,7 +260,7 @@ const LoginModal = (props: {
             alert('Account creation failed.')
         }
     }
-
+    
     return <Modal
         appElement={document.getElementById('root')}
         isOpen={isShow}

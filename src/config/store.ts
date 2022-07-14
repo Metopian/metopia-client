@@ -2,7 +2,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit'
 import { useCookies } from 'react-cookie'
 import { defaultChainId } from './constant'
 import { formSlice } from './redux/formSlice'
-import { loginModalSlice } from './redux/loginModalSlice'
+import { modalController } from './redux/modalControllerSlice'
 import userReducer from './redux/userSlice'
 
 const globalConfigSlice = createSlice({
@@ -21,7 +21,7 @@ const store = configureStore({
     reducer: {
         config: globalConfigSlice.reducer,
         user: userReducer,
-        loginModal: loginModalSlice.reducer,
+        modalController: modalController.reducer,
         form: formSlice.reducer
     },
 })
@@ -51,7 +51,10 @@ declare type RootState = {
     config: {
         chainId: string
     },
-    loginModal: any,
+    modalController: {
+        loginModal: { isShow: boolean, stepRequired: number },
+        userProfileEditorModal: { isShow: boolean, user: any }
+    },
     form: any
 }
 

@@ -17,11 +17,12 @@ const Textarea = (props) => {
     const [len, setLen] = useState(0)
     return <div className={'r-textarea ' + (props.className ? props.className : "")}>
         <textarea
-            placeholder={props.placeholder} style={props.style}
+            placeholder={props.placeholder}
+            style={props.style}
             onChange={(e) => {
                 setLen(e.target.value.length)
                 props.onChange && props.onChange(e)
-            }} value={props.value}></textarea>
+            }} defaultValue={props.defaultValue} value={props.value}></textarea>
         {
             props.maxLength ? <div className={"length-indicator" + (len > props.maxLength ? ' exceeded' : '')}>{len}/{props.maxLength}</div> : null
         }

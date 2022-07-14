@@ -1,5 +1,6 @@
 
-const cdnPrefix = process.env.REACT_APP_CDN_PREFIX
+const ossPrefix = process.env.REACT_APP_CDN_PREFIX
+export const ossImageThumbnailPrefix = (width, height) => `?x-oss-process=image/resize,w_${width},h_${height},m_fill`
 
 const dataCenterRoot = process.env.REACT_APP_DATA_CENTER_API_PREFIX
 const snapshotScoreApiRoot = process.env.REACT_APP_SNAPSHOT_SCORE_API_PREFIX
@@ -8,7 +9,8 @@ const metopiaApiRoot = process.env.REACT_APP_METOPIA_SERVICE_API_PREFIX
 
 const userApi = {
     user_update: dataCenterRoot + "owners/",
-    user_selectByOwner: dataCenterRoot + "owners/"
+    user_selectByOwner: dataCenterRoot + "owners/",
+    user_selectByOwners: dataCenterRoot + "owners"
 }
 const discordApi = {
     guild_selectAll: dataCenterRoot + 'discord/bot/guilds',
@@ -70,4 +72,4 @@ const testApi = {
 const ceramicNode = process.env.REACT_APP_CERAMIC_API
 
 
-export { cdnPrefix, localRouter, nftDataApi, snapshotApi, ipfsApi, ceramicNode, thirdpartyApi, testApi, discordApi, userApi }
+export { ossPrefix as cdnPrefix, localRouter, nftDataApi, snapshotApi, ipfsApi, ceramicNode, thirdpartyApi, testApi, discordApi, userApi }

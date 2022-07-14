@@ -131,33 +131,3 @@
     }
 }
 
-
-
-
-
-.LoginModalAvatarContainer {
-    max-height: 400px;
-    overflow-y: auto;
-    padding: 0 10px;
-    overflow-x: hidden;
-}
-
-.LoginModalAvatarContainer::-webkit-scrollbar {
-    width: 5px;
-    background-color: #fff;
-}
-
-.LoginModalAvatarContainer::-webkit-scrollbar-thumb {
-    background-color: #e2dcfa;
-    width: 5px;
-}
-
-.LoginModalButtonContainer {
-    text-align: center;
-    margin-top: 40px;
-}
-
-.LoginModalButtonContainer .MainButton {
-    width: 120px;
-    margin: 0 16px;
-}

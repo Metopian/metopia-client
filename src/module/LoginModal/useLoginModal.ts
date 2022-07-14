@@ -1,6 +1,6 @@
 
 import { useDispatch } from 'react-redux'
-import { displayLoginModal, hideLoginModal } from '../../config/redux/loginModalSlice'
+import { displayLoginModal, hideLoginModal } from '../../config/redux/modalControllerSlice'
 
 const useLoginModal = () => {
     const dispatch = useDispatch()

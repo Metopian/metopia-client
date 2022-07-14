@@ -5,12 +5,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { loadSnapshotVotesByProposal } from '../../../config/graphql';
 import { domain, Vote, vote2Types } from '../../../config/snapshotConfig';
-import { localRouter, snapshotApi } from '../../../config/urls';
-import { useProposal, useScoreData } from '../../../governance';
+import { localRouter, ossImageThumbnailPrefix, snapshotApi } from '../../../config/urls';
+import { useAccountListData } from '../../../core/account';
+import { useProposal, useScoreData } from '../../../core/governance';
 import { MainButton } from '../../../module/button';
-import { DefaultAvatarWithRoundBackground } from '../../../module/image';
+import { DefaultAvatarWithRoundBackground, WrappedLazyLoadImage } from '../../../module/image';
 import { sum, toFixedIfNecessary } from '../../../utils/numberUtils';
-import { addrShorten } from '../../../utils/stringUtils';
+import { addrShorten, compareIgnoringCase } from '../../../utils/stringUtils';
 import { customFormat, getDateDiff } from '../../../utils/TimeUtil';
 import { getAddress, getEns, getProvider } from '../../../utils/web3Utils';
 import './index.scss';
@@ -44,6 +45,21 @@ const ProposalHomePage = props => {
     const [self, setSelf] = useState(null)
     const [authorEns, setAuthorEns] = useState(null)
 
+    const getAddressToCalcScore = useMemo(() => {
+        let res = []
+        self && res.push(self)
+        votes?.forEach(v => {
+            if (!res.includes(v.voter)) {
+                res.push(v.voter)
+            }
+        })
+        return res
+    }, [self, votes])
+
+    const { data: scores } = useScoreData(id, proposal?.network, proposal?.snapshot, proposal?.strategies, getAddressToCalcScore)
+
+    const { data: accounts } = useAccountListData(getAddressToCalcScore)
+
     useEffect(() => {
         getAddress().then(addr => {
             setSelf(addr)
@@ -60,16 +76,6 @@ const ProposalHomePage = props => {
         }
     }, [proposal])
 
-    const getAddressToCalcScore = () => {
-        let res = []
-        self && res.push(self)
-        votes?.forEach(v => {
-            if (!res.includes(v.voter)) {
-                res.push(v.voter)
-            }
-        })
-        return res
-    }
 
     const doVote = () => {
         if (!self) {
@@ -132,7 +138,6 @@ const ProposalHomePage = props => {
         initVotes()
     }, [id])
 
-    const { data: scores } = useScoreData(id, proposal?.network, proposal?.snapshot, proposal?.strategies, getAddressToCalcScore())
 
     const scoresObj = useMemo(() => {
         if (scores?.result?.scores) {
@@ -173,6 +178,7 @@ const ProposalHomePage = props => {
         }
     }
 
+    const selfAccount = accounts?.data?.list?.find(acc => compareIgnoringCase(acc.owner, proposal.author))
     return <div className="proposal-index-page">
         <div className="title"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
             window.location.href = localRouter("dao.prefix") + (proposal.space?.id)
@@ -182,8 +188,15 @@ const ProposalHomePage = props => {
                 <div className="main-container">
                     <div className="author-container">
                         <a href={`${localRouter('profile')}${proposal?.author}`}>
-                            <DefaultAvatarWithRoundBackground wallet={proposal?.author} className="avatar" />
-                            <div className="address">{authorEns || addrShorten(proposal?.author)}</div>
+                            {
+                                selfAccount?.avatar ?
+                                    <WrappedLazyLoadImage className="avatar" alt="" src={selfAccount.avatar + ossImageThumbnailPrefix(40, 40)} /> :
+                                    <DefaultAvatarWithRoundBackground wallet={proposal?.author} className="avatar" />
+                            }
+                            {/* <DefaultAvatarWithRoundBackground wallet={proposal?.author} className="avatar" /> */}
+
+                            <div className="name">{selfAccount?.username || authorEns}</div>
+                            <div className="address">{addrShorten(proposal?.author)}</div>
                         </a>
                     </div>
                     <div className="title">{proposal?.title}</div>
@@ -249,15 +262,21 @@ const ProposalHomePage = props => {
                         {
                             votes?.length ? <div>
                                 {
-                                    votes.map((v, i) => <div key={"vote-card" + i} className="vote-card">
-                                        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                                            {/* <img src="/imgs/face.svg" className="avatar" alt="" /> */}
-                                            <DefaultAvatarWithRoundBackground wallet={v.voter} />
-                                            <div className='name'><a href={`${localRouter('profile')}${v.voter}`}>{addrShorten(v.voter)}</a></div>
+                                    votes.map((v, i) => {
+                                        const account = accounts?.data?.list?.find(acc => compareIgnoringCase(acc.owner, v.voter))
+                                        return <div key={"vote-card" + i} className="vote-card">
+                                            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                                                {
+                                                    account?.avatar ?
+                                                        <WrappedLazyLoadImage className="avatar" alt="" src={account.avatar + ossImageThumbnailPrefix(40, 40)} /> :
+                                                        <DefaultAvatarWithRoundBackground wallet={v.voter} className="avatar" />
+                                                }
+                                                <div className='name'><a href={`${localRouter('profile')}${v.voter}`}>{account?.username || addrShorten(v.voter)}</a></div>
+                                            </div>
+                                            <div>{proposal?.choices.filter((t, i) => i + 1 === v.choice)}</div>
+                                            <div className="number-wrapper">{getRealVoteCount(scoresObj[v.voter])} vote(s)</div>
                                         </div>
-                                        <div>{proposal?.choices.filter((t, i) => i + 1 === v.choice)}</div>
-                                        <div className="number-wrapper">{getRealVoteCount(scoresObj[v.voter])} vote(s)</div>
-                                    </div>)
+                                    })
                                 }
                             </div> :
                                 <div style={{ color: '#888' }}>There is no voting data.</div>

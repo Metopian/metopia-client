@@ -27,7 +27,7 @@ const WrappedLazyLoadImage = (image: LazyLoadImageParam) => {
     const [loading, setLoading] = useState(true)
 
     const imgComponent = useMemo(() => {
-        console.log(image.src)
+        // console.log(image.src)
         return <LazyLoadImage
             beforeLoad={() => setLoading(true)}
             afterLoad={() => setLoading(false)}
