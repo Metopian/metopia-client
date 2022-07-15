@@ -65,19 +65,30 @@
                         gap: 12px;
                         align-items: center;
 
+
+
                         >.name {
                             font-size: 28px;
                             font-weight: bold;
                             color: $title-color;
                             font-family: montserrat;
                         }
-                        img{
+
+                        @media screen and (max-width: 1440px) {
+                            .name {
+                                font-size: 20px;
+                            }
+                        }
+
+                        img {
                             height: 30px;
                         }
-                        .ghost-button-group{
+
+                        .ghost-button-group {
                             margin-left: 16px;
-                            .ghost-button{
-                                padding:6px 13px;
+
+                            .ghost-button {
+                                padding: 6px 13px;
                             }
                         }
                     }

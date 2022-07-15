@@ -178,7 +178,7 @@ const ProposalHomePage = props => {
         }
     }
 
-    const selfAccount = accounts?.data?.list?.find(acc => compareIgnoringCase(acc.owner, proposal.author))
+    const selfAccount = accounts?.data?.list?.find(acc => compareIgnoringCase(acc.owner, proposal?.author))
     return <div className="proposal-index-page">
         <div className="title"><img src="/imgs/arrow-left.svg" className="backarrow" alt="back" onClick={() => {
             window.location.href = localRouter("dao.prefix") + (proposal.space?.id)
