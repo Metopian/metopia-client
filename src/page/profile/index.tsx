@@ -151,7 +151,7 @@ const ProfilePage = (props) => {
                                 }}>Connect to Discord</MainButton> : null
                             }{
                                 <MainButton onClick={e => {
-                                    dispatch(displayUserProfileEditorModal(accountData.data))
+                                    dispatch(displayUserProfileEditorModal(Object.assign({}, accountData.data, { owner: slug })))
                                 }}>Edit profile</MainButton>
                             }
                         </div>
