@@ -251,7 +251,6 @@ const LoginModal = (props: {
     }
 
     const onSubmitUserSetting = async (data) => {
-        // console.log(data)
         try {
             await ceramicAccountInfoDoc.update(data)
             dispatch(setAccount(data))

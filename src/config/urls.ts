@@ -33,11 +33,13 @@ const snapshotApi = {
     dao_select: metopiaApiRoot + "club/select",
     dao_selectById: metopiaApiRoot + "club/selectById",
     proposal_selectLatest: metopiaApiRoot + "proposal/selectLatest",
+    proposal_scores: snapshotCoreRoot + "api/scores/",
     uploadImage: metopiaApiRoot + "uploadImage",
     score: snapshotScoreApiRoot + "scores",
     graphql: snapshotCoreRoot + "graphql",
     msg: snapshotCoreRoot + "api/msg",
     loadSpaces: snapshotCoreRoot + "api/loadspaces"
+
 }
 
 const thirdpartyApi = {

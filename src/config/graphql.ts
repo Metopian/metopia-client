@@ -52,7 +52,7 @@ export const loadSnapshotSettingsById = (id: string) => {
 }
 
 export const loadSnapshotProposalsById = (id: string) => {
-   return {
+    return {
         "operationName": "Proposal",
         "variables": {
             "id": id
@@ -160,14 +160,15 @@ export const loadSnapshotHistory = (address: string) => {
     }
 }
 
-export const loadSnapshotVotesByProposal = (id: string) => {
+export const loadSnapshotVotesByProposal = (id: string, first?, skip?) => {
     return {
         "operationName": "Votes",
         "variables": {
             "id": id,
-            "orderBy": "vp",
-            "orderDirection": "desc",
-            "first": 10
+            "orderBy": "created",
+            "orderDirection": "asc",
+            "first": first || 100,
+            "skip": skip || 0
         },
         "query": "query Votes($id: String!, $first: Int, $skip: Int, $orderBy: String, $orderDirection: OrderDirection, $voter: String) {\
         votes(\
@@ -182,7 +183,49 @@ export const loadSnapshotVotesByProposal = (id: string) => {
             choice\
             vp\
             vp_by_strategy\
+            created\
         }\
         }"
+    }
+}
+
+export const loadSnapshotVotesByProposalWhereChoice = (id: string, choice: number, self?, first?, skip?) => {
+    return {
+        "operationName": "Votes",
+        "variables": {
+            "id": id,
+            "orderBy": "created",
+            "orderDirection": "asc",
+            "choice": choice,
+            "first": first || 100,
+            "skip": skip || 0,
+            "self": self
+        },
+        "query": "query Votes($id: String!, $first: Int, $skip: Int, $orderBy: String, $orderDirection: OrderDirection, $choice: Int, $self:String) {\
+            votes(\
+                first: $first\
+                skip: $skip\
+                where: {proposal: $id, vp_gt: 0, choice: $choice}\
+                orderBy: $orderBy\
+                orderDirection: $orderDirection\
+            ) {\
+                ipfs\
+                voter\
+                choice\
+                vp\
+                vp_by_strategy\
+                created\
+            }"+
+            (self?.length ?
+                "self:votes(first:1, where:{voter: $self}){\
+                ipfs\
+                voter\
+                choice\
+                vp\
+                vp_by_strategy\
+                created\
+            }": ""
+            ) +
+            "}"
     }
 }

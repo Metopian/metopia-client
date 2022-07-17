@@ -14,7 +14,6 @@ import './ProposalCard.scss'
 
 const ProposalCard = (props) => {
     const { account } = props
-    // console.log(props)
 
     const state = useMemo(() => {
         if (props.state.toLowerCase() === 'closed') {

@@ -7,7 +7,7 @@ const numberToLetter = (num) => {
 }
 
 function toFixedIfNecessary(value, dp) {
-    return +parseFloat(value).toFixed(dp);
+    return value?+parseFloat(value).toFixed(dp):0
 }
 function removeUnecessaryZero(value, dp) {
     return +parseFloat(value).toFixed(dp);

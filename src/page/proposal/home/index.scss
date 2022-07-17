@@ -203,14 +203,14 @@
                     >.bg {
                         position: absolute;
                         height: 100%;
-                        background-color: #F5F5F5;
+                        background-color: rgba(90, 73, 222, 0.04);
                         z-index: 0;
                         left: 0;
                         top: 0;
                     }
 
                     &.selected>.bg {
-                        background-color: rgba(90, 73, 222, 0.1);
+                        background-color: rgba(90, 73, 222, 0.12);
                     }
                 }
             }
@@ -238,6 +238,10 @@
             padding: 40px 30px 40px 30px;
             margin-top: 30px;
 
+            >.choice-selector {
+                .ghost-button {}
+            }
+
             >.head {
 
                 display: flex;
@@ -248,7 +252,7 @@
                     color: $title-color;
                     font-size: 32px;
                     font-weight: 700;
-                    line-height: 30px;
+                    transform: translateY(-5px);
                 }
 
                 >.number-wrapper {
@@ -272,25 +276,34 @@
                 }
             }
 
+            .filter-container{
+                margin-top: 20px;
+            }
+
             .main-container {
                 border-radius: 24px;
                 border: 1px solid rgba(0, 0, 0, 0.1);
                 margin-top: 40px;
                 padding: 24px 32px;
 
+                .vote-table {
+                    width: 100%;
+                    max-width: 100%;
+                }
+
                 .vote-card {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                    // display: flex;
+                    // justify-content: space-between;
+                    // align-items: center;
                     font-size: 16px;
                     line-height: 24px;
+
                     /* identical to box height, or 150% */
+                    td {
+                        padding: 16px 0;
+                    }
 
-                    display: flex;
-                    align-items: center;
-
-                    color: #222222;
-                    margin-bottom: 20px;
+                    // margin-bottom: 20px;
 
                     &:last-of-type {
                         margin-bottom: 0px;
@@ -299,12 +312,24 @@
                     .name,
                     .name a {
                         font-weight: bold;
-                        color: #222222;
+                        color: #000000;
                         text-decoration: none;
+                        overflow: hidden;
+                        min-width: 100px;
+                        max-width: 160px;
+                        @include ellipsis(1);
+
 
                         &:hover {
                             text-decoration: underline;
                         }
+                    }
+
+                    .choice {
+                        width: 80px;
+                        // min-width: 60px;
+                        @include ellipsis(1);
+                        text-align: center;
                     }
 
                     .avatar {
@@ -318,6 +343,11 @@
                         }
                     }
 
+                    .number-wrapper {
+                        min-width: 80px;
+                        text-align: right;
+                        @include ellipsis(1);
+                    }
 
                 }
             }

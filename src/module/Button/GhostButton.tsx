@@ -10,7 +10,7 @@ const GhostButton = (props) => {
     </div>
 }
 
-const GhostButtonGroup = (props) => {
+const GhostButtonGroup = (props:{items,style?}) => {
     if (!props.items?.length)
         return null
 

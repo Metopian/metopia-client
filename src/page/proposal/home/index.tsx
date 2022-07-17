@@ -3,12 +3,12 @@ import { Wallet } from '@ethersproject/wallet';
 import parse from 'html-react-parser';
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactLoading from 'react-loading';
-import { loadSnapshotVotesByProposal } from '../../../config/graphql';
+import { loadSnapshotVotesByProposal, loadSnapshotVotesByProposalWhereChoice } from '../../../config/graphql';
 import { domain, Vote, vote2Types } from '../../../config/snapshotConfig';
 import { localRouter, ossImageThumbnailPrefix, snapshotApi } from '../../../config/urls';
 import { useAccountListData } from '../../../core/account';
 import { useProposal, useScoreData } from '../../../core/governance';
-import { MainButton } from '../../../module/button';
+import { MainButton, SingleChoiceButtonGroup } from '../../../module/button';
 import { DefaultAvatarWithRoundBackground, WrappedLazyLoadImage } from '../../../module/image';
 import { sum, toFixedIfNecessary } from '../../../utils/numberUtils';
 import { addrShorten, compareIgnoringCase } from '../../../utils/stringUtils';
@@ -44,6 +44,9 @@ const ProposalHomePage = props => {
     const [voting, setVoting] = useState(false)
     const [self, setSelf] = useState(null)
     const [authorEns, setAuthorEns] = useState(null)
+    const [selectedChoiceId, setSelectedChoiceId] = useState(-1)
+    const [proposalScores, setProposalScores] = useState(null)
+    const [myVote, setMyVote] = useState(null)
 
     const getAddressToCalcScore = useMemo(() => {
         let res = []
@@ -55,9 +58,7 @@ const ProposalHomePage = props => {
         })
         return res
     }, [self, votes])
-
     const { data: scores } = useScoreData(id, proposal?.network, proposal?.snapshot, proposal?.strategies, getAddressToCalcScore)
-
     const { data: accounts } = useAccountListData(getAddressToCalcScore)
 
     useEffect(() => {
@@ -102,7 +103,8 @@ const ProposalHomePage = props => {
                 }
             }).then(r => r.json()).then((r) => {
                 if (!r.error) {
-                    window.location.reload()
+                    return '200'
+                    // window.location.reload()
                 } else {
                     if (r.error === 'unauthorized') {
 
@@ -110,6 +112,13 @@ const ProposalHomePage = props => {
                     console.error(r.error)
                     alert("Failed")
                 }
+            }).then(d => {
+                setVotes([...votes, { voter: self, choice: selectedOptionId }])
+                fetch(snapshotApi.proposal_scores + id).then(d => {
+                    return d.json()
+                }).then(d => {
+                    setProposalScores(d.scores)
+                })
             }).catch(e => {
                 alert("Failed")
             }).finally(() => {
@@ -121,23 +130,25 @@ const ProposalHomePage = props => {
         })
     }
 
-
     useEffect(() => {
         const initVotes = () => {
             return fetch(snapshotApi.graphql, {
                 method: 'POST',
-                body: JSON.stringify(loadSnapshotVotesByProposal(id)),
+                body: selectedChoiceId === -1 ? JSON.stringify(loadSnapshotVotesByProposal(id)) :
+                    JSON.stringify(loadSnapshotVotesByProposalWhereChoice(id, selectedChoiceId + 1, self)),
                 headers: {
                     'content-type': "application/json"
                 }
             }).then(d => d.json()).then(d => {
                 setVotes(d.data.votes)
+                if (d.data.self) {
+                    setMyVote(d.data.self[0])
+                }
             })
         }
 
         initVotes()
-    }, [id])
-
+    }, [id, selectedChoiceId])
 
     const scoresObj = useMemo(() => {
         if (scores?.result?.scores) {
@@ -151,22 +162,6 @@ const ProposalHomePage = props => {
         }
     }, [scores])
 
-    const voteSum = useMemo(() => {
-        let res = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        if (scores?.result?.scores) {
-            scores.result.scores.forEach((s, i) => {
-                Object.keys(s).forEach(addr => {
-                    votes.forEach((v) => {
-                        if (v.voter === addr) {
-                            res[v.choice - 1] += s[addr]
-                        }
-                    })
-                })
-            })
-        }
-        return res
-    }, [scores, votes])
-
     let mychoice = -1
     if (self) {
         if (votes && self) {
@@ -175,6 +170,7 @@ const ProposalHomePage = props => {
                     mychoice = v.choice - 1
                 }
             })
+            if (myVote) mychoice = myVote.choice - 1
         }
     }
 
@@ -193,8 +189,6 @@ const ProposalHomePage = props => {
                                     <WrappedLazyLoadImage className="avatar" alt="" src={selfAccount.avatar + ossImageThumbnailPrefix(40, 40)} /> :
                                     <DefaultAvatarWithRoundBackground wallet={proposal?.author} className="avatar" />
                             }
-                            {/* <DefaultAvatarWithRoundBackground wallet={proposal?.author} className="avatar" /> */}
-
                             <div className="name">{selfAccount?.username || authorEns}</div>
                             <div className="address">{addrShorten(proposal?.author)}</div>
                         </a>
@@ -211,8 +205,13 @@ const ProposalHomePage = props => {
                             if (!proposal) return ""
                             if (proposal.state === 'closed')
                                 return 'Closed'
-                            if (proposal.state === 'active')
-                                return getDateDiff(proposal.end * 1000, true) + ' left'
+                            if (proposal.state === 'active') {
+                                if (getDateDiff(proposal.end * 1000, true) === 'Now') {
+                                    return 'Closing'
+                                } else {
+                                    return getDateDiff(proposal.end * 1000, true) + ' left'
+                                }
+                            }
                             else
                                 return getDateDiff(proposal.start * 1000, true) + " to go"
                         })()}</div>
@@ -234,10 +233,10 @@ const ProposalHomePage = props => {
                                         else
                                             setSelectedOptionId(i + 1)
                                     }}>
-                                    <div className="bg" style={{ width: voteSum[i] / sum(voteSum) * 100 + "%" }}></div>
+                                    <div className="bg" style={{ width: (proposalScores || proposal.scores)[i] / sum((proposalScores || proposal.scores)) * 100 + "%" }}></div>
                                     <div className="container">
                                         <div className="title">{c}{mychoice === i ? <div className='tick'>√</div> : ''}</div>
-                                        <div>{toFixedIfNecessary(voteSum[i] / (sum(voteSum) || 1) * 100, 2)}%</div>
+                                        <div>{toFixedIfNecessary((proposalScores || proposal.scores || [0])[i] / sum((proposalScores || proposal.scores)) * 100, 2)}%</div>
                                     </div>
                                 </div>
                             })
@@ -255,32 +254,48 @@ const ProposalHomePage = props => {
 
                 <div className="result-container" >
                     <div className='head'>
-                        <div className="title">{proposal?.state === 'closed' ? "Result" : "Current result"}</div>
-                        <div className='number-wrapper'>Total: <span className="number">{getRealVoteCount(sum(voteSum))}</span></div>
+                        <div className="title">{proposal?.state === 'closed' ? "Voter summary" : "Current stats"}</div>
+                        <div className='number-wrapper'>
+                            {selectedChoiceId > -1 ? (proposal?.choices)[selectedChoiceId] : "Total"} votes:
+                            <span className="number">{selectedChoiceId > -1 ? getRealVoteCount((proposalScores || proposal?.scores)[selectedChoiceId]) : getRealVoteCount(sum(proposalScores || proposal?.scores))}</span>
+                        </div>
+                    </div>
+                    <div className="filter-container">
+                        <div className="choice-selector">
+                            <SingleChoiceButtonGroup onChange={i => {
+                                setSelectedChoiceId(i)
+                            }} items={proposal?.choices.map((c, i) => {
+                                return { content: c }
+                            })} />
+                        </div>
                     </div>
                     <div className='main-container'>
-                        {
-                            votes?.length ? <div>
-                                {
-                                    votes.map((v, i) => {
-                                        const account = accounts?.data?.list?.find(acc => compareIgnoringCase(acc.owner, v.voter))
-                                        return <div key={"vote-card" + i} className="vote-card">
-                                            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                                                {
-                                                    account?.avatar ?
-                                                        <WrappedLazyLoadImage className="avatar" alt="" src={account.avatar + ossImageThumbnailPrefix(40, 40)} /> :
-                                                        <DefaultAvatarWithRoundBackground wallet={v.voter} className="avatar" />
-                                                }
-                                                <div className='name'><a href={`${localRouter('profile')}${v.voter}`}>{account?.username || addrShorten(v.voter)}</a></div>
-                                            </div>
-                                            <div>{proposal?.choices.filter((t, i) => i + 1 === v.choice)}</div>
-                                            <div className="number-wrapper">{getRealVoteCount(scoresObj[v.voter])} vote(s)</div>
-                                        </div>
-                                    })
-                                }
-                            </div> :
-                                <div style={{ color: '#888' }}>There is no voting data.</div>
-                        }
+                        <div>
+                            {
+                                votes?.length ? <table className="vote-table">
+                                    <tbody>
+                                        {
+                                            votes.map((v, i) => {
+                                                const account = accounts?.data?.list?.find(acc => compareIgnoringCase(acc.owner, v.voter))
+                                                return <tr key={"vote-card" + i} className="vote-card">
+                                                    <td style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                                                        {
+                                                            account?.avatar ?
+                                                                <WrappedLazyLoadImage className="avatar" alt="" src={account.avatar + ossImageThumbnailPrefix(40, 40)} /> :
+                                                                <DefaultAvatarWithRoundBackground wallet={v.voter} className="avatar" />
+                                                        }
+                                                        <div className='name'><a href={`${localRouter('profile')}${v.voter}`}>{account?.username || addrShorten(v.voter)}</a></div>
+                                                    </td>
+                                                    <td className="choice">{proposal?.choices.filter((t, i) => i + 1 === v.choice)}</td>
+                                                    <td className="number-wrapper">{getRealVoteCount(scoresObj[v.voter])} vote(s)</td>
+                                                </tr>
+                                            })
+                                        }
+                                    </tbody>
+                                </table> :
+                                    <div style={{ color: '#888' }}>There is no votes data.</div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@ import { getAddress, getProvider, signTypedData } from '../../../utils/web3Utils
 import './index.scss';
 
 const CreateProposalPage = props => {
-    const {   dao } = props
+    const { dao } = props
     const [body, setBody] = useState("")
     const defaultOptions = [{ id: 0, text: "For" }, { id: 1, text: "Against" }, { id: 2, text: "Abstain" }]
     const [options, setOptions] = useState(defaultOptions)
@@ -118,7 +118,7 @@ const CreateProposalPage = props => {
             return
         }
 
-        signTypedData({
+        return signTypedData({
             "space": dao,
             "type": "single-choice",
             "title": title,
@@ -134,7 +134,7 @@ const CreateProposalPage = props => {
             "from": account,
             "timestamp": timestamp,
         }, proposalTypes, domain).then(res => {
-            fetch(snapshotApi.msg, {
+            return fetch(snapshotApi.msg, {
                 method: "POST",
                 body: JSON.stringify(res),
                 headers: {
@@ -152,7 +152,7 @@ const CreateProposalPage = props => {
             }} />Create new proposal
             </div>
             <MainButton style={{ width: '104px' }} onClick={() => {
-                createProposal((d) => {
+                return createProposal((d) => {
                     if (d.id) {
                         window.alert("Succeed")
                         window.location.href = localRouter("dao.prefix") + dao
