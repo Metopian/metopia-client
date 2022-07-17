@@ -148,7 +148,7 @@ const ProposalHomePage = props => {
         }
 
         initVotes()
-    }, [id, selectedChoiceId])
+    }, [id, self, selectedChoiceId])
 
     const scoresObj = useMemo(() => {
         if (scores?.result?.scores) {

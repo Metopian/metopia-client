@@ -25,8 +25,8 @@ const ProfilePage = (props) => {
     const dispatch = useDispatch()
 
     const { data: discordData } = usePersonalDiscordData(slug, code)
-
-    const { data: accountData } = useAccountData(slug)
+    const [nonce, setNonce] = useState(1)
+    const { data: accountData } = useAccountData(slug, nonce)
 
     const [ens, setEns] = useState(null)
     const [self, setSelf] = useState(null)
@@ -187,7 +187,7 @@ const ProfilePage = (props) => {
             </div>
         </div>
 
-        <BasicProfileEditorModal />
+        <BasicProfileEditorModal onChange={e => setNonce(nonce + 1)} />
     </div>
 }
 

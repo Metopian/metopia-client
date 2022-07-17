@@ -30,6 +30,7 @@ const tmpstyle = {
 }
 
 const BasicProfileEditorModal = props => {
+    const { onChange } = props
     const { isShow, user } = useSelector((state: RootState) => state.modalController.userProfileEditorModal)
     const dispatch = useDispatch()
 
@@ -49,7 +50,7 @@ const BasicProfileEditorModal = props => {
         <div className="container">
             <div className="head">
                 <div className='title'>Update profile</div>
-                <img src="/imgs/close.svg" alt="X"/>
+                <img src="/imgs/close.svg" alt="X" />
             </div>
             <div className='form-group'>
                 <Label>Username</Label>
@@ -60,7 +61,10 @@ const BasicProfileEditorModal = props => {
                 <Textarea defaultValue={user?.introduction} onChange={e => setIntroduction(e.target.value)} maxLength={120} />
             </div>
             <MainButton onClick={(e) => {
-                return updateUser().then(() => dispatch(hideUserProfileEditorModal())).catch(e => {
+                return updateUser().then(() => {
+                    onChange && onChange(Object.assign({}, user, { username, introduction }))
+                    dispatch(hideUserProfileEditorModal())
+                }).catch(e => {
                     console.error(e)
                     alert("Failed")
                 })

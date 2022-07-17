@@ -48,8 +48,8 @@ export const selectByOwners = (owners) => {
     return fetch(userApi.user_selectByOwners + "?" + tmp.join('&')).then(d => d.json())
 }
 
-export const useAccountData = (owner) => {
-    const { data, error } = useSWR([userApi.user_update + owner, { owner }], getFetcher, defaultSWRConfig)
+export const useAccountData = (owner, nonce) => {
+    const { data, error } = useSWR([userApi.user_update + owner, { owner,nonce }], getFetcher, defaultSWRConfig)
     return { data, error }
 }
 
