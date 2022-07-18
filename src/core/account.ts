@@ -6,16 +6,24 @@ import { defaultSWRConfig, getFetcher, encodeQueryData } from "../utils/RestUtil
 
 export const updateAccount = (owner, username, avatar, introduction) => {
     return new Promise((accept, reject) => {
+        let newUser = !username || !avatar || !introduction
+        if (!username) {
+            username = ""
+        } if (!avatar) {
+            avatar = ""
+        } if (!introduction) {
+            introduction = ""
+        }
         let msg = { owner, username, avatar, introduction, timestamp: parseInt(new Date().getTime() / 1000 + '') }
         sign(JSON.stringify(msg)).then(signature => {
-            return fetch(userApi.user_update + owner, {
-                method: 'PUT',
+            return fetch(newUser ? userApi.user_create : userApi.user_update + owner, {
+                method: newUser ? "POST" : 'PUT',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'msg': JSON.stringify(msg),
                     'signature': signature
                 },
-                body: encodeQueryData(null, {
+                body: newUser ? encodeQueryData(null,{ owner, username, avatar, introduction }) : encodeQueryData(null, {
                     username,
                     avatar,
                     introduction
@@ -30,8 +38,12 @@ export const updateAccount = (owner, username, avatar, introduction) => {
                 reject(d.msg)
             }
         }).catch(e => {
-            console.error(e)
-            reject("Internal error")
+            if (e.code === 4001) {
+                reject('continue')
+            } else {
+                console.error(e)
+                reject("Internal error")
+            }
         })
     })
 }
@@ -49,11 +61,13 @@ export const selectByOwners = (owners) => {
 }
 
 export const useAccountData = (owner, nonce) => {
-    const { data, error } = useSWR([userApi.user_update + owner, { owner,nonce }], getFetcher, defaultSWRConfig)
+    const { data, error } = useSWR([userApi.user_update + owner, { nonce }], getFetcher, defaultSWRConfig)
     return { data, error }
 }
 
 export const useAccountListData = (owners) => {
-    const { data, error } = useSWR(owners?.length ? [userApi.user_selectByOwners + "?" + [...owners, ''].map(o => 'owners=' + o).join('&')] : null, getFetcher, defaultSWRConfig)
+    const { data, error } = useSWR(owners?.length ?
+        [userApi.user_selectByOwners + "?" + [...owners, ''].map(o => 'owners=' + o).join('&')] :
+        null, getFetcher, defaultSWRConfig)
     return { data, error }
 }

@@ -8,6 +8,7 @@ const snapshotCoreRoot = process.env.REACT_APP_SNAPSHOT_CORE_API_PREFIX
 const metopiaApiRoot = process.env.REACT_APP_METOPIA_SERVICE_API_PREFIX
 
 const userApi = {
+    user_create: dataCenterRoot + "owners",
     user_update: dataCenterRoot + "owners/",
     user_selectByOwner: dataCenterRoot + "owners/",
     user_selectByOwners: dataCenterRoot + "owners"

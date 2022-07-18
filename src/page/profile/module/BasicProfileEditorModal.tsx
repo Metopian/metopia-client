@@ -65,8 +65,10 @@ const BasicProfileEditorModal = props => {
                     onChange && onChange(Object.assign({}, user, { username, introduction }))
                     dispatch(hideUserProfileEditorModal())
                 }).catch(e => {
-                    console.error(e)
-                    alert("Failed")
+                    if (e !== 'continue') {
+                        console.error(e)
+                        alert("Failed")
+                    }
                 })
             }}>Submit</MainButton>
         </div>

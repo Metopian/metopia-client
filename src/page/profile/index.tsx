@@ -27,7 +27,7 @@ const ProfilePage = (props) => {
     const { data: discordData } = usePersonalDiscordData(slug, code)
     const [nonce, setNonce] = useState(1)
     const { data: accountData } = useAccountData(slug, nonce)
-
+    console.log(accountData)
     const [ens, setEns] = useState(null)
     const [self, setSelf] = useState(null)
     const [avatar, setAvatar] = useState(null)
