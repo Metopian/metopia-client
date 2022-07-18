@@ -23,7 +23,7 @@ export const updateAccount = (owner, username, avatar, introduction) => {
                     'msg': JSON.stringify(msg),
                     'signature': signature
                 },
-                body: newUser ? encodeQueryData(null,{ owner, username, avatar, introduction }) : encodeQueryData(null, {
+                body: newUser ? encodeQueryData(null, { owner, username, avatar, introduction }) : encodeQueryData(null, {
                     username,
                     avatar,
                     introduction

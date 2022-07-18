@@ -10,7 +10,7 @@ import { useChainId } from '../../config/store'
 import { WrappedLazyLoadImage } from '../../module/image'
 
 const ProposalBoard = (props) => {
-    const { data } = props
+    const { proposals } = props
     const [index, setIndex] = useState(1)
 
     const next = () => setIndex(index === 5 ? 1 : index + 1)
@@ -20,13 +20,13 @@ const ProposalBoard = (props) => {
         <div className="head">
             <div className="title">Latest Proposals</div>
             <div className="dao-info">
-                <WrappedLazyLoadImage src={data?.content[index - 1]?.spaceAvatar} className="avatar-wrapper" />
-                <div className='name'>{data?.content[index - 1]?.spaceName}</div>
+                <WrappedLazyLoadImage src={proposals[index - 1]?.spaceAvatar} className="avatar-wrapper" />
+                <div className='name'>{proposals[index - 1]?.spaceName}</div>
                 <div>&gt;</div>
             </div>
         </div>
         <div className="content" >
-            <a href={data ? localRouter('proposal.prefix') + data.content[index - 1]?.id : '#'}>{data?.content[index - 1]?.title}</a>
+            <a href={proposals ? localRouter('proposal.prefix') + proposals[index - 1]?.id : '#'}>{proposals[index - 1]?.title}</a>
         </div>
         <div className="pager">
             <img src="https://oss.metopia.xyz/left_arrow.svg" alt="Last" onClick={last} />
@@ -43,11 +43,11 @@ const HomePage = () => {
     const { chainId } = useChainId()
 
     const daoContainer = useMemo(() => {
-        if (!daoData?.content) {
+        if (!daoData) {
             return <BulletList />
         }
 
-        let daoObjs = daoData.content.map(s => {
+        let daoObjs = daoData.map(s => {
             return {
                 id: s.id,
                 settings: JSON.parse(s.settings)
@@ -70,7 +70,7 @@ const HomePage = () => {
             <div className='container'>
                 <div className="left-container">
                     <div className="stats">
-                        <span className="number">{daoData?.content && Object.keys(daoData.content).length}</span>
+                        <span className="number">{daoData?.length}</span>
                         DAOs
                     </div>
                     <div className="introduction">
@@ -78,7 +78,7 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="right-container">
-                    <ProposalBoard data={latestProposalData} />
+                    <ProposalBoard proposals={latestProposalData||{}} />
                 </div>
             </div>
         </div>

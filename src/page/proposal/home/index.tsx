@@ -7,7 +7,7 @@ import { loadSnapshotVotesByProposal, loadSnapshotVotesByProposalWhereChoice } f
 import { domain, Vote, vote2Types } from '../../../config/snapshotConfig';
 import { localRouter, ossImageThumbnailPrefix, snapshotApi } from '../../../config/urls';
 import { useAccountListData } from '../../../core/account';
-import { useProposal, useScoreData } from '../../../core/governance';
+import { useProposalById, useScoreData } from '../../../core/governance';
 import { MainButton, SingleChoiceButtonGroup } from '../../../module/button';
 import { DefaultAvatarWithRoundBackground, WrappedLazyLoadImage } from '../../../module/image';
 import { sum, toFixedIfNecessary } from '../../../utils/numberUtils';
@@ -38,7 +38,7 @@ const vote = async (web3: Web3Provider | Wallet, address: string, message: Vote)
 
 const ProposalHomePage = props => {
     const { id } = props
-    const { data: proposal } = useProposal(id)
+    const { data: proposal } = useProposalById(id)
     const [votes, setVotes] = useState([])
     const [selectedOptionId, setSelectedOptionId] = useState(-1)
     const [voting, setVoting] = useState(false)
@@ -151,9 +151,9 @@ const ProposalHomePage = props => {
     }, [id, self, selectedChoiceId])
 
     const scoresObj = useMemo(() => {
-        if (scores?.result?.scores) {
+        if (scores) {
             let scoreTmp = {}
-            scores.result.scores.forEach(s => {
+            scores.forEach(s => {
                 Object.keys(s).forEach(key => scoreTmp[key] = s[key])
             })
             return scoreTmp

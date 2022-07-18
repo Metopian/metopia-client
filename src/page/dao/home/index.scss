@@ -134,7 +134,7 @@
         >.content-container {
             padding: 40px 44px;
 
-            .sub-menu-bar {
+            >.head {
                 display: flex;
                 padding: 24px 0;
                 border-bottom: $default-border;
@@ -148,12 +148,24 @@
 
                 }
 
-                >.sub-menu-item {
+                >.filter-container {
                     margin-left: auto;
-                    font-size: 20px;
-                    line-height: 30px;
-                    color: $text-color;
+
+                    >.sub-menu-item {
+                        font-size: 20px;
+                        line-height: 30px;
+                        color: $text-color;
+                        cursor: pointer;
+                    }
                 }
+            }
+
+            .load-next-page-button {
+                margin-top: 32px;
+                cursor: pointer;
+                font-size: 20px;
+                // text-decoration: underline;
+                margin-left: 2px;
             }
         }
     }

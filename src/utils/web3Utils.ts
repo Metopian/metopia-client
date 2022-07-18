@@ -34,6 +34,10 @@ export const getAddress = async (light?: boolean) => {
     return account
 }
 
+// export const useSelf = ()=>{
+//     const {data}
+// }
+
 export const getChainId = async () => {
     return await getProvider().send("eth_chainId", [])
 }

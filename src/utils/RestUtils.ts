@@ -25,7 +25,9 @@ const postFetcher = (url, params) => fetch(url, {
     headers: {
         'content-type': "application/json"
     }
-}).then((res) => res.json())
+}).then((res) => {
+    return res.json()
+})
 
 export interface ResponsePack<T> {
     code: number,

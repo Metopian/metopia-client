@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, useSearchParams } from "react-router-dom";
 import './App.css';
-import {  DaoHomePage,   DaoSettingPage } from './page/dao';
+import { DaoHomePage, DaoSettingPage } from './page/dao';
 import HomePage from './page/home';
 import ProfilePage from './page/profile';
 import { ProposalCreatePage, ProposalHomePage } from './page/proposal';
@@ -10,6 +10,7 @@ import TestMintPage from './test/TestMintPage';
 const App = () => {
   const routeParams = useParams()
   const [searchParams] = useSearchParams();
+  const [atBottom, setAtBottom] = useState(false)
   const page = useMemo(() => {
     if (!routeParams.page) {
       return <HomePage />
@@ -26,7 +27,7 @@ const App = () => {
             if (!routeParams.event?.length || routeParams.event === 'undefined') {
               return <HomePage />
             } else {
-              return <DaoHomePage slug={routeParams.event} />
+              return <DaoHomePage slug={routeParams.event} atBottom={atBottom}/>
             }
           }
         }
@@ -40,11 +41,17 @@ const App = () => {
       }
     }
     return <HomePage />
-  }, [routeParams, searchParams])
+  }, [routeParams, searchParams,atBottom])
+
   return (
-    <div className="MainContainer" >
+    <div className="MainContainer" onScroll={(e) => {
+      let target = e.target as HTMLElement
+      if (target.clientHeight + target.scrollTop === target.scrollHeight) {
+        setAtBottom(true)
+      }
+    }}>
       {page}
-    </div>
+    </div >
   );
 }
 

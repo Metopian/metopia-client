@@ -15,9 +15,11 @@ function pad(num, size) {
 }
 
 const unique = (arr: string[]) => {
+    if (!arr)
+        return []
     let tmp = {}
     arr.forEach(str => tmp[str] = '')
-    return Object.keys(tmp)
+    return Object.keys(tmp).sort()
 }
 
 export const compareIgnoringCase = (str1: string, str2: string) => {

@@ -12,12 +12,12 @@ import BasicProfileEditorModal from './page/profile/module/BasicProfileEditorMod
 
 const Index = () => {
   return (
-    <div >
+    <div>
       <CookiesProvider>
         <div className="MenuWrapper">
           <Menu logoUrl={'https://oss.metopia.xyz/logo.svg'} user={null} />
         </div>
-        <div className="AppContainer">
+        <div className="AppContainer" >
           <img src="https://oss.metopia.xyz/bg_colored.png" className="AppBg" alt="" />
           <div className="AppMainContainer">
             <BrowserRouter basename="">

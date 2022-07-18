@@ -90,12 +90,12 @@ export const loadSnapshotProposalsById = (id: string) => {
         }"
     }
 }
-export const loadSnapshotProposalsByDao = (daoSlug: string) => {
+export const loadSnapshotProposalsByDao = (daoSlug: string, first?, skip?) => {
     return {
         "operationName": "Proposals",
         "variables": {
-            "first": 6,
-            "skip": 0,
+            "first": first || 10,
+            "skip": skip || 0,
             "space": daoSlug,
             "state": "all",
             "author_in": []

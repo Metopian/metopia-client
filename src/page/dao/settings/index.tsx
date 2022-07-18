@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { loadSnapshotSettingsById } from '../../../config/graphql'
 import { useChainId } from '../../../config/store'
 import { localRouter, nftDataApi, thirdpartyApi } from '../../../config/urls'
-import { useDaoData } from '../../../core/governance'
+import { useDaoById } from '../../../core/governance'
 import { MainButton } from '../../../module/button'
 import { Input, Label } from '../../../module/form'
 import { encodeQueryData } from '../../../utils/RestUtils'
@@ -26,7 +26,7 @@ const DaoSettingPage = (props) => {
     /**
      * Load space settings
      */
-    const { data: defaultSettings } = useDaoData(slug)
+    const { data: defaultSettings } = useDaoById(slug)
     const { chainId, setChainId } = useChainId()
 
     const [errors, setErrors] = useState({})
@@ -68,8 +68,8 @@ const DaoSettingPage = (props) => {
             /**
              * Update redux if DAO settings loaded
              */
-            if (defaultSettings?.code === 200) {
-                let { basicFormData, consensusForm, votingForm, proposalForm, network } = settingsToForm(defaultSettings.content.settings) || defaultForm()
+            if (defaultSettings) {
+                let { basicFormData, consensusForm, votingForm, proposalForm, network } = settingsToForm(defaultSettings.settings) || defaultForm()
                 updateBasicForm(basicFormData)
                 updateConsensusForm(consensusForm)
                 updateVotingForm(votingForm)

@@ -4,6 +4,7 @@ import { BulletList } from 'react-content-loader'
 import { loadSnapshotProposalsByDao } from '../../../config/graphql'
 import { localRouter, snapshotApi } from '../../../config/urls'
 import { useAccountListData } from '../../../core/account'
+import { useDaoById, useProposalDataByDao } from '../../../core/governance'
 import { GhostButtonGroup, MainButton } from '../../../module/button'
 import { DefaultAvatarWithRoundBackground, WrappedLazyLoadImage } from '../../../module/image'
 import { sum } from '../../../utils/numberUtils'
@@ -42,7 +43,7 @@ const ProposalCard = (props) => {
             return props.state.toLowerCase()
         }
     }, [props.state, props.quorum, props.choices, props.scores])
-    
+
     return <div className="proposal-card">
         <div className="head">
             <div className="user-info" onClick={e => window.location.href = `${localRouter('profile')}${props.author}`}>
@@ -66,13 +67,57 @@ const ProposalCard = (props) => {
     </div >
 }
 
+
+const ProposalCardsPage = (props) => {
+    const { slug, first, skip, daoSettings, accounts, onChange } = props
+    const { data: proposals } = useProposalDataByDao(slug, first, skip)
+
+    useEffect(() => {
+        if (proposals?.length) {
+            onChange && onChange(proposals)
+        }
+    }, [proposals])
+
+    return proposals ? <>{proposals.map(p => <ProposalCard quorum={daoSettings?.voting?.quorum}{...p} key={'ProposalCard' + p.id}
+        account={accounts?.data?.list?.find(acc => compareIgnoringCase(acc.owner, p.author))} />)}</> : <BulletList />
+}
+
 const DaoHomePage = (props) => {
-    const { slug } = props
-    const [proposals, setProposals] = useState<any>([])
-    const [daoSettings, setDaoSetting] = useState<any>({})
-    const [proposalCount, setProposalCount] = useState(0)
+    const { slug, atBottom } = props
+    const { data: daoData } = useDaoById(slug)
+    const daoSettings = daoData?.settings ? JSON.parse(daoData.settings) : {}
+    const proposalCount = daoData?.proposalCount || 0
+    // const [daoSettings, setDaoSetting] = useState<any>({})
+    // const [proposalCount, setProposalCount] = useState(0)
     const [self, setSelf] = useState(null)
-    const { data: accounts } = useAccountListData(unique(proposals.map(p => p.author)))
+
+    /**
+     * TODO better pagination
+     */
+    const [page, setPage] = useState(1)
+    const proposalsPerPage = 10
+    const [authors, setAuthors] = useState([])
+    const { data: accounts } = useAccountListData(authors)
+
+    const proposalPagedComponent = useMemo(() => {
+        let tmp = []
+        for (let i = 0; i < page; i++) {
+            tmp.push(<ProposalCardsPage key={`page${i}`} slug={slug} first={proposalsPerPage} skip={proposalsPerPage * i}
+                accounts={accounts} daoSettings={daoSettings} onChange={ps => {
+                    setAuthors(unique([...authors, ...ps.map(p => p.author)]))
+                }} />)
+        }
+        return tmp
+    }, [slug, page, daoSettings, accounts])
+
+    /**
+     * Scroll to next page
+     */
+    useEffect(() => {
+        if (atBottom && page * proposalsPerPage < proposalCount) {
+            setPage(page + 1)
+        }
+    }, [atBottom, page, proposalCount])
 
     useEffect(() => {
         if (!self) {
@@ -83,33 +128,7 @@ const DaoHomePage = (props) => {
         }
     }, [self])
 
-    useEffect(() => {
-        if (!slug)
-            return
-        fetch(snapshotApi.graphql, {
-            method: 'POST',
-            body: JSON.stringify(loadSnapshotProposalsByDao(slug)),
-            headers: {
-                'content-type': "application/json"
-            }
-        }).then(d => d.json()).then(d => setProposals(d.data && d.data.proposals))
-
-        fetch(snapshotApi.dao_selectById + "/?id=" + encodeURIComponent(slug)).then(d => {
-            return d.json()
-        }).then(d => {
-            if (d.content && d.content.settings) {
-                setDaoSetting(JSON.parse(d.content.settings))
-                setProposalCount(d.content.proposalCount)
-            }
-        })
-
-    }, [slug])
-
-    const proposalCards = useMemo(() => {
-        return proposals.map(p => <ProposalCard quorum={daoSettings?.voting?.quorum}{...p} key={'ProposalCard' + p.id} account={accounts?.data?.list?.find(acc => compareIgnoringCase(acc.owner, p.author))} />)
-    }, [proposals, accounts, daoSettings])
-
-    return <div className="dao-home-page">
+    return <div className="dao-home-page" >
         <div className="container">
             <div className="head">
                 <WrappedLazyLoadImage src={daoSettings.banner || '/imgs/example_cover_large.png'} className="banner-image" />
@@ -135,9 +154,9 @@ const DaoHomePage = (props) => {
                 <div className="introduction">{parse(daoSettings.about || '')}</div>
             </div>
             <div className="function-container">
-                <MainButton solid style={{ width: '140px', height: '48px', margin: 0 }} onClick={() => {
+                <MainButton solid style={{ height: '48px', margin: 0 }} onClick={() => {
                     window.location.href = localRouter('proposal.create', { dao: slug })
-                }}>Propose</MainButton>
+                }}>Write a proposal</MainButton>
                 <GhostButtonGroup items={
                     ['website', 'opensea', 'discord', 'twitter'].filter(key => daoSettings[key]).map(key => {
                         return {
@@ -146,19 +165,18 @@ const DaoHomePage = (props) => {
                         }
                     })} />
             </div>
-            <div className='content-container'>
-                <div className='sub-menu-bar'>
+            <div className='content-container' >
+                <div className='head'>
                     <div className='title'>Proposal</div>
-                    <div className="sub-menu-item">All</div>
+                    <div className='filter-container'>
+                        <div className="sub-menu-item">All</div>
+                    </div>
                 </div>
                 {
-                    proposals ? (
-                        proposals.length ? proposalCards :
-                            <div style={{ color: '#888', fontSize: '20px', marginTop: '30px', marginBottom: '30px' }}>This DAO is empty.</div>) :
-                        <BulletList />
+                    proposalPagedComponent
                 }
-            </div>
 
+            </div>
         </div>
     </div>
 }
