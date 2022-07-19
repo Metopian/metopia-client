@@ -90,7 +90,7 @@ export const loadSnapshotProposalsById = (id: string) => {
         }"
     }
 }
-export const loadSnapshotProposalsByDao = (daoSlug: string, first?, skip?) => {
+export const loadSnapshotProposalsByDao = (daoSlug: string, leadingChoice?: string, first?: number, skip?: number) => {
     return {
         "operationName": "Proposals",
         "variables": {
@@ -98,13 +98,14 @@ export const loadSnapshotProposalsByDao = (daoSlug: string, first?, skip?) => {
             "skip": skip || 0,
             "space": daoSlug,
             "state": "all",
-            "author_in": []
+            "author_in": [],
+            "leading_choice": leadingChoice
         },
-        "query": "query Proposals($first: Int!, $skip: Int!, $state: String!, $space: String, $space_in: [String], $author_in: [String]) {\
+        "query": "query Proposals($first: Int!, $skip: Int!, $state: String!, $space: String, $space_in: [String], $author_in: [String], $leading_choice: String) {\
             proposals(\
                 first: $first\
                 skip: $skip\
-                where: {space: $space, state: $state, space_in: $space_in, author_in: $author_in}\
+                where: {space: $space, state: $state, space_in: $space_in, author_in: $author_in, leading_choice: $leading_choice}\
             ) {\
                 id\
                 ipfs\
@@ -127,7 +128,9 @@ export const loadSnapshotProposalsByDao = (daoSlug: string, first?, skip?) => {
                 scores_total\
                 scores\
                 votes\
+                leading_choice\
             }\
+            leadingChoices (where: {space: $space}){ leading_choice }\
         }"
     }
 }

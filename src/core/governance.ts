@@ -27,8 +27,8 @@ const useScoreData = (dao: string, network: string, snapshot: number, strategies
     return { data: data?.result?.scores, error }
 }
 
-export const useProposalDataByDao = (slug, first?, skip?, onChange?): { data: any[], error: any } => {
-    const { data, error } = useSWR([snapshotApi.graphql, loadSnapshotProposalsByDao(slug, first, skip), onChange], postFetcher, defaultSWRConfig)
+export const useProposalDataByDao = (slug, leadingChoice?, first?, skip?): { data: any[], error: any } => {
+    const { data, error } = useSWR([snapshotApi.graphql, loadSnapshotProposalsByDao(slug, leadingChoice, first, skip)], postFetcher, defaultSWRConfig)
     return { data: data?.data?.proposals, error }
 }
 

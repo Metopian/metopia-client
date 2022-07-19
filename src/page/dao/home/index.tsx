@@ -1,11 +1,11 @@
 import parse from 'html-react-parser'
 import React, { useEffect, useMemo, useState } from 'react'
 import { BulletList } from 'react-content-loader'
-import { loadSnapshotProposalsByDao } from '../../../config/graphql'
-import { localRouter, snapshotApi } from '../../../config/urls'
+import { localRouter } from '../../../config/urls'
 import { useAccountListData } from '../../../core/account'
 import { useDaoById, useProposalDataByDao } from '../../../core/governance'
 import { GhostButtonGroup, MainButton } from '../../../module/button'
+import { Select, SelectV2 } from '../../../module/form'
 import { DefaultAvatarWithRoundBackground, WrappedLazyLoadImage } from '../../../module/image'
 import { sum } from '../../../utils/numberUtils'
 import { addrShorten, capitalizeFirstLetter, compareIgnoringCase, unique } from '../../../utils/stringUtils'
@@ -69,8 +69,8 @@ const ProposalCard = (props) => {
 
 
 const ProposalCardsPage = (props) => {
-    const { slug, first, skip, daoSettings, accounts, onChange } = props
-    const { data: proposals } = useProposalDataByDao(slug, first, skip)
+    const { slug, leadingChoice, first, skip, daoSettings, accounts, onChange } = props
+    const { data: proposals } = useProposalDataByDao(slug, leadingChoice === 'All' ? null : leadingChoice, first, skip)
 
     useEffect(() => {
         if (proposals?.length) {
@@ -87,22 +87,18 @@ const DaoHomePage = (props) => {
     const { data: daoData } = useDaoById(slug)
     const daoSettings = daoData?.settings ? JSON.parse(daoData.settings) : {}
     const proposalCount = daoData?.proposalCount || 0
-    // const [daoSettings, setDaoSetting] = useState<any>({})
-    // const [proposalCount, setProposalCount] = useState(0)
     const [self, setSelf] = useState(null)
-
-    /**
-     * TODO better pagination
-     */
     const [page, setPage] = useState(1)
     const proposalsPerPage = 10
     const [authors, setAuthors] = useState([])
     const { data: accounts } = useAccountListData(authors)
 
+    const [selectedLeadingChoice, setSelectedLeadingChoice] = useState('All')
+
     const proposalPagedComponent = useMemo(() => {
         let tmp = []
         for (let i = 0; i < page; i++) {
-            tmp.push(<ProposalCardsPage key={`page${i}`} slug={slug} first={proposalsPerPage} skip={proposalsPerPage * i}
+            tmp.push(<ProposalCardsPage key={`page${i}`} leadingChoice={selectedLeadingChoice} slug={slug} first={proposalsPerPage} skip={proposalsPerPage * i}
                 accounts={accounts} daoSettings={daoSettings} onChange={ps => {
                     setAuthors(unique([...authors, ...ps.map(p => p.author)]))
                 }} />)
@@ -169,7 +165,15 @@ const DaoHomePage = (props) => {
                 <div className='head'>
                     <div className='title'>Proposal</div>
                     <div className='filter-container'>
-                        <div className="sub-menu-item">All</div>
+                        <Select options={[
+                            { value: 'All', text: 'All' },
+                            { value: 'For', text: 'For' },
+                            { value: 'Against', text: 'Against' },
+                        ]} onChange={e => {
+                            setSelectedLeadingChoice(e.target.value)
+                        }} />
+                        {/* <div className="sub-menu-item">All</div>
+                        <div className="sub-menu-item"></div> */}
                     </div>
                 </div>
                 {

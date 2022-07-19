@@ -254,10 +254,17 @@ const ProposalHomePage = props => {
 
                 <div className="result-container" >
                     <div className='head'>
-                        <div className="title">{proposal?.state === 'closed' ? "Voter summary" : "Current stats"}</div>
-                        <div className='number-wrapper'>
-                            {selectedChoiceId > -1 ? (proposal?.choices)[selectedChoiceId] : "Total"} votes:
-                            <span className="number">{selectedChoiceId > -1 ? getRealVoteCount((proposalScores || proposal?.scores)[selectedChoiceId]) : getRealVoteCount(sum(proposalScores || proposal?.scores))}</span>
+                        <div className="title">{proposal?.state === 'closed' ? "Votes summary" : "Current stats"}</div>
+                        <div className='number-wrapper-container'>
+                            <div className='number-wrapper'>
+                                {selectedChoiceId > -1 ? (proposal?.choices)[selectedChoiceId] : "Total"} votes:
+                                <span className="number">{selectedChoiceId > -1 ? getRealVoteCount((proposalScores || proposal?.scores)[selectedChoiceId]) : getRealVoteCount(sum(proposalScores || proposal?.scores))}</span>
+                            </div>
+                            {selectedChoiceId === -1 ?
+                                <div className='number-wrapper'>
+                                    Total participants:
+                                    <span className="number">{proposal?.votes}</span>
+                                </div> : null}
                         </div>
                     </div>
                     <div className="filter-container">
