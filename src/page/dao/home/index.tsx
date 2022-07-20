@@ -92,7 +92,6 @@ const DaoHomePage = (props) => {
     const proposalsPerPage = 10
     const [authors, setAuthors] = useState([])
     const { data: accounts } = useAccountListData(authors)
-
     const [selectedLeadingChoice, setSelectedLeadingChoice] = useState('All')
 
     const proposalPagedComponent = useMemo(() => {
